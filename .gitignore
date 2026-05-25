@@ -1,0 +1,30 @@
+# Archivos temporales y de compilación de LaTeX
+*.aux
+*.bbl
+*.blg
+*.bcf
+*.brf
+*.fdb_latexmk
+*.fls
+*.idx
+*.ilg
+*.ind
+*.lof
+*.log
+*.lot
+*.nav
+*.out
+*.run.xml
+*.snm
+*.synctex.gz
+*.toc
+*.vrb
+*.dvi
+*.xdv
+
+# Archivos de SO
+desktop.ini
+Thumbs.db
+
+# Si no deseas hacer seguimiento de los PDF generados, descomenta la siguiente línea:
+*.pdf
