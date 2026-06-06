@@ -37,6 +37,4 @@
 *.dvi
 *.eps
 *.loc
-
-# Ensure PDF files are NOT ignored
-!*.pdf
+*.pdf
