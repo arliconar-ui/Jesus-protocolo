@@ -1,30 +1,42 @@
-# Archivos temporales y de compilación de LaTeX
+# LaTeX auxiliary files and intermediate build files
 *.aux
 *.bbl
-*.blg
 *.bcf
-*.brf
+*.blg
 *.fdb_latexmk
 *.fls
+*.glg
+*.glo
+*.gls
 *.idx
 *.ilg
 *.ind
+*.ist
 *.lof
 *.log
 *.lot
+*.maf
+*.mtc
+*.mtc0
 *.nav
+*.nlo
 *.out
-*.run.xml
+*.pdfsync
+*.ps
 *.snm
 *.synctex.gz
 *.toc
 *.vrb
+*.xdy
+*.tdo
+*.run.xml
+*.spl
+*.acn
+*.acr
+*.alg
 *.dvi
-*.xdv
+*.eps
+*.loc
 
-# Archivos de SO
-desktop.ini
-Thumbs.db
-
-# Si no deseas hacer seguimiento de los PDF generados, descomenta la siguiente línea:
-*.pdf
+# Ensure PDF files are NOT ignored
+!*.pdf
