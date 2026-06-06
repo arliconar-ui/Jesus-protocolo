@@ -1,0 +1,31 @@
+name: Build LaTeX Document
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  build_latex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: main.tex
+          # The action uses latexmk by default, which automatically handles
+          # multiple compilations for cross-references and bibliography.
+          
+      - name: Upload PDF as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Protocolo_Doctorado_PDF
+          path: main.pdf
