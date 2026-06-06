@@ -12,26 +12,23 @@
 \contentsline {subsubsection}{\numberline {6.1.2}Observadores de estado para sistemas de rehabilitación}{11}{subsubsection.6.1.2}%
 \contentsline {subsubsection}{\numberline {6.1.3}Gobernadores de trayectoria}{12}{subsubsection.6.1.3}%
 \contentsline {subsubsection}{\numberline {6.1.4}Arquitectura de control en cascada}{12}{subsubsection.6.1.4}%
-\contentsline {subsection}{\numberline {6.2}Inteligencia Artificial Embebida en Dispositivos Mecatrónicos}{14}{subsection.6.2}%
-\contentsline {subsubsection}{\numberline {6.2.1}Agentes de IA ligeros para control y supervisión basados en LLM}{14}{subsubsection.6.2.1}%
-\contentsline {subsection}{\numberline {6.3}Estado del Arte de Dispositivos Robóticos para Rehabilitación}{15}{subsection.6.3}%
-\contentsline {subsubsection}{\numberline {6.3.1}Brecha identificada y aportación original}{16}{subsubsection.6.3.1}%
-\contentsline {subsubsection}{\numberline {6.3.2}Contribuciones y colaboraciones previas del autor}{18}{subsubsection.6.3.2}%
-\contentsline {paragraph}{Artículos científicos}{18}{section*.3}%
-\contentsline {paragraph}{Ponencias y actividades académicas}{18}{section*.4}%
-\contentsline {section}{\numberline {7}Metodología}{19}{section.7}%
-\contentsline {subsection}{\numberline {7.1}Área de Control y Supervisión}{19}{subsection.7.1}%
-\contentsline {subsubsection}{\numberline {7.1.1}Implementación del observador de estados}{19}{subsubsection.7.1.1}%
-\contentsline {subsubsection}{\numberline {7.1.2}Integración del gobernador de trayectoria}{20}{subsubsection.7.1.2}%
-\contentsline {subsubsection}{\numberline {7.1.3}Construcción del gemelo digital}{21}{subsubsection.7.1.3}%
-\contentsline {paragraph}{Modelo dinámico virtual.}{21}{section*.5}%
-\contentsline {paragraph}{Sincronización y detección de anomalías.}{21}{section*.6}%
-\contentsline {paragraph}{Predicción para el gobernador.}{22}{section*.7}%
-\contentsline {paragraph}{Plataforma de co-simulación.}{22}{section*.8}%
-\contentsline {subsubsection}{\numberline {7.1.4}Protocolos de seguridad y mecanismos de \textit {hard stop}}{23}{subsubsection.7.1.4}%
-\contentsline {subsubsection}{\numberline {7.1.5}Arquitectura de agentes de inteligencia artificial}{23}{subsubsection.7.1.5}%
-\contentsline {subsection}{\numberline {7.2}Validación experimental y pre-clínica}{24}{subsection.7.2}%
-\contentsline {subsubsection}{\numberline {7.2.1}Evaluación integral del sistema}{24}{subsubsection.7.2.1}%
-\contentsline {subsubsection}{\numberline {7.2.2}Pruebas con pacientes sanos}{24}{subsubsection.7.2.2}%
-\contentsline {subsection}{\numberline {7.3}Cronograma de actividades}{26}{subsection.7.3}%
-\contentsline {subsection}{\numberline {7.4}Productos esperados}{26}{subsection.7.4}%
+\contentsline {subsection}{\numberline {6.2}Estado del Arte de Dispositivos Robóticos para Rehabilitación}{14}{subsection.6.2}%
+\contentsline {subsubsection}{\numberline {6.2.1}Brecha identificada y aportación original}{15}{subsubsection.6.2.1}%
+\contentsline {subsubsection}{\numberline {6.2.2}Contribuciones y colaboraciones previas del autor}{17}{subsubsection.6.2.2}%
+\contentsline {paragraph}{Artículos científicos}{17}{section*.3}%
+\contentsline {paragraph}{Ponencias y actividades académicas}{17}{section*.4}%
+\contentsline {section}{\numberline {7}Metodología}{18}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Área de Control y Supervisión}{18}{subsection.7.1}%
+\contentsline {subsubsection}{\numberline {7.1.1}Implementación del observador de estados}{18}{subsubsection.7.1.1}%
+\contentsline {subsubsection}{\numberline {7.1.2}Integración del gobernador de trayectoria}{19}{subsubsection.7.1.2}%
+\contentsline {subsubsection}{\numberline {7.1.3}Construcción del gemelo digital}{20}{subsubsection.7.1.3}%
+\contentsline {paragraph}{Modelo dinámico virtual.}{20}{section*.5}%
+\contentsline {paragraph}{Sincronización y detección de anomalías.}{20}{section*.6}%
+\contentsline {paragraph}{Predicción para el gobernador.}{21}{section*.7}%
+\contentsline {paragraph}{Plataforma de co-simulación.}{21}{section*.8}%
+\contentsline {subsubsection}{\numberline {7.1.4}Protocolos de seguridad y mecanismos de \textit {hard stop}}{22}{subsubsection.7.1.4}%
+\contentsline {subsection}{\numberline {7.2}Validación experimental y pre-clínica}{22}{subsection.7.2}%
+\contentsline {subsubsection}{\numberline {7.2.1}Evaluación integral del sistema}{22}{subsubsection.7.2.1}%
+\contentsline {subsubsection}{\numberline {7.2.2}Pruebas con pacientes sanos}{22}{subsubsection.7.2.2}%
+\contentsline {subsection}{\numberline {7.3}Cronograma de actividades}{24}{subsection.7.3}%
+\contentsline {subsection}{\numberline {7.4}Productos esperados}{24}{subsection.7.4}%

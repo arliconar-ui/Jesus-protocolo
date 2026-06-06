@@ -54,7 +54,7 @@
 
     \vspace{0.6cm}
 
-    {\huge\bfseries Optimización y validación médica de un dispositivo para rehabilitación pasiva de extremidad inferior\par}
+    {\huge\bfseries Optimización y validación pre-clínica de un dispositivo para rehabilitación pasiva de extremidad inferior\par}
     \vspace{.5cm}
 
     \begin{center}
@@ -121,7 +121,7 @@ La robótica de rehabilitación ha surgido para mitigar estas carencias, garanti
 
 Bajo esta premisa, el prototipo REHAP (desarrollado previamente) validó la viabilidad mecánica de una plataforma de rehabilitación. No obstante, al igual que muchos prototipos académicos, carece de una arquitectura de control lo suficientemente robusta para gestionar la incertidumbre no estructurada propia de la interacción con tejidos biológicos. El problema central reside en la ausencia de una estrategia que desacople la seguridad dinámica (estabilidad ante perturbaciones) de la inteligencia terapéutica (adaptación al estado del paciente). Sin esta evolución, el dispositivo permanece como una herramienta de ejecución mecánica, imposibilitada para transitar hacia la validación clínica donde la percepción, la seguridad activa y la toma de decisiones autónoma son requisitos indispensables.
 
-De lo anterior se desprende la siguiente pregunta de investigación: \textit{¿Es posible diseñar e implementar una arquitectura de control jerárquica —que integre estimación no lineal de estados, gobernanza de referencia con restricciones biomecánicas y supervisión inteligente mediante agentes de IA— capaz de garantizar la seguridad operativa y la robustez ante incertidumbres biomecánicas del prototipo REHAP, reduciendo el error de seguimiento de trayectoria a niveles compatibles con protocolos pre-clínicos con sujetos sanos?}
+De lo anterior se desprende la siguiente pregunta de investigación: \textit{¿Es posible diseñar e implementar una arquitectura de control jerárquica —que integre estimación no lineal de estados y gobernanza de referencia con restricciones biomecánicas, capaz de garantizar la seguridad operativa y la robustez ante incertidumbres biomecánicas del prototipo REHAP, reduciendo el error de seguimiento de trayectoria a niveles compatibles con protocolos pre-clínicos con sujetos sanos?}
 
 
 \newpage
@@ -130,8 +130,8 @@ De lo anterior se desprende la siguiente pregunta de investigación: \textit{¿E
 \section{Justificación}
 
 La creciente saturación de los servicios de salud y la demanda de terapias de rehabilitación personalizadas exigen una transición tecnológica urgente: pasar de dispositivos mecatrónicos de ejecución rígida a sistemas robóticos cognitivos capaces de interactuar de forma segura en entornos clínicos no estructurados.
-El prototipo REHAP se ha validado bajo los principios mecánicos fundamentales; sin embargo, la literatura actual evidencia una brecha crítica: los controladores convencionales carecen de la flexibilidad para adaptarse a la variabilidad biomecánica del paciente (fatiga, intención, dolor), mientras que los algoritmos de IA pura carecen de las garantías de estabilidad necesarias para la seguridad física.
-Esta investigación se justifica en la necesidad científica de conciliar estos dos paradigmas. La propuesta de integrar una arquitectura jerárquica que combina la robustez matemática de observadores y gobernadores de trayectoria con la capacidad de decisión de agentes de IA orquestadores no solo optimizará el desempeño del dispositivo, sino que generará nuevo conocimiento sobre cómo desacoplar la seguridad operativa de la inteligencia terapéutica. Esta evolución es el paso indispensable para transformar un prototipo académico en una solución clínica viable, escalable y transferible.
+El prototipo REHAP se ha validado bajo los principios mecánicos fundamentales; sin embargo, la literatura actual evidencia una brecha crítica: los controladores convencionales carecen de la flexibilidad para adaptarse a la variabilidad biomecánica del paciente (fatiga, intención, dolor).
+Esta investigación se justifica en la necesidad científica de abordar este problema. La propuesta de integrar una arquitectura jerárquica que combina la robustez matemática de observadores y gobernadores de trayectoria no solo optimizará el desempeño del dispositivo, sino que generará nuevo conocimiento sobre cómo desacoplar la seguridad operativa de los objetivos terapéuticos. Esta evolución es el paso indispensable para transformar un prototipo académico en una solución clínica viable, escalable y transferible.
 
 \newpage
 
@@ -143,7 +143,7 @@ Esta investigación se justifica en la necesidad científica de conciliar estos 
 
 \subsection{Objetivo general}
 
-Diseñar y validar una arquitectura de control para un sistema robótico de rehabilitación de miembro inferior, que integre control no lineal (Backstepping), observador de estados y gobernanza de trayectoria supervisada por un gemelo digital y un agente IA, con el propósito de garantizar la seguridad operativa y la robustez ante perturbaciones biomecánicas, permitiendo su validación experimental en protocolos pre-clínicos.
+Diseñar y validar una arquitectura de control para un sistema robótico de rehabilitación de miembro inferior, que integre control no lineal (Backstepping), observador de estados y gobernanza de trayectoria supervisada por un gemelo digital, con el propósito de garantizar la seguridad operativa y la robustez ante perturbaciones biomecánicas, permitiendo su validación experimental en protocolos pre-clínicos.
 
 
 \subsection{Objetivos específicos}
@@ -400,37 +400,14 @@ La Figura~\ref{fig:arch} presenta la arquitectura propuesta para REHAP con cinco
 \end{figure}
 
 \begin{itemize}
-    \item \textbf{Agente Inteligente}: capa de supervisión que recibe los objetivos terapéuticos y genera la referencia de movimiento $r(t)$.
+    \item \textbf{Objetivos terapéuticos}: definen la referencia de movimiento $r(t)$ a seguir por el dispositivo.
     \item \textbf{Gobernador de Referencia}: filtra $r(t)$ para producir la referencia segura $v(t)$, garantizando que el sistema respete el conjunto de restricciones $\mathcal{Z}$ \citep{garone2017reference}.
     \item \textbf{Control Backstepping}: ejecuta el seguimiento de $v(t)$ generando el torque $\tau(t)$, con garantías de estabilidad vía función de Lyapunov \citep{slotine1991applied}.
     \item \textbf{Planta REHAP}: sistema físico que recibe $\tau(t)$ y produce la salida medible $y(t)$, sujeta a perturbaciones $d(t)$ propias de la interacción humano-robot.
     \item \textbf{Observador de Alta Ganancia (HGO)}: reconstruye el vector de estados $\hat{x}(t)$ —incluyendo velocidades articulares y perturbaciones— a partir de $y(t)$, retroalimentando al controlador y al gobernador con garantías de convergencia exponencial.
 \end{itemize}
 
-En conjunto, el modelado dinámico, el control backstepping, el observador de estados, el gobernador de referencia y el agente inteligente ---integrados bajo la arquitectura en cascada--- constituyen los pilares del sistema propuesto, permitiendo un dispositivo de rehabilitación clínicamente seguro, robusto y adaptativamente eficiente.
-
-\subsection{Inteligencia Artificial Embebida en Dispositivos Mecatrónicos}
-
-El uso de inteligencia artificial en sistemas mecatrónicos ha avanzado hacia implementaciones capaces de ejecutarse directamente en hardware de bajo consumo mediante modelos compactos optimizados para tiempo real. Este enfoque permite dotar a los dispositivos de funciones de supervisión y adaptación sin depender de procesamiento externo. En robótica de rehabilitación, estas capacidades permiten ajustar parámetros operativos, detectar patrones de interacción variables entre usuarios y mejorar la seguridad mediante la identificación temprana de anomalías durante el movimiento asistido. La inteligencia artificial embebida se ha aplicado en control inteligente, clasificación de señales y supervisión autónoma, lo cual la hace adecuada para dispositivos terapéuticos con restricciones de cómputo.
-
-\subsubsection{Agentes de IA ligeros para control y supervisión basados en LLM}
-
-Los agentes construidos sobre modelos de lenguaje compactos permiten ejecutar razonamiento, toma de decisiones y tareas autónomas directamente en sistemas embebidos. El libro \textit{AI Agents in Action} describe arquitecturas modulares integradas por un planificador, un administrador de memoria, un evaluador de acciones y un componente de razonamiento, todos operando con modelos reducidos capaces de funcionar sin infraestructura externa \citep{lanham2024aiagents}. Esta estructura facilita el diseño de agentes que procesan información en tiempo real y generan respuestas adecuadas a condiciones variables de operación.
-
-
-Los agentes basados en LLM pueden ejecutar tareas como:
-
-\begin{itemize}
-    \item análisis continuo de señales provenientes de encoders, IMUs o sensores de fuerza;
-    \item detección de patrones anómalos en la trayectoria o el esfuerzo del usuario;
-    \item ajuste de parámetros del controlador cuando se identifican desviaciones persistentes;
-    \item activación de modos de seguridad tras evaluar riesgo de sobrecarga articular;
-    \item clasificación de estados operativos del usuario para adaptar velocidad, amplitud o rigidez.
-\end{itemize}
-
-El empleo de agentes locales evita dependencia de servicios en la nube y reduce riesgos asociados a latencias variables o cortes de comunicación. Además, los agentes pueden integrarse como supervisores que validan las decisiones del controlador principal y emiten recomendaciones basadas en el estado histórico almacenado en la memoria del sistema. La literatura reciente muestra aplicaciones de agentes inteligentes en infraestructuras críticas y sistemas autónomos donde la toma de decisiones requiere fiabilidad y capacidad para identificar condiciones de falla \citep{feng2025integration, zhang2025intelligent}. Estos resultados respaldan el uso de agentes para reforzar la operación de robots de rehabilitación que deben responder ante variaciones del usuario y garantizar seguridad en la terapia.
-
-Un agente LLM aporta una capa adicional de supervisión adaptativa sin comprometer los recursos del sistema. Su incorporación fortalece el monitoreo continuo, mejora la capacidad de detección temprana de desviaciones y favorece una operación más segura del dispositivo.
+En conjunto, el modelado dinámico, el control backstepping, el observador de estados y el gobernador de referencia ---integrados bajo la arquitectura en cascada--- constituyen los pilares del sistema propuesto, permitiendo un dispositivo de rehabilitación clínicamente seguro, robusto y adaptativamente eficiente.
 
 
 \subsection{Estado del Arte de Dispositivos Robóticos para Rehabilitación}
@@ -605,7 +582,7 @@ La fidelidad del DT depende de la corrección continua entre su salida y la medi
     \label{eq:residuo}
 \end{equation}
 
-\noindent donde $y(t)=\mathbf{H}x(t)\in\mathbb{R}^{2}$ es la salida medida del sistema físico y $\rho_{\max}\in\mathbb{R}_{>0}$ es el umbral de sincronización, ajustado en función de la incertidumbre paramétrica aceptable del modelo. Cuando $\|\rho(t)\|>\rho_{\max}$, se activa una rutina de re-identificación paramétrica. Simultáneamente, el agente técnico de IA analiza la evolución temporal de $\rho(t)$ para detectar anomalías mecánicas —desgaste, desalineación, espasmos del usuario— que no serían detectables únicamente mediante encoders.
+\noindent donde $y(t)=\mathbf{H}x(t)\in\mathbb{R}^{2}$ es la salida medida del sistema físico y $\rho_{\max}\in\mathbb{R}_{>0}$ es el umbral de sincronización, ajustado en función de la incertidumbre paramétrica aceptable del modelo. Cuando $\|\rho(t)\|>\rho_{\max}$, se activa una rutina de re-identificación paramétrica. Simultáneamente, el sistema analiza la evolución temporal de $\rho(t)$ para detectar anomalías mecánicas —desgaste, desalineación, espasmos del usuario— que no serían detectables únicamente mediante encoders.
 
 \paragraph{Predicción para el gobernador.}
 Ante cada solicitud de referencia $r(t)$, el gemelo simula $N$ pasos hacia adelante con el estado actual $\hat{x}_{DT}(t)$ y el torque propuesto, generando la secuencia $z(t+k)$, $k=0,\ldots,N$, requerida por la \cref{eq:governor}. Esto elimina la necesidad de resolver iterativamente el sistema físico real y reduce la latencia del ciclo de gobernanza.
@@ -626,7 +603,7 @@ La Figura~\ref{fig:dt} ilustra la arquitectura del gemelo digital integrada al s
         \node[sm]                  (sum) at (5.5,  2.0) {};
         \node[font=\tiny] at (5.08, 2.50) {$+$};
         \node[font=\tiny] at (5.08, 1.50) {$-$};
-        \node[blk, fill=red!10]    (agt) at (9.5,  2.0) {Agente IA\\(anomalías)};
+        \node[blk, fill=red!10]    (agt) at (9.5,  2.0) {Supervisión\\(anomalías)};
         \node[blk, fill=green!20]  (gov) at (0,  -3.0) {Gobernador\\(predicciones)};
         %% ---- Entrada u(t) ----
         \node (u) at (-4.2, 2.0) {$u(t)$};
@@ -647,7 +624,7 @@ La Figura~\ref{fig:dt} ilustra la arquitectura del gemelo digital integrada al s
         \fill     (dtfork) circle (1.5pt);
         \node[below, font=\scriptsize] at (dtfork) {$\hat{y}_{DT}(t)$};
         \draw[->] (dtfork) -| (sum.south);
-        %% ---- rho(t): sumador -> agente IA ----
+        %% ---- rho(t): sumador -> supervision ----
         \draw[->] (sum.east) -- node[above]{$\rho(t)$} (agt.west);
         %% ---- z(t+k): gemelo -> gobernador ----
         \draw[->] (dt.south) -- node[right, font=\scriptsize]{$z(t+k)$} (gov.north);
@@ -675,27 +652,12 @@ La operación del dispositivo incorporará un conjunto de mecanismos redundantes
     
     \item \textbf{Detención por parte del observador}. Cuando el observador identifique señales compatibles con inestabilidad, aceleraciones no previstas, incrementos súbitos de corriente o cualquier patrón asociado a una falla, ejecutará una parada segura y ordenará el retorno a casa.
     
-    \item \textbf{Detención por el agente de IA}. El agente orquestador analizará patrones temporales en la interacción y señales de desempeño. Si detecta desviaciones repetitivas, resistencia involuntaria o comportamiento atípico del actuador, activará un protocolo seguro deteniendo el movimiento y regresando al estado inicial.
+    \item \textbf{Detención predictiva}. El módulo de supervisión analizará patrones temporales en la interacción y señales de desempeño. Si detecta desviaciones repetitivas, resistencia involuntaria o comportamiento atípico del actuador, activará un protocolo seguro deteniendo el movimiento y regresando al estado inicial.
 \end{itemize}
 
 Estos mecanismos permiten cubrir fallas físicas, lógicas, dinámicas y predictivas, ofreciendo un marco de seguridad adecuado para futuras evaluaciones con usuarios.
 
 
-\subsubsection{Arquitectura de agentes de inteligencia artificial}
-
-La supervisión inteligente del sistema incluirá una arquitectura de agentes IA basada en frameworks orientados a la colaboración entre agentes, como \textit{CrewAI}. Esta arquitectura permitirá procesar simultáneamente información cuantitativa del dispositivo y datos cualitativos proporcionados por el usuario, facilitando decisiones autónomas relacionadas con la seguridad y el desempeño de la terapia.
-
-El diseño contemplará al menos tres agentes:
-
-\begin{itemize}
-    \item \textbf{Agente técnico del sistema}. Analizará señales provenientes de la instrumentación, como encoders, sensores de corriente, parámetros cinemáticos y registros de esfuerzo. Su función será generar un reporte cuantitativo capaz de identificar incrementos anómalos en torque, perturbaciones, desalineaciones o cualquier variación relevante en la dinámica mecánica.
-
-    \item \textbf{Agente cualitativo del paciente}. Procesará información subjetiva proporcionada por el usuario mediante una interfaz de retroalimentación. Esta interfaz consistirá en un control accesible para el paciente, ya sea botones, un deslizador o una perilla, mediante el cual podrá indicar niveles de cansancio, molestia o dolor. El agente transformará esta señal cualitativa en un indicador interpretable para la supervisión del sistema.
-
-    \item \textbf{Agente orquestador}. Recibirá los reportes generados por los dos agentes anteriores y tomará decisiones respecto al avance de la sesión terapéutica. El orquestador podrá aplicar ajustes automáticos como reducción de velocidad, disminución de amplitud de referencia o ejecución de un paro seguro con retorno a la posición inicial cuando los reportes indiquen condiciones desfavorables.
-\end{itemize}
-
-Esta estructura permitirá que las decisiones del sistema no dependan exclusivamente de la dinámica mecánica o del desempeño del paciente, sino de la integración simultánea de ambos tipos de información. La arquitectura también fortalecerá los mecanismos de seguridad al complementar los protocolos de detención descritos anteriormente, proporcionando una capa adicional basada en análisis temporal y patrones de comportamiento.
 
 \subsection{Validación experimental y pre-clínica}
 
@@ -726,7 +688,7 @@ Se realizarán pruebas controladas con sujetos sanos bajo supervisión clínica,
 
 \subsection{Productos esperados}
 \begin{itemize}
-    \item Artículo JCR en relación con la implementación de un agente IA en el sistema REHAP.
+    \item Artículo JCR en relación con la implementación de la arquitectura de control en el sistema REHAP.
     \item Artículo JCR en relación con la validación del sistema REHAP en sujetos sanos.
 \end{itemize}
 
@@ -788,14 +750,6 @@ https://doi.org/10.1016/j.mechatronics.2011.01.005
 
 
 
-\bibitem[Lanham(2024)]{lanham2024aiagents}
-Lanham, M. (2024). \textit{AI Agents in Action}. Manning Publications.
-
-\bibitem[Feng et al.(2025)]{feng2025integration}
-Feng, J., Yu, T., Zhang, K., \& Cheng, L. (2025). Integration of multi-agent systems and artificial intelligence in self-healing subway power supply systems: Advancements in fault diagnosis, isolation and recovery. \textit{Processes}, 13(4), 1144. https://doi.org/10.3390/pr13041144
-
-\bibitem[Zhang et al.(2025)]{zhang2025intelligent}
-Zhang, H., Ran, H., \& Tang, X. (2025). Intelligent agents for software engineering: A systematic literature review. \textit{ACM Transactions on Software Engineering and Methodology}. (En prensa).
 
 \bibitem[García \& Lugo-González(2022)]{garcia2022}
 García, M., \& Lugo-González, E. (2022). Prototipo para rehabilitación de miembros inferiores en lactantes hipotónicos. \textit{Padil: Boletín Científico de Ciencias Básicas e Ingenierías del ICBI}.

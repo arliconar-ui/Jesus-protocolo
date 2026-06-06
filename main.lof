@@ -4,4 +4,4 @@
 \contentsline {figure}{\numberline {3}{\ignorespaces Observador de Luenberger: el término $L(y-\hat {y})$ cierra el lazo de corrección.}}{11}{figure.3}%
 \contentsline {figure}{\numberline {4}{\ignorespaces Esquema general de un gobernador de trayectoria.}}{12}{figure.4}%
 \contentsline {figure}{\numberline {5}{\ignorespaces Arquitectura de control en cascada propuesta para REHAP.}}{13}{figure.5}%
-\contentsline {figure}{\numberline {6}{\ignorespaces Gemelo digital integrado al sistema REHAP: sincronización con el sistema físico, generación del residuo $\rho (t)$ para el agente IA y predicción de $z(t+k)$ para el gobernador.}}{22}{figure.6}%
+\contentsline {figure}{\numberline {6}{\ignorespaces Gemelo digital integrado al sistema REHAP: sincronización con el sistema físico, generación del residuo $\rho (t)$ para el agente IA y predicción de $z(t+k)$ para el gobernador.}}{21}{figure.6}%
