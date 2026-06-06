@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1780756434.97188 "g:/Mi unidad/Investigación/Jesus/codigo latex protocolo/main.tex" "main.pdf" "main" 1780756437.7377 0
+["pdflatex"] 1780782674.75392 "g:/Mi unidad/Investigación/Jesus/codigo latex protocolo/main.tex" "main.pdf" "main" 1780782677.6296 0
   "c:/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1757104921 2971 def0b6c1f0b107b3b936def894055589 ""
   "c:/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1757104921 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "c:/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1757345614 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -213,15 +213,15 @@
   "c:/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1757351574 5572388 d8191a86c4dd2f73dac74fef9fb480ec ""
   "c:/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1757351726 3605798 137fe35370cdb1bdc161b29b5153d8b9 ""
   "c:/texlive/2025/texmf.cnf" 1757351549 713 e69b156964470283e0530f5060668171 ""
-  "g:/Mi unidad/Investigación/Jesus/codigo latex protocolo/main.tex" 1780756434 63721 5903c50c80cf0705f836a777b499be30 ""
+  "g:/Mi unidad/Investigación/Jesus/codigo latex protocolo/main.tex" 1780782673 63829 b31f4b61162ad278f2a620f75478e9ac ""
   "imagenes/cronograma.pdf" 1779263548 95694 4e730eb78a03a17da49e40566bfc4af1 ""
   "imagenes/rehap_1.png" 1779263548 616794 b537acd0d43baa0d02279aa3141a7bcb ""
   "logoupp.png" 1779263548 37185 f25e32310557462142e5da3ed4069221 ""
-  "main.aux" 1780756437 12354 b358d58de9efbda797ed61ee5702c48b "pdflatex"
-  "main.lof" 1780756437 890 d862c305a4503bf45d882f87ca96e3d8 "pdflatex"
-  "main.out" 1780756437 6110 da9b784eb2ede34928b5e437ad9549fa "pdflatex"
-  "main.tex" 1780756434 63721 5903c50c80cf0705f836a777b499be30 ""
-  "main.toc" 1780756437 3211 8a263de65d195d12680bbd2d061e6063 "pdflatex"
+  "main.aux" 1780782677 12354 b358d58de9efbda797ed61ee5702c48b "pdflatex"
+  "main.lof" 1780782677 890 d862c305a4503bf45d882f87ca96e3d8 "pdflatex"
+  "main.out" 1780782677 6110 da9b784eb2ede34928b5e437ad9549fa "pdflatex"
+  "main.tex" 1780782673 63829 b31f4b61162ad278f2a620f75478e9ac ""
+  "main.toc" 1780782677 3211 8a263de65d195d12680bbd2d061e6063 "pdflatex"
   (generated)
   "main.aux"
   "main.lof"
