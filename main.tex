@@ -59,15 +59,15 @@
     \vspace{.5cm}
 
     \begin{center}
-    \normalsize
-    Alumno: \textbf{M. en M. Jesús Eduardo Cervantes Reyes}
+        \normalsize
+        Alumno: \textbf{M. en M. Jesús Eduardo Cervantes Reyes}
     \end{center}
 
     \vfill
 
     % --- Espacios para firmas ---
     \begin{center}
-    
+
         Directora\\[1pt]
         \textbf{Dra. Ma. de los Ángeles Alamilla Daniel}\\
         \rule{6cm}{0.4pt}
@@ -172,23 +172,53 @@ Si se integra un observador de estados de alta ganancia al controlador \textit{B
 \section{Marco Teórico}
 \subsection{Algoritmos de control en Sistemas Robóticos de Rehabilitación de extremidades}
 
-El diseño y operación de sistemas robóticos destinados a la rehabilitación de extremidades inferiores demandan estrategias de control avanzadas capaces de garantizar movimientos precisos, suaves y seguros. Estos robots interactúan físicamente con el usuario, lo que introduce variaciones dinámicas complejas (masas, longitudes, centros de masas, etc.), condiciones cambiantes y perturbaciones externas que deben considerarse en el diseño del controlador. 
+El diseño y operación de sistemas robóticos destinados a la rehabilitación de extremidades inferiores demandan estrategias de control avanzadas capaces de garantizar movimientos precisos, suaves y, fundamentalmente, seguros. Estos robots interactúan físicamente con el usuario, lo que introduce variaciones dinámicas complejas originadas por la incertidumbre en los parámetros inerciales del paciente (masa, longitud, posición del centro de masa) y por la inyección de esfuerzos activos o pasivos involuntarios. Estas perturbaciones externas y variaciones paramétricas deben integrarse de manera rigurosa en el diseño de la arquitectura de control.
 
-El punto de partida para el diseño del control es el modelado dinámico del robot. Las ecuaciones de movimiento se obtienen comúnmente mediante formulaciones no lineales basadas en Lagrange o Newton–Euler, las cuales describen las relaciones entre posiciones, velocidades, aceleraciones, fuerzas y torques \citep{spong2006robot, siciliano2010robotics}. Estos modelos incluyen efectos relevantes como fricción, fuerzas gravitacionales y acoplamientos dinámicos entre articulaciones. En el caso de robots de rehabilitación, además deben considerar la interacción con el miembro del usuario, cuyas propiedades físicas pueden variar significativamente entre pacientes.
+El punto de partida para el diseño de estas arquitecturas es el modelado dinámico del robot. Las ecuaciones de movimiento se obtienen comúnmente mediante formulaciones no lineales basadas en Euler-Lagrange o Newton-Euler, las cuales describen las relaciones entre variables cinemáticas, fuerzas y torques \citep{spong2006robot, siciliano2010robotics}. Estos modelos incluyen efectos no lineales inherentes como fricción, fuerzas gravitacionales y acoplamientos de Coriolis y centrípetos. En el caso específico de los robots de rehabilitación, el modelo dinámico se debe expandir para incluir explícitamente el torque de interacción humano-robot ($\tau_{int}$), el cual acopla la dinámica de la máquina con la variabilidad biomecánica del paciente.
 
-
-Un modelado preciso permite emplear técnicas de control no lineal diseñadas para garantizar estabilidad y desempeño bajo incertidumbre. Estratégicamente, métodos como backstepping, control robusto, control adaptativo y enfoques basados en pasividad han demostrado ser altamente efectivos en sistemas biomecánicos, gracias a su capacidad para tolerar variaciones paramétricas y perturbaciones externas \citep{khalil2002nonlinear}.
+Un modelado riguroso del sistema acoplado permite emplear técnicas de control no lineal diseñadas para garantizar la estabilidad de Lyapunov y el desempeño bajo incertidumbre. Estratégicamente, métodos como el \textit{Backstepping}, el control por modo deslizante (SMC), el control adaptativo y los enfoques basados en pasividad han demostrado ser altamente efectivos en aplicaciones biomecánicas, gracias a su capacidad matemática para tolerar variaciones paramétricas y rechazar o acomodar perturbaciones externas \citep{khalil2002nonlinear}.
 
 \subsubsection{Control no lineal aplicado a rehabilitación}
 
-Los sistemas robóticos empleados en rehabilitación presentan dinámicas no lineales derivadas del acoplamiento entre articulaciones, la variabilidad biomecánica del usuario y la presencia de perturbaciones durante la interacción física. Estas características dificultan el uso de controladores lineales convencionales, ya que su desempeño se ve limitado cuando la dinámica cambia debido a variaciones en la rigidez articular, fricción o carga ejercida por la extremidad del usuario.
+Tradicionalmente, la robótica ha dependido de controladores lineales (como el esquema clásico PID) asumiendo la operación en entornos estructurados. Sin embargo, los sistemas de rehabilitación física interactúan con un entorno biológico altamente incierto. Intentar linealizar el modelo matemático de un dispositivo terapéutico alrededor de un punto de operación resulta ineficaz, dado que la dinámica del lazo cerrado cambia abruptamente frente a variaciones en la espasticidad, el nivel de fatiga muscular o la carga asimétrica ejercida por el paciente.
 
-Las técnicas de control no lineal permiten abordar estas características de manera directa mediante leyes de control diseñadas para sistemas cuya dinámica no puede aproximarse de forma lineal sin perder información esencial.  En la Figura \ref{fig:nl1} se muestra un diagrama de lazo cerrado de control generalizado.
-El método \textit{backstepping} es una de las estrategias más empleadas en manipuladores no lineales con estructura jerárquica, ya que facilita la construcción progresiva del controlador y permite estabilizar subsistemas interconectados \citep{khalil2002nonlinear}. Su diseño incorpora la dinámica completa del robot y permite enfrentar perturbaciones moderadas y cambios en los parámetros del sistema.
+Bajo este escenario, el uso de técnicas de control no lineal se vuelve imperativo. Estas metodologías no asumen un comportamiento lineal local, sino que abordan la naturaleza del sistema de manera directa. Mediante leyes de control avanzadas, es posible sintetizar y compensar las no-linealidades inherentes (tales como la fricción de Coulomb, inercias variables y efectos gravitacionales acoplados) sin descartar información dinámica esencial, lo que permite garantizar estabilidad analítica en amplios rangos de operación. % En la Figura \ref{fig:nl1} se muestra un diagrama de lazo cerrado de control generalizado.
 
 
-El dispositivo REHAP utiliza un controlador backstepping como estrategia principal para regular el movimiento de sus dos grados de libertad. La elección de esta técnica responde a la necesidad de lograr un seguimiento de trayectorias suaves bajo condiciones donde la dinámica varía durante la operación. En trabajos previos se evaluó el desempeño del controlador frente a otras estrategias no lineales, obteniendo resultados favorables en tareas de seguimiento y rechazo de perturbaciones en un entorno experimental controlado \citep{reyes2025comparative}. Este tipo de análisis evidencia la pertinencia del control no lineal en dispositivos donde la interacción con el usuario introduce variaciones continuas en la dinámica. En la Figura \ref{fig:rh1} se muestra un esquema generalizado del sistema REHAP.
+%%\begin{figure}[H]
+%%    \centering
+%%    \begin{tikzpicture}[>=latex, thick, font=\small]
+%%        \node (xd) at (0,0) {$x_d$};
+%%        \node[draw, fill=blue!18, circle, minimum size=2.2em, inner sep=0pt]
+%%        (sum) at (2.2,0) {};
+%%        \node[font=\scriptsize] at (1.88, 0.30) {$+$};
+%%        \node[font=\scriptsize] at (1.88,-0.35) {$-$};
+%%        \node[draw, fill=blue!18, rectangle,
+%%            minimum height=2.8em, minimum width=5em, align=center]
+%%        (ctrl) at (5.2,0) {Control};
+%%        \node[draw, fill=blue!18, rectangle,
+%%            minimum height=2.8em, minimum width=5em, align=center]
+%%        (plant) at (9.2,0) {Planta\\[2pt]o proceso};
+%%        \node (y) at (12.2,0) {$y$};
+%%        \node[draw, fill=blue!18, rectangle,
+%%            minimum height=2.8em, minimum width=8em, align=center]
+%%        (fb) at (5.7,-2.5) {Retroalimentación};
+%%        \coordinate (spl) at (11.2,0);
+%%        \draw[->] (xd)      -- (sum);
+%%        \draw[->] (sum)     -- node[above]{$e$}  (ctrl);
+%%        \draw[->] (ctrl)    -- node[above]{$u$}  (plant);
+%%        \draw[->] (plant)   -- node[above]{$x$}  (spl);
+%%        \draw[->] (spl)     -- (y);
+%%        \draw[->] (spl)     |- (fb.east);
+%%        \draw[->] (fb.west) -| (sum.south);
+%%    \end{tikzpicture}
+%%    \caption{Esquema general del lazo cerrado de control.}
+%%    \label{fig:nl1}
+%%\end{figure}
 
+El método \textit{Backstepping} es una de las estrategias más empleadas en manipuladores no lineales con estructura jerárquica, ya que facilita la síntesis progresiva de la ley de control basándose en funciones de Lyapunov, permitiendo estabilizar subsistemas interconectados \citep{khalil2002nonlinear}. Su diseño incorpora la dinámica completa del robot, lo que le otorga robustez frente a perturbaciones y variaciones paramétricas del sistema.
+
+En el contexto de este proyecto, el sistema REHAP implementa un controlador \textit{Backstepping} como núcleo algorítmico para la regulación cinemática de sus dos grados de libertad. La elección de esta técnica responde a la exigencia de lograr un seguimiento de trayectorias estrictamente suave bajo condiciones de variabilidad dinámica. En evaluaciones previas, se demostró el desempeño de este controlador frente a otras metodologías no lineales, evidenciando resultados favorables en tareas de seguimiento y atenuación de perturbaciones dentro de un entorno experimental controlado \citep{reyes2025comparative}. Este antecedente fundamenta la viabilidad de extender la arquitectura actual para lidiar con las incertidumbres continuas inherentes a la interacción con el usuario. La arquitectura mecánica del dispositivo, sobre la cual se implementa dicha estrategia algorítmica, se ilustra mediante su modelo tridimensional (CAD) en la Figura \ref{fig:rh1}.
 
 \begin{figure}[H]
     \centering
@@ -198,58 +228,24 @@ El dispositivo REHAP utiliza un controlador backstepping como estrategia princip
 \end{figure}
 
 
-Los controladores no lineales pueden complementarse con herramientas adicionales, como observadores de estado y gobernadores de trayectoria, para mejorar la estimación de variables no medidas y ajustar las referencias de movimiento cuando se detectan condiciones que puedan afectar la estabilidad o la seguridad. Estas extensiones amplían la capacidad del sistema para adaptarse a cambios en la carga, en la velocidad del movimiento o en la respuesta mecánica del usuario. En la Figura \ref{fig:nl1} se muestra el lazo cerrado de control general.
-
-\begin{figure}[H]
-    \centering
-    \begin{tikzpicture}[>=latex, thick, font=\small]
-        \node (xd) at (0,0) {$x_d$};
-        \node[draw, fill=blue!18, circle, minimum size=2.2em, inner sep=0pt]
-            (sum) at (2.2,0) {};
-        \node[font=\scriptsize] at (1.88, 0.30) {$+$};
-        \node[font=\scriptsize] at (1.88,-0.35) {$-$};
-        \node[draw, fill=blue!18, rectangle,
-              minimum height=2.8em, minimum width=5em, align=center]
-            (ctrl) at (5.2,0) {Control};
-        \node[draw, fill=blue!18, rectangle,
-              minimum height=2.8em, minimum width=5em, align=center]
-            (plant) at (9.2,0) {Planta\\[2pt]o proceso};
-        \node (y) at (12.2,0) {$y$};
-        \node[draw, fill=blue!18, rectangle,
-              minimum height=2.8em, minimum width=8em, align=center]
-            (fb) at (5.7,-2.5) {Retroalimentación};
-        \coordinate (spl) at (11.2,0);
-        \draw[->] (xd)      -- (sum);
-        \draw[->] (sum)     -- node[above]{$e$}  (ctrl);
-        \draw[->] (ctrl)    -- node[above]{$u$}  (plant);
-        \draw[->] (plant)   -- node[above]{$x$}  (spl);
-        \draw[->] (spl)     -- (y);
-        \draw[->] (spl)     |- (fb.east);
-        \draw[->] (fb.west) -| (sum.south);
-    \end{tikzpicture}
-    \caption{Esquema general del lazo cerrado de control.}
-    \label{fig:nl1}
-\end{figure}
 
 
-Los movimientos deben ser suaves, cíclicos y consistentes con patrones fisiológicos.
+Si bien el controlador \textit{Backstepping} proporciona una base algorítmica sólida, los movimientos en un entorno de rehabilitación exigen ser inherentemente suaves, cíclicos y rigurosamente consistentes con los patrones fisiológicos naturales. La precisión en el seguimiento de trayectoria no solo es un parámetro de desempeño de ingeniería, sino un requisito clínico estricto para evitar micro-lesiones o tensiones articulares inducidas. En consecuencia, el esquema de control en lazo cerrado debe tener la capacidad intrínseca de compensar dinámicas no modeladas, variaciones estocásticas en la rigidez articular y esfuerzos introducidos inadvertidamente por el paciente o el entorno clínico.
 
-La precisión en la trayectoria es importante para evitar molestias o tensiones articulares.
-En consecuencia, el controlador debe compensar dinámicas no modeladas, variaciones en rigidez articular y perturbaciones introducidas por el usuario o el entorno.
+Para satisfacer estos estrictos requisitos operativos y de seguridad, la ley de control primaria debe complementarse con herramientas estructurales avanzadas, en específico, \textit{observadores de estado} y \textit{gobernadores de trayectoria}. Estas extensiones arquitectónicas amplían la capacidad del sistema, permitiendo estimar variables no medidas de la interacción y, de manera concurrente, ajustar en tiempo real las referencias de movimiento ante condiciones críticas, adaptándose a cambios súbitos en la carga, alteraciones no deseadas en la velocidad de ejecución y respuestas biomecánicas involuntarias del paciente.
 
 \subsubsection{Observadores de estado para sistemas de rehabilitación}
 
-En muchos dispositivos de rehabilitación no es posible instrumentar el sistema con sensores adicionales debido a restricciones clínicas, estéticas, económicas o de seguridad; o simplemente, con la finalidad de mejorar la precisión del seguimiento de trayectoria, se requiere afinar la técnica de control.
-Por ello, los observadores de estado surgen como herramientas auxiliares, a partir de mediciones mínimas, como posición articular, estos algoritmos estiman velocidades, torques e incluso perturbaciones externas \citep{slotine1991applied}. La Figura~\ref{fig:obs} ilustra el principio del observador de Luenberger —válido para sistemas lineales— donde la señal de corrección $L(y-\hat{y})$ cierra el lazo sobre el estimado $\hat{x}$. Para el sistema no lineal REHAP, este principio se generaliza mediante un \textbf{observador de alta ganancia} (HGO), cuya formulación se presenta en la Sección~\ref{sec:obs_hgo}.
+En la práctica clínica, la instrumentación de dispositivos de rehabilitación con múltiples sensores físicos adicionales (como celdas de torque o tacómetros) se encuentra severamente limitada por restricciones ergonómicas, incremento de masa inercial, altos costos de hardware y protocolos de seguridad del paciente. Asimismo, depender exclusivamente de hardware sensorial físico puede introducir ruido estocástico que degrada el esquema de control. Como solución analítica frente a estas limitaciones, los observadores de estado surgen como herramientas de software profundo: a partir de mediciones primarias de fácil obtención (como la posición articular), estos algoritmos permiten estimar con alta fidelidad las velocidades, los torques de interacción e incluso perturbaciones externas no estructuradas \citep{slotine1991applied}. La Figura~\ref{fig:obs} ilustra el principio clásico del observador de Luenberger —válido para sistemas lineales— donde la señal de corrección $L(y-\hat{y})$ cierra el lazo sobre el estimado $\hat{x}$. Para abordar la dinámica del sistema no lineal REHAP, este principio fundamental se generaliza mediante un \textbf{observador de alta ganancia} (HGO), cuya formulación matemática y diseño se detalla en la Sección~\ref{sec:obs_hgo}.
 
 \begin{figure}[H]
     \centering
     \begin{tikzpicture}[>=latex, thick, font=\small]
         \tikzset{
-          blk/.style={draw, rectangle, minimum height=1.8em, minimum width=2.4em, align=center},
-          sm/.style  ={draw, circle, minimum size=1.8em, inner sep=0pt}
+            blk/.style={draw, rectangle, minimum height=1.8em, minimum width=2.4em, align=center},
+            sm/.style  ={draw, circle, minimum size=1.8em, inner sep=0pt}
         }
-       
+
         \draw[dashed] (0.4,1.55) rectangle (7.8,3.3);
         \node[font=\scriptsize] at (1.5,3.1) {Sistema};
         \draw[dashed] (0.4,-1.9) rectangle (7.8,0.65);
@@ -305,7 +301,7 @@ Por ello, los observadores de estado surgen como herramientas auxiliares, a part
 Entre los observadores más utilizados se encuentran:
 \begin{itemize}
     \item Observadores de Luenberger
-    \item Observadores de alta ganancia 
+    \item Observadores de alta ganancia
     \item Observadores de perturbaciones
 \end{itemize}
 
@@ -324,14 +320,14 @@ Los gobernadores han sido estudiados como herramientas para garantizar que los s
     \begin{tikzpicture}[>=latex, thick, font=\small]
         \node (r) at (0,0) {$r(t)$};
         \node[draw, fill=green!25, rectangle,
-              minimum height=3em, minimum width=5.5em, align=center]
-            (gov) at (2.9,0) {Reference\\governor};
+            minimum height=3em, minimum width=5.5em, align=center]
+        (gov) at (2.9,0) {Reference\\governor};
         \node[draw, fill=blue!15, rectangle,
-              minimum height=3em, minimum width=4.5em, align=center]
-            (ctrl) at (6.5,0) {Controller};
+            minimum height=3em, minimum width=4.5em, align=center]
+        (ctrl) at (6.5,0) {Controller};
         \node[draw, fill=blue!15, rectangle,
-              minimum height=3em, minimum width=4em, align=center]
-            (plant) at (10.0,0) {Plant};
+            minimum height=3em, minimum width=4em, align=center]
+        (plant) at (10.0,0) {Plant};
         \node (z) at (12.3,0) {$z(t)$};
         \node (w) at (10.0,2.0) {$w(t)$};
         \coordinate (spl) at (11.3,0);
@@ -347,7 +343,7 @@ Los gobernadores han sido estudiados como herramientas para garantizar que los s
         \draw[->] (spl)  -- ++(0,-1.0) node[right]{$y(t)\in Y$};
         %% xp(t) retroalimentación
         \draw[->] (plant.south) -- (bot1) -- node[below]{$x_p(t)$} (bot2)
-                  -- (ctrl.south);
+        -- (ctrl.south);
     \end{tikzpicture}
     \caption{Esquema general de un gobernador de trayectoria.}
     \label{fig:gbt}
@@ -365,7 +361,7 @@ La Figura~\ref{fig:arch} presenta la arquitectura propuesta para REHAP con cinco
     \centering
     \begin{tikzpicture}[>=latex, thick, font=\small]
         \tikzset{lvl/.style={draw, rectangle, minimum height=2.6em,
-                 minimum width=8.5em, align=center}}
+                    minimum width=8.5em, align=center}}
         %% Bloques en cascada (eje central)
         \node[lvl, fill=purple!15] (agt) at (0, 7.5) {Agente\\Inteligente};
         \node[lvl, fill=green!20]  (gov) at (0, 5.5) {Gobernador\\de Referencia};
@@ -412,32 +408,32 @@ En la Tabla \ref{tab:estado} se presenta una clasificación de los distintos dis
 \newpage
 
 \begin{table}[htbp]
-\centering
-\scriptsize
-\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.1}
-\begin{tabular}{p{.38\linewidth} p{.08\linewidth} p{.22\linewidth} p{.32\linewidth}}
-\hline
-\textbf{Trabajo} & \textbf{Año} & \textbf{Articulación} & \textbf{Principales características} \\
-\hline
-Prototipo para rehabilitación de miembros inferiores en lactantes hipotónicos \citep{garcia2022} & 2022 & Combinado & Robot paralelo; flexión–extensión cadera/rodilla/tobillo; enfocado en lactantes; proponen HMI y materiales más resistentes. \\
-Modelo y simulación de un robot terapéutico para la rehabilitación de miembros inferiores \citep{revistaEIA}             & 2013  & General   & 3 GDL; par calculado con polinomio de Hurwitz; simulación en MATLAB; seguimiento de trayectorias. \\
-TobiBot \citep{tobiBot2014}                 & 2014 & Tobillo   & 1 GDL; dorsiflexión/plantarflexión; interfaz tipo videojuego; seguridad básica. \\
-Prototipo robotizado para la rehabilitación de lesiones de rodilla enfocado al fortalecimiento muscular \citep{unipamplona}            & 2022  & Rodilla   & Prototipo con IA/IoT; fortalecimiento; modelado CAD; supervisión web. \\
-A Novel Hybrid Rehabilitation Robot for Upper and Lower Limbs Rehabilitation Training \citep{elsevierHybrid}     & 2014  & General   & Alcance en miembros superior e inferior; DC+DSP; realidad virtual; compacto/bajo costo. \\
-Adaptive Patient-Cooperative Compliant Control of Lower Limb Rehabilitation Robot\citep{elsevierAdaptive} & 2024 & General & Pasivo; control adaptativo cooperativo; impedancia/admitancia; sensores de fuerza. \\
-LegUp \citep{elsevierLegUp}                 & 2024  & General   & Robot paralelo para rehabilitación en cama; espacio de trabajo predefinido. \\
-Admittance Controller complemented with real-time singularity avoidance for rehabilitation parallel robots \citep{elsevierAdmittance} & 2023 & General & Paralelo 4 GDL; seguimiento 3D (OptiTrack); evitación de singularidades. \\
-A Novel Design of the Lower Limb Rehabilitation Robot \citep{ICMEAS2020}                   & 2020 & Combinado & Para adultos mayores; actuadores lineales y motores; modelado en SOLIDWORKS; verificación de torques. \\
-Lower Limb Robotic Rehabilitation: Literature Review and Challenges \citep{journalRobotics} & 2011 & No aplica & Revisión: exoesqueletos y end-effector; control de posición/fuerza/señales biológicas; barreras de costo/evidencia. \\
-Systematic Design of a Parallel Robotic System for Lower Limb Rehabilitation \citep{systematicDesign}  & 2020  & General   & Paralelogramo; flex–ext y abd–add; evita singularidades; sensores biomédicos. \\
-Physiotherabot \citep{physiotherabot}       & 2011 & Rodilla (con cadera) & Flex–ext de cadera/rodilla y abd–add de cadera; control de impedancia + PID; interfaz clínica. \\
-Model Analysis and Experimental Study of Lower Limb Rehabilitation Training Device Based on Gravity Balance \citep{MDPI2022}              & 2022 & Rodilla (con cadera) & Balance de gravedad con resortes; reducción de esfuerzo 87\% (rodilla) y 81\% (cadera). \\
-Lower Limb Rehabilitation Robotics: Current Understanding and Technology. \citep{advancesRobotics} & 2021 & No aplica & Revisión: avances recientes; AR/IA; personalización; accesibilidad económica. \\
-\hline
-\end{tabular}
-\caption{Clasificación por articulación (Rodilla, Tobillo, Combinado); se incluyen trabajos generales y revisiones.}
-\label{tab:estado}
+    \centering
+    \scriptsize
+    \setlength{\tabcolsep}{3pt}
+    \renewcommand{\arraystretch}{1.1}
+    \begin{tabular}{p{.38\linewidth} p{.08\linewidth} p{.22\linewidth} p{.32\linewidth}}
+        \hline
+        \textbf{Trabajo}                                                                                                                      & \textbf{Año} & \textbf{Articulación} & \textbf{Principales características}                                                                                        \\
+        \hline
+        Prototipo para rehabilitación de miembros inferiores en lactantes hipotónicos \citep{garcia2022}                                      & 2022         & Combinado             & Robot paralelo; flexión–extensión cadera/rodilla/tobillo; enfocado en lactantes; proponen HMI y materiales más resistentes. \\
+        Modelo y simulación de un robot terapéutico para la rehabilitación de miembros inferiores \citep{revistaEIA}                          & 2013         & General               & 3 GDL; par calculado con polinomio de Hurwitz; simulación en MATLAB; seguimiento de trayectorias.                           \\
+        TobiBot \citep{tobiBot2014}                                                                                                           & 2014         & Tobillo               & 1 GDL; dorsiflexión/plantarflexión; interfaz tipo videojuego; seguridad básica.                                             \\
+        Prototipo robotizado para la rehabilitación de lesiones de rodilla enfocado al fortalecimiento muscular \citep{unipamplona}           & 2022         & Rodilla               & Prototipo con IA/IoT; fortalecimiento; modelado CAD; supervisión web.                                                       \\
+        A Novel Hybrid Rehabilitation Robot for Upper and Lower Limbs Rehabilitation Training \citep{elsevierHybrid}                          & 2014         & General               & Alcance en miembros superior e inferior; DC+DSP; realidad virtual; compacto/bajo costo.                                     \\
+        Adaptive Patient-Cooperative Compliant Control of Lower Limb Rehabilitation Robot\citep{elsevierAdaptive}                             & 2024         & General               & Pasivo; control adaptativo cooperativo; impedancia/admitancia; sensores de fuerza.                                          \\
+        LegUp \citep{elsevierLegUp}                                                                                                           & 2024         & General               & Robot paralelo para rehabilitación en cama; espacio de trabajo predefinido.                                                 \\
+        Admittance Controller complemented with real-time singularity avoidance for rehabilitation parallel robots \citep{elsevierAdmittance} & 2023         & General               & Paralelo 4 GDL; seguimiento 3D (OptiTrack); evitación de singularidades.                                                    \\
+        A Novel Design of the Lower Limb Rehabilitation Robot \citep{ICMEAS2020}                                                              & 2020         & Combinado             & Para adultos mayores; actuadores lineales y motores; modelado en SOLIDWORKS; verificación de torques.                       \\
+        Lower Limb Robotic Rehabilitation: Literature Review and Challenges \citep{journalRobotics}                                           & 2011         & No aplica             & Revisión: exoesqueletos y end-effector; control de posición/fuerza/señales biológicas; barreras de costo/evidencia.         \\
+        Systematic Design of a Parallel Robotic System for Lower Limb Rehabilitation \citep{systematicDesign}                                 & 2020         & General               & Paralelogramo; flex–ext y abd–add; evita singularidades; sensores biomédicos.                                               \\
+        Physiotherabot \citep{physiotherabot}                                                                                                 & 2011         & Rodilla (con cadera)  & Flex–ext de cadera/rodilla y abd–add de cadera; control de impedancia + PID; interfaz clínica.                              \\
+        Model Analysis and Experimental Study of Lower Limb Rehabilitation Training Device Based on Gravity Balance \citep{MDPI2022}          & 2022         & Rodilla (con cadera)  & Balance de gravedad con resortes; reducción de esfuerzo 87\% (rodilla) y 81\% (cadera).                                     \\
+        Lower Limb Rehabilitation Robotics: Current Understanding and Technology. \citep{advancesRobotics}                                    & 2021         & No aplica             & Revisión: avances recientes; AR/IA; personalización; accesibilidad económica.                                               \\
+        \hline
+    \end{tabular}
+    \caption{Clasificación por articulación (Rodilla, Tobillo, Combinado); se incluyen trabajos generales y revisiones.}
+    \label{tab:estado}
 \end{table}
 
 
@@ -452,29 +448,29 @@ La aportación original de este trabajo al conocimiento consiste en el \textbf{d
 
 \paragraph{Artículos científicos}
 \begin{itemize}
-  \item \textbf{Primer autor en revista indexada por SECIHTI (Publicado)}.\\
-  “J. E. Cervantes Reyes, M. D. L. Ángeles Alamilla Daniel, Ángel R. Lícona Rodriguez, and E. H. Ramirez Dominguez, “Comparative Analysis of Nonlinear Control Strategies for a Lower Limb Rehabilitation System”, Int. Journal of COP and Infor., vol. 16, no. 3, pp. 36–45, Jul. 2025."
- \item \textbf{Coautor en artículo JCR Q2 (Publicado)}. \\ 
-“Identification and fuzzy control of the trajectory of a parallel robot: application to medical rehabilitation”, \emph{MDPI}, 2025. \\
-Autores: Elihu H. Ramirez-Dominguez, J.G. Benítez-Morales, Jesus E. Cervantes-Reyes, M.A. Alamilla-Daniel, A.R. Licona-Rodríguez, Juan M. Xicotencatl-Pérez y Julio C. Ramos-Fernández.
-\item \textbf{Coautor de poster (Publicado)}. \\
-“Diseño de un sistema electromecánico para aplicaciones de rehabilitación de la extremidad superior”, Congreso CoNMiCyT, 2025. \\
-Autores: Elihu Ramírez, Gerardo Benítez, Ángel Licona, Cesar Vilchis, Jesús Cervantes, Miguel Aguilera.
+    \item \textbf{Primer autor en revista indexada por SECIHTI (Publicado)}.\\
+          “J. E. Cervantes Reyes, M. D. L. Ángeles Alamilla Daniel, Ángel R. Lícona Rodriguez, and E. H. Ramirez Dominguez, “Comparative Analysis of Nonlinear Control Strategies for a Lower Limb Rehabilitation System”, Int. Journal of COP and Infor., vol. 16, no. 3, pp. 36–45, Jul. 2025."
+    \item \textbf{Coautor en artículo JCR Q2 (Publicado)}. \\
+          “Identification and fuzzy control of the trajectory of a parallel robot: application to medical rehabilitation”, \emph{MDPI}, 2025. \\
+          Autores: Elihu H. Ramirez-Dominguez, J.G. Benítez-Morales, Jesus E. Cervantes-Reyes, M.A. Alamilla-Daniel, A.R. Licona-Rodríguez, Juan M. Xicotencatl-Pérez y Julio C. Ramos-Fernández.
+    \item \textbf{Coautor de poster (Publicado)}. \\
+          “Diseño de un sistema electromecánico para aplicaciones de rehabilitación de la extremidad superior”, Congreso CoNMiCyT, 2025. \\
+          Autores: Elihu Ramírez, Gerardo Benítez, Ángel Licona, Cesar Vilchis, Jesús Cervantes, Miguel Aguilera.
 
 
-\item \textbf{Coautor de cartel (Publicado)}. \\
-“Implementación de sistemas mecatrónicos en la 
-rehabilitación física de extremidades”, Simposio Iberoamericano Multidisciplinario de Ciencias e Ingeniería, 2025. \\
-Autores: Valdez García Yensy, Alamilla Daniel Ma. De Los Ángeles, Lícona Rodríguez Ángel Ricardo, Cortés Márquez Sandra Kristal y Cervantes Reyes Jesús Eduardo.
+    \item \textbf{Coautor de cartel (Publicado)}. \\
+          “Implementación de sistemas mecatrónicos en la
+          rehabilitación física de extremidades”, Simposio Iberoamericano Multidisciplinario de Ciencias e Ingeniería, 2025. \\
+          Autores: Valdez García Yensy, Alamilla Daniel Ma. De Los Ángeles, Lícona Rodríguez Ángel Ricardo, Cortés Márquez Sandra Kristal y Cervantes Reyes Jesús Eduardo.
 \end{itemize}
 
 \paragraph{Ponencias y actividades académicas}
 \begin{itemize}
-  
-  \item \textbf{Ponente}. “Sistemas mecatrónicos para rehabilitación física de extremidades”, \emph{Jornada Internacional de Energías, Mantenimiento y Mecatrónica}, Universidad Tecnológica de Tula-Tepeji, 2025.
-  
-  \item \textbf{Ponente}. Exposición de resultados parciales de tesis, \emph{Semana de la Mecatrónica}, Universidad Politécnica de Pachuca, 2025.
-  \item \textbf{Evaluador de proyectos}. Proyectos integradores de estudiantes, \emph{EXPO SINERGÍA MANTRÓNICA}, Universidad Tecnológica de Tula-Tepeji, 2025.
+
+    \item \textbf{Ponente}. “Sistemas mecatrónicos para rehabilitación física de extremidades”, \emph{Jornada Internacional de Energías, Mantenimiento y Mecatrónica}, Universidad Tecnológica de Tula-Tepeji, 2025.
+
+    \item \textbf{Ponente}. Exposición de resultados parciales de tesis, \emph{Semana de la Mecatrónica}, Universidad Politécnica de Pachuca, 2025.
+    \item \textbf{Evaluador de proyectos}. Proyectos integradores de estudiantes, \emph{EXPO SINERGÍA MANTRÓNICA}, Universidad Tecnológica de Tula-Tepeji, 2025.
 \end{itemize}
 
 
@@ -590,7 +586,7 @@ La Figura~\ref{fig:dt} ilustra la arquitectura del gemelo digital integrada al s
     \begin{tikzpicture}[>=latex, thick, font=\small]
         \tikzset{
             blk/.style={draw, rectangle, rounded corners=2pt,
-                        minimum height=2.8em, minimum width=7.5em, align=center},
+                    minimum height=2.8em, minimum width=7.5em, align=center},
             sm/.style ={draw, circle, minimum size=2.2em, inner sep=0pt}
         }
         %% ---- Bloques ----
@@ -626,9 +622,9 @@ La Figura~\ref{fig:dt} ilustra la arquitectura del gemelo digital integrada al s
         \draw[->] (dt.south) -- node[right, font=\scriptsize]{$z(t+k)$} (gov.north);
         %% ---- Sincronización bilateral ----
         \draw[<->, dashed, gray!60]
-            (phy.west) -- ++(-0.9, 0) |-
-            node[left, font=\scriptsize, pos=0.5]{sync}
-            (dt.west);
+        (phy.west) -- ++(-0.9, 0) |-
+        node[left, font=\scriptsize, pos=0.5]{sync}
+        (dt.west);
     \end{tikzpicture}
     \caption{Gemelo digital integrado al sistema REHAP: sincronización con el sistema físico, generación del residuo $\rho(t)$ para el agente IA y predicción de $z(t+k)$ para el gobernador.}
     \label{fig:dt}
@@ -643,11 +639,11 @@ La operación del dispositivo incorporará un conjunto de mecanismos redundantes
 
 \begin{itemize}
     \item \textbf{Corte físico de corriente}. Será el mecanismo prioritario. El terapeuta dispondrá de un interruptor dedicado para desenergizar inmediatamente el sistema ante cualquier situación crítica.
-    
+
     \item \textbf{Paro de emergencia lógico}. Tanto el paciente como el terapeuta tendrán acceso a un botón de paro accesible en todo momento. Este mecanismo detendrá la rutina en ejecución y ordenará el retorno controlado a la posición inicial del sistema.
-    
+
     \item \textbf{Detención por parte del observador}. Cuando el observador identifique señales compatibles con inestabilidad, aceleraciones no previstas, incrementos súbitos de corriente o cualquier patrón asociado a una falla, ejecutará una parada segura y ordenará el retorno a casa.
-    
+
     \item \textbf{Detención predictiva}. El módulo de supervisión analizará patrones temporales en la interacción y señales de desempeño. Si detecta desviaciones repetitivas, resistencia involuntaria o comportamiento atípico del actuador, activará un protocolo seguro deteniendo el movimiento y regresando al estado inicial.
 \end{itemize}
 
@@ -691,140 +687,140 @@ Se realizarán pruebas controladas con sujetos sanos bajo supervisión clínica,
 \newpage
 \begin{thebibliography}{99}
 
-\bibitem[Chhabra \& Emami(2009)]{chhabra_holistic_2009}
-Chhabra, R., \& Emami, M. (2009). \textit{A holistic approach to concurrent engineering and its application to robotics}. Journal of Robotics.
+    \bibitem[Chhabra \& Emami(2009)]{chhabra_holistic_2009}
+    Chhabra, R., \& Emami, M. (2009). \textit{A holistic approach to concurrent engineering and its application to robotics}. Journal of Robotics.
 
-\bibitem[Park(2001)]{park_concurrent_2001}
-Park, J. H. (2001). \textit{Concurrent-design optimization of mechanical structure and control}. In ASME Design Engineering Technical Conferences.
+    \bibitem[Park(2001)]{park_concurrent_2001}
+    Park, J. H. (2001). \textit{Concurrent-design optimization of mechanical structure and control}. In ASME Design Engineering Technical Conferences.
 
-\bibitem[Cruz-Martínez et al.(2017)]{cruz_methodology_2017}
-Cruz-Martínez, E., et al. (2017). \textit{Methodology for the design of rehabilitation robots: Application in an upper limb exoskeleton}. Revista Iberoamericana de Automática e Informática Industrial.
+    \bibitem[Cruz-Martínez et al.(2017)]{cruz_methodology_2017}
+    Cruz-Martínez, E., et al. (2017). \textit{Methodology for the design of rehabilitation robots: Application in an upper limb exoskeleton}. Revista Iberoamericana de Automática e Informática Industrial.
 
-\bibitem[Gil et al.(2025)]{gil_model-based_2025}
-Gil, A., et al. (2025). \textit{A model-based approach for co-simulation-driven digital twins in robotics}. Robotics and Autonomous Systems.
+    \bibitem[Gil et al.(2025)]{gil_model-based_2025}
+    Gil, A., et al. (2025). \textit{A model-based approach for co-simulation-driven digital twins in robotics}. Robotics and Autonomous Systems.
 
-\bibitem[Mazumder et al.(2023)]{mazumder_next_2023}
-Mazumder, O., et al. (2023). \textit{Towards next generation digital twin in robotics}. Heliyon.
+    \bibitem[Mazumder et al.(2023)]{mazumder_next_2023}
+    Mazumder, O., et al. (2023). \textit{Towards next generation digital twin in robotics}. Heliyon.
 
-\bibitem[Spong et al.(2006)]{spong2006robot}
-Spong, M. W., Hutchinson, S., \& Vidyasagar, M. (2006). \textit{Robot Modeling and Control}. Wiley.
+    \bibitem[Spong et al.(2006)]{spong2006robot}
+    Spong, M. W., Hutchinson, S., \& Vidyasagar, M. (2006). \textit{Robot Modeling and Control}. Wiley.
 
-\bibitem[Siciliano et al.(2010)]{siciliano2010robotics}
-Siciliano, B., Sciavicco, L., Villani, L., \& Oriolo, G. (2010). \textit{Robotics: Modelling, Planning and Control}. Springer.
+    \bibitem[Siciliano et al.(2010)]{siciliano2010robotics}
+    Siciliano, B., Sciavicco, L., Villani, L., \& Oriolo, G. (2010). \textit{Robotics: Modelling, Planning and Control}. Springer.
 
-\bibitem[Khalil(2002)]{khalil2002nonlinear}
-Khalil, H. K. (2002). \textit{Nonlinear Systems} (3rd ed.). Prentice Hall.
+    \bibitem[Khalil(2002)]{khalil2002nonlinear}
+    Khalil, H. K. (2002). \textit{Nonlinear Systems} (3rd ed.). Prentice Hall.
 
-\bibitem[Slotine \& Li(1991)]{slotine1991applied}
-Slotine, J. J. E., \& Li, W. (1991). \textit{Applied Nonlinear Control}. Prentice Hall.
+    \bibitem[Slotine \& Li(1991)]{slotine1991applied}
+    Slotine, J. J. E., \& Li, W. (1991). \textit{Applied Nonlinear Control}. Prentice Hall.
 
-\bibitem[Garone et al.(2017)]{garone2017reference}
-Garone, E., Di Cairano, S., \& Kolmanovsky, I. (2017). Reference and command governors for systems with constraints: A survey on theory and applications. \textit{Automatica}, 75, 306--328.
+    \bibitem[Garone et al.(2017)]{garone2017reference}
+    Garone, E., Di Cairano, S., \& Kolmanovsky, I. (2017). Reference and command governors for systems with constraints: A survey on theory and applications. \textit{Automatica}, 75, 306--328.
 
-\bibitem[Reyes et al.(2025)]{reyes2025comparative}
-Reyes, J. E., Alamilla, M., Rodríguez, Á., \& Domínguez, E. (2025). Comparative analysis of nonlinear control strategies for a lower limb rehabilitation system. \textit{International Journal of Combinatorial Optimization Problems and Informatics}, 16(3), 36--45. https://doi.org/10.61467/2007.1558.2025.v16i3.1129
-
-
-\bibitem[Martínez et al.(2014)]{tobiBot2014}
-Guzmán Valdivia, C. H., Carrera Escobedo, J. L., Blanco Ortega, A., Oliver Salazar, M. A., \& Gómez Becerra, F. A. (2014).
-\textit{Diseño y control de un sistema interactivo para la rehabilitación de tobillo: TobiBot}.
-Ingeniería Mecánica, Tecnología y Desarrollo, 5(1), 255–264.
+    \bibitem[Reyes et al.(2025)]{reyes2025comparative}
+    Reyes, J. E., Alamilla, M., Rodríguez, Á., \& Domínguez, E. (2025). Comparative analysis of nonlinear control strategies for a lower limb rehabilitation system. \textit{International Journal of Combinatorial Optimization Problems and Informatics}, 16(3), 36--45. https://doi.org/10.61467/2007.1558.2025.v16i3.1129
 
 
-\bibitem[Araque(2022)]{unipamplona}
-Araque Isidro, J. E. (2022).
-\textit{Diseño y control de un prototipo robotizado para la rehabilitación de lesiones de rodilla enfocado al fortalecimiento muscular}.
-Universidad de Pamplona – Facultad de Ingenierías y Arquitectura. Tesis de Maestría.
+    \bibitem[Martínez et al.(2014)]{tobiBot2014}
+    Guzmán Valdivia, C. H., Carrera Escobedo, J. L., Blanco Ortega, A., Oliver Salazar, M. A., \& Gómez Becerra, F. A. (2014).
+    \textit{Diseño y control de un sistema interactivo para la rehabilitación de tobillo: TobiBot}.
+    Ingeniería Mecánica, Tecnología y Desarrollo, 5(1), 255–264.
 
 
-
-\bibitem[Akdoğan \& Adli(2011)]{physiotherabot}
-Akdoğan, E., \& Adli, M. A. (2011).
-The design and control of a therapeutic exercise robot for lower limb rehabilitation (Physiotherabot).
-\textit{Mechatronics}, 21(3), 509--522.
-https://doi.org/10.1016/j.mechatronics.2011.01.005
+    \bibitem[Araque(2022)]{unipamplona}
+    Araque Isidro, J. E. (2022).
+    \textit{Diseño y control de un prototipo robotizado para la rehabilitación de lesiones de rodilla enfocado al fortalecimiento muscular}.
+    Universidad de Pamplona – Facultad de Ingenierías y Arquitectura. Tesis de Maestría.
 
 
 
-
-\bibitem[García \& Lugo-González(2022)]{garcia2022}
-García, M., \& Lugo-González, E. (2022). Prototipo para rehabilitación de miembros inferiores en lactantes hipotónicos. \textit{Padil: Boletín Científico de Ciencias Básicas e Ingenierías del ICBI}.
-\bibitem[López \& Pérez(2013)]{revistaEIA}
-López, M., \& Pérez, A. (2013). Modelo y simulación de un robot terapéutico para la rehabilitación de miembros inferiores. \textit{Revista Ingeniería Biomédica de la EIA}.
-
-\bibitem[Khor et al.(2014)]{elsevierHybrid}
-Khor, K. X., Pérez-Zepeda, I. D., Peña, I., \& Lee, G. (2014).
-A novel hybrid rehabilitation robot for upper and lower limbs rehabilitation training.
-\textit{Procedia Computer Science}, 42, 293--300.
-https://doi.org/10.1016/j.procs.2014.11.065
-
-\bibitem[Wang et al.(2024)]{elsevierAdaptive}
-Wang, Y., Li, X., Chen, H., \& Zhao, L. (2024).
-Adaptive patient-cooperative compliant control of lower limb rehabilitation robot.
-\textit{ISA Transactions}. 
-https://doi.org/10.1016/j.isatra.2023.11.004
-
-\bibitem[Birlescu et al.(2024)]{elsevierLegUp}
-Birlescu, I., Tohănean, N., Vaida, C., Gherman, B., Negură, D., Horsiă, A., Tucan, P., Condurache, D., \& Pisla, D. (2024).
-Modeling and analysis of a parallel robotic system for lower limb rehabilitation with predefined operational workspace.
-\textit{Mechanism and Machine Theory}. Advance online publication.
-https://doi.org/10.2139/ssrn.4753036
+    \bibitem[Akdoğan \& Adli(2011)]{physiotherabot}
+    Akdoğan, E., \& Adli, M. A. (2011).
+    The design and control of a therapeutic exercise robot for lower limb rehabilitation (Physiotherabot).
+    \textit{Mechatronics}, 21(3), 509--522.
+    https://doi.org/10.1016/j.mechatronics.2011.01.005
 
 
 
-\bibitem[Pulloquinga et al.(2023)]{elsevierAdmittance}
-Pulloquinga, J. L., Escarabajal, R. J., Vallés, M., Díaz-Rodríguez, M., Mata, V., \& Valera, Á. (2023).  
-Admittance controller complemented with real-time singularity avoidance for rehabilitation parallel robots.  
-\textit{Mechatronics}, 94, 103017. https://doi.org/10.1016/j.mechatronics.2023.103017
+
+    \bibitem[García \& Lugo-González(2022)]{garcia2022}
+    García, M., \& Lugo-González, E. (2022). Prototipo para rehabilitación de miembros inferiores en lactantes hipotónicos. \textit{Padil: Boletín Científico de Ciencias Básicas e Ingenierías del ICBI}.
+    \bibitem[López \& Pérez(2013)]{revistaEIA}
+    López, M., \& Pérez, A. (2013). Modelo y simulación de un robot terapéutico para la rehabilitación de miembros inferiores. \textit{Revista Ingeniería Biomédica de la EIA}.
+
+    \bibitem[Khor et al.(2014)]{elsevierHybrid}
+    Khor, K. X., Pérez-Zepeda, I. D., Peña, I., \& Lee, G. (2014).
+    A novel hybrid rehabilitation robot for upper and lower limbs rehabilitation training.
+    \textit{Procedia Computer Science}, 42, 293--300.
+    https://doi.org/10.1016/j.procs.2014.11.065
+
+    \bibitem[Wang et al.(2024)]{elsevierAdaptive}
+    Wang, Y., Li, X., Chen, H., \& Zhao, L. (2024).
+    Adaptive patient-cooperative compliant control of lower limb rehabilitation robot.
+    \textit{ISA Transactions}.
+    https://doi.org/10.1016/j.isatra.2023.11.004
+
+    \bibitem[Birlescu et al.(2024)]{elsevierLegUp}
+    Birlescu, I., Tohănean, N., Vaida, C., Gherman, B., Negură, D., Horsiă, A., Tucan, P., Condurache, D., \& Pisla, D. (2024).
+    Modeling and analysis of a parallel robotic system for lower limb rehabilitation with predefined operational workspace.
+    \textit{Mechanism and Machine Theory}. Advance online publication.
+    https://doi.org/10.2139/ssrn.4753036
 
 
 
-\bibitem[Zhang et al.(2020)]{ICMEAS2020}
-Zhang, H., Li, Y., Wang, Q., \& Chen, X. (2020).  
-A novel design of the lower limb rehabilitation robot.  
-En \textit{Proceedings of the 2020 6th International Conference on Mechanical Engineering and Automation Science (ICMEAS)} (pp. 45--50). IEEE.
-https://doi.org/10.1109/ICMEAS51072.2020.00015
-
-
-\bibitem[Díaz et al.(2011)]{journalRobotics}
-Díaz, I., Gil, J. J., \& Sánchez, E. (2011).
-Lower limb robotic rehabilitation: Literature review and challenges.
-\textit{Journal of Robotics}, 2011, Article 759764.
-https://doi.org/10.1155/2011/759764
+    \bibitem[Pulloquinga et al.(2023)]{elsevierAdmittance}
+    Pulloquinga, J. L., Escarabajal, R. J., Vallés, M., Díaz-Rodríguez, M., Mata, V., \& Valera, Á. (2023).
+    Admittance controller complemented with real-time singularity avoidance for rehabilitation parallel robots.
+    \textit{Mechatronics}, 94, 103017. https://doi.org/10.1016/j.mechatronics.2023.103017
 
 
 
-\bibitem[Carbone(2020)]{systematicDesign}
-Carbone, G. (2020).
-Systematic design of a parallel robotic system for lower limb rehabilitation.
-\textit{IEEE Access}, 8, 111758–111770. https://doi.org/10.1109/ACCESS.2020.3000644
+    \bibitem[Zhang et al.(2020)]{ICMEAS2020}
+    Zhang, H., Li, Y., Wang, Q., \& Chen, X. (2020).
+    A novel design of the lower limb rehabilitation robot.
+    En \textit{Proceedings of the 2020 6th International Conference on Mechanical Engineering and Automation Science (ICMEAS)} (pp. 45--50). IEEE.
+    https://doi.org/10.1109/ICMEAS51072.2020.00015
+
+
+    \bibitem[Díaz et al.(2011)]{journalRobotics}
+    Díaz, I., Gil, J. J., \& Sánchez, E. (2011).
+    Lower limb robotic rehabilitation: Literature review and challenges.
+    \textit{Journal of Robotics}, 2011, Article 759764.
+    https://doi.org/10.1155/2011/759764
 
 
 
-\bibitem[Wang et al.(2022)]{MDPI2022}
-Wang, J., Kan, Y., Zhang, T., Zhang, Z., \& Xu, M. (2022).  
-Model analysis and experimental study of lower limb rehabilitation training device based on gravity balance.  
-\textit{Machines, 10}(7), 514. https://doi.org/10.3390/machines10070514
+    \bibitem[Carbone(2020)]{systematicDesign}
+    Carbone, G. (2020).
+    Systematic design of a parallel robotic system for lower limb rehabilitation.
+    \textit{IEEE Access}, 8, 111758–111770. https://doi.org/10.1109/ACCESS.2020.3000644
 
 
 
-\bibitem[Bhardwaj et al.(2021)]{advancesRobotics}
-Bhardwaj, S., Khan, A. A., \& Muzammil, M. (2021).
-Lower limb rehabilitation robotics: The current understanding and technology.
-\textit{Work: A Journal of Prevention, Assessment \& Rehabilitation, 69}(3), 775–793.
-https://doi.org/10.3233/WOR-205012
+    \bibitem[Wang et al.(2022)]{MDPI2022}
+    Wang, J., Kan, Y., Zhang, T., Zhang, Z., \& Xu, M. (2022).
+    Model analysis and experimental study of lower limb rehabilitation training device based on gravity balance.
+    \textit{Machines, 10}(7), 514. https://doi.org/10.3390/machines10070514
 
-\bibitem[WHO(2024)]{who2024neurological}
-World Health Organization (WHO) (2024).
-\newblock \emph{Over 1 in 3 people affected by neurological conditions, the leading cause of illness and disability worldwide}.
-\newblock Comunicado de prensa, 14 de marzo de 2024.
-\newblock Disponible en: \url{https://www.who.int/news/item/14-03-2024-over-1-in-3-people-affected-by-neurological-conditions--the-leading-cause-of-illness-and-disability-worldwide} [Accedido: 6 de junio de 2026].
 
-\bibitem[Banyai y Bri\c{s}an(2024)]{banyai2024robotics}
-Banyai, A. D., \& Bri\c{s}an, C. (2024). 
-\newblock Robotics in Physical Rehabilitation: Systematic Review. 
-\newblock \emph{Healthcare (Basel, Switzerland)}, 12(17), 1720. 
-\newblock \url{https://doi.org/10.3390/healthcare12171720}
+
+    \bibitem[Bhardwaj et al.(2021)]{advancesRobotics}
+    Bhardwaj, S., Khan, A. A., \& Muzammil, M. (2021).
+    Lower limb rehabilitation robotics: The current understanding and technology.
+    \textit{Work: A Journal of Prevention, Assessment \& Rehabilitation, 69}(3), 775–793.
+    https://doi.org/10.3233/WOR-205012
+
+    \bibitem[WHO(2024)]{who2024neurological}
+    World Health Organization (WHO) (2024).
+    \newblock \emph{Over 1 in 3 people affected by neurological conditions, the leading cause of illness and disability worldwide}.
+    \newblock Comunicado de prensa, 14 de marzo de 2024.
+    \newblock Disponible en: \url{https://www.who.int/news/item/14-03-2024-over-1-in-3-people-affected-by-neurological-conditions--the-leading-cause-of-illness-and-disability-worldwide} [Accedido: 6 de junio de 2026].
+
+    \bibitem[Banyai y Bri\c{s}an(2024)]{banyai2024robotics}
+    Banyai, A. D., \& Bri\c{s}an, C. (2024).
+    \newblock Robotics in Physical Rehabilitation: Systematic Review.
+    \newblock \emph{Healthcare (Basel, Switzerland)}, 12(17), 1720.
+    \newblock \url{https://doi.org/10.3390/healthcare12171720}
 \end{thebibliography}
 
 \end{document}
