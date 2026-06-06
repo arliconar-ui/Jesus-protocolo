@@ -141,22 +141,20 @@ Esta investigación se justifica en la necesidad científica de abordar este pro
 
 \subsection{Objetivo general}
 
-Diseñar y validar una arquitectura de control para un sistema robótico de rehabilitación de miembro inferior, que integre control no lineal (Backstepping), observador de estados y gobernanza de trayectoria supervisada por un gemelo digital, con el propósito de garantizar la seguridad operativa y la robustez ante perturbaciones biomecánicas, permitiendo su validación experimental en protocolos pre-clínicos.
+Diseñar y validar experimentalmente una arquitectura de control jerárquica para el sistema robótico de rehabilitación REHAP, que integre control no lineal (\textit{Backstepping}), estimación de estados y gobernanza de referencia, apoyada por co-simulación en gemelos digitales, con el propósito de garantizar un seguimiento preciso bajo condiciones nominales y preservar la seguridad física del usuario ante incertidumbres biomecánicas.
 
 
 \subsection{Objetivos específicos}
 
 \begin{itemize}
 
-    \item Diseñar un  observador de estados no lineal, capaz de reconstruir variables no medidas y perturbaciones externas, para dotar al controlador Backstepping de la información necesaria para compensar incertidumbres biomecánicas en tiempo real.
+    \item Implementar una ley de control no lineal basada en \textit{Backstepping}, acoplada a un observador de estados, capaz de reconstruir variables dinámicas no medidas para compensar perturbaciones externas e incertidumbres biomecánicas en tiempo real.
 
-    \item Desarrollar un algoritmo de gobernador de trayectoria que gestione explícitamente las restricciones cinemáticas y dinámicas del sistema, para mantenerlo siempre dentro de los límites de seguridad fisiológica del usuario.
+    \item Desarrollar un algoritmo de gobernanza de referencia que gestione activamente las restricciones cinemáticas y dinámicas del sistema, modulando las trayectorias nominales para mantener la interacción estrictamente dentro de los límites de seguridad fisiológica del usuario.
 
-    \item Diseñar una arquitectura de agentes de IA orquestadores, donde un agente evalúe el estado cuantitativo del sistema (errores de seguimiento, corrientes, perturbaciones) y otro el estado cualitativo del paciente (fatiga, molestia, respuestas involuntarias), para modificar la trayectoria de referencia en tiempo real.
+    \item Construir un entorno de Gemelo Digital validado experimentalmente del sistema acoplado humano-robot, que permita la co-simulación para predecir comportamientos críticos y sintonizar los parámetros de la arquitectura de control de forma segura antes de la experimentación física.
 
-    \item Construir un entorno de Gemelo Digital validado experimentalmente, que permita la co-simulación del sistema físico-virtual para predecir comportamientos dinámicos críticos y optimizar las estrategias de control de forma segura antes de la interacción humana.
-
-    \item Evaluar experimentalmente el desempeño de la arquitectura propuesta mediante protocolos con sujetos sanos, cuantificando métricas de error de seguimiento, suavidad del movimiento y rechazo a perturbaciones inducidas, para establecer la viabilidad clínica del sistema.
+    \item Evaluar experimentalmente el desempeño de la arquitectura propuesta mediante protocolos pre-clínicos con sujetos sanos, cuantificando métricas de error de seguimiento, suavidad de movimiento y complianza activa ante perturbaciones inducidas, para establecer la viabilidad clínica del prototipo.
 
 \end{itemize}
 
@@ -166,7 +164,7 @@ Diseñar y validar una arquitectura de control para un sistema robótico de reha
 
 
 \section{Hipótesis}
-Si se integra un observador de estados de alta ganancia al controlador Backstepping del sistema REHAP, complementado con un gobernador de referencia que gestione explícitamente las restricciones cinemáticas y dinámicas de seguridad, y se añade un agente de IA orquestador para supervisión adaptativa en tiempo real, entonces el error cuadrático medio (RMSE) de seguimiento de trayectoria se reducirá al menos un 30\% respecto al desempeño del controlador base reportado en \citep{reyes2025comparative}, el sistema mantendrá estabilidad asintótica ante perturbaciones externas de hasta $5\,\mathrm{N{\cdot}m}$ en los actuadores, y operará dentro de los límites articulares seguros ($\pm 5^{\circ}$ respecto al rango fisiológico definido) durante protocolos pre-clínicos con sujetos sanos. Esta mejora será posible porque la combinación de estimación de estados no medidos, modulación de la referencia mediante restricciones explícitas y supervisión basada en datos desacopla la seguridad dinámica de la inteligencia terapéutica, superando la rigidez inherente de los controladores convencionales frente a incertidumbres biomecánicas no estructuradas.
+Si se integra un observador de estados de alta ganancia al controlador \textit{Backstepping} del sistema REHAP, complementado con un gobernador de referencia que gestione explícitamente las restricciones cinemáticas y dinámicas de seguridad, entonces el error cuadrático medio (RMSE) de seguimiento de trayectoria se reducirá al menos un 30\% en condiciones nominales respecto al desempeño del controlador base reportado en \citep{reyes2025comparative}. Asimismo, el sistema mantendrá la estabilidad asintótica ante perturbaciones externas de hasta $5\,\mathrm{N{\cdot}m}$ en los actuadores y operará de manera compliante dentro de los límites articulares seguros ($\pm 5^{\circ}$ respecto al rango fisiológico definido) durante protocolos pre-clínicos con sujetos sanos. Esta mejora será posible porque la combinación de estimación en línea de estados no medidos y la modulación activa de la referencia mediante restricciones explícitas resuelve el compromiso (\textit{trade-off}) entre el seguimiento estricto de trayectoria y la seguridad física, superando la rigidez inherente de los controladores convencionales frente a incertidumbres biomecánicas no estructuradas.
 
 \newpage
 
@@ -679,7 +677,7 @@ Se realizarán pruebas controladas con sujetos sanos bajo supervisión clínica,
 \subsection{Cronograma de actividades}
 \begin{table}[H]
     \centering
-    \includegraphics[width=1.2\linewidth]{imagenes/cronograma.pdf}
+    \includegraphics[width=1\linewidth]{imagenes/cronograma.pdf}
     \caption{Cronograma de actividades.}
     \label{tab:cronograma}
 \end{table}
