@@ -3,7 +3,7 @@
 % codificación y idioma
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[spanish]{babel}
+\usepackage[spanish,es-tabla]{babel}
 
 % utilidades
 \usepackage{array}
@@ -16,6 +16,7 @@
 \usetikzlibrary{calc,positioning,babel}
 \usepackage{setspace}
 \onehalfspacing
+\usepackage{longtable}
 
 % ===== Matemáticas (debe ir antes de cleveref y hyperref) =====
 \usepackage{amsmath,amssymb}
@@ -405,30 +406,35 @@ En conjunto, la formulación matemática de esta topología en cascada articula 
 \subsection{Estado del Arte de Dispositivos Robóticos para Rehabilitación}
 
 En la Tabla \ref{tab:estado} se presenta un resumen de tecnologías recientes y estudios representativos en el ámbito de la rehabilitación robótica, detallando la articulación que abordan (cadera, rodilla, tobillo o extremidad inferior global) y sus principales características. Esta revisión permite identificar enfoques predominantes, que van desde exoesqueletos rígidos y efectores finales para movilización temprana, hasta exotrajes blandos y sistemas con compliancia mecánica, además de metaanálisis recientes que confirman la eficacia clínica de estas intervenciones. La relevancia de este panorama comparativo para nuestro estudio radica en evidenciar que, si bien existen arquitecturas mecánicas funcionales, prevalece la necesidad de integrar estrategias de control robusto y adaptativo (como la gobernanza de referencia y estimación de estados) para manejar la incertidumbre biomecánica y garantizar una interacción segura con el paciente en entornos clínicos reales.
-\newpage
 
 
 
-\begin{table}[h!]
-    \centering
+\begingroup
+\small
+\begin{longtable}{|p{3.5cm}|c|p{3.5cm}|p{7cm}|}
     \caption{Resumen de Tecnologías y Estudios de Rehabilitación Robótica}
-    \label{tab:rehabilitacion_robotica}
-    \resizebox{\textwidth}{!}{%
-        \begin{tabular}{|l|c|p{3cm}|p{6cm}|}
-            \hline
-            \textbf{Nombre del trabajo}                                        & \textbf{Año} & \textbf{Articulación}      & \textbf{Principales características}                                                                                                                                                                                                                     \\ \hline
-            TWIN (Exoesqueleto)\citep{squartecchia2026}                        & 2026         & Cadera, rodilla            & Exoesqueleto rígido ambulatorio que destaca por su altísima estabilidad de interacción; minimiza los desplazamientos relativos en la piel (menores a 4.6 mm) y logra una cinemática articular casi perfecta.                                             \\ \hline
-            LegUp (Efector Final)\citep{tucan2025}                             & 2025         & Cadera, rodilla, tobillo   & Sistema paralelo de movilización temprana en cama. Utiliza cinemática de cables Bowden y un diseño optimizado por lógica difusa para garantizar comodidad y anular cizallamientos parásitos en etapas agudas.                                            \\ \hline
-            Revisión Metaanalítica de Robots\citep{wang2025}                   & 2025         & Extremidad inferior global & Metaanálisis de ensayos controlados aleatorizados (651 pacientes) que confirma estadísticamente la superioridad de los efectores finales y exoesqueletos frente a terapias convencionales, especialmente en la métrica Fugl-Meyer y capacidad de marcha. \\ \hline
-            Mobile Ankle Exoskeleton\citep{chen2022design}                     & 2022         & Tobillo                    & Exoesqueleto móvil con configuraciones de actuación conmutables capaz de reducir el costo metabólico y asistir durante la marcha continua y la carrera fuera del laboratorio.                                                                            \\ \hline
-            ReStore Soft Exoskeleton\citep{kora2024investigation}              & 2024         & Tobillo y pantorrilla      & Ensayo clínico sobre exotraje blando (soft exosuit) que demuestra eficacia en movilización temprana, marcha y coordinación en pacientes post-ACV.                                                                                                        \\ \hline
-            Mechanical Compliance Exoskeleton\citep{li2022mechanical}          & 2022         & Ext. inferior global       & Exoesqueleto con compliancia mecánica y aislamiento de cargas dinámicas para proteger al paciente de fuerzas parásitas durante la locomoción.                                                                                                            \\ \hline
-            Revisión Metaanalítica de Efectores \citep{lou2026effect}          & 2026         & Ext. inferior global       & Metaanálisis (16 ensayos, 789 pacientes) que confirma la mejora en función motora y equilibrio (escalas FAC, FMA-L y BBS) post-ACV.                                                                                                                      \\ \hline
-            LiteStepper® (Exoesqueleto Unilateral)\citep{huo2024effectiveness} & 2024         & Cadera, rodilla, tobillo   & Sistema unilateral activo que recopila datos biomecánicos y de presión plantar del lado sano para aplicar asistencia personalizada y promover neuroplasticidad.                                                                                          \\ \hline
-        \end{tabular}%
-    }
-    \label{tab:estado}
-\end{table}
+    \label{tab:estado}                                                                                                                                                                                                                                                                                                                                                        \\
+    \hline
+    \textbf{Nombre del trabajo}                                        & \textbf{Año} & \textbf{Articulación}      & \textbf{Principales características}                                                                                                                                                                                                                     \\ \hline
+    \endfirsthead
+    \multicolumn{4}{c}{\tablename\ \thetable\ -- \textit{Continuación de la página anterior}}                                                                                                                                                                                                                                                                                 \\
+    \hline
+    \textbf{Nombre del trabajo}                                        & \textbf{Año} & \textbf{Articulación}      & \textbf{Principales características}                                                                                                                                                                                                                     \\ \hline
+    \endhead
+    \hline \multicolumn{4}{r}{\textit{Continúa en la siguiente página}}                                                                                                                                                                                                                                                                                                       \\
+    \endfoot
+    \hline
+    \endlastfoot
+    TWIN (Exoesqueleto)\citep{squartecchia2026}                        & 2026         & Cadera, rodilla            & Exoesqueleto rígido ambulatorio que destaca por su altísima estabilidad de interacción; minimiza los desplazamientos relativos en la piel (menores a 4.6 mm) y logra una cinemática articular casi perfecta.                                             \\ \hline
+    Revisión Metaanalítica de Efectores \citep{lou2026effect}          & 2026         & Ext. inferior global       & Metaanálisis (16 ensayos, 789 pacientes) que confirma la mejora en función motora y equilibrio (escalas FAC, FMA-L y BBS) post-ACV.                                                                                                                      \\ \hline
+    LegUp (Efector Final)\citep{tucan2025}                             & 2025         & Cadera, rodilla, tobillo   & Sistema paralelo de movilización temprana en cama. Utiliza cinemática de cables Bowden y un diseño optimizado por lógica difusa para garantizar comodidad y anular cizallamientos parásitos en etapas agudas.                                            \\ \hline
+    Revisión Metaanalítica de Robots\citep{wang2025}                   & 2025         & Extremidad inferior global & Metaanálisis de ensayos controlados aleatorizados (651 pacientes) que confirma estadísticamente la superioridad de los efectores finales y exoesqueletos frente a terapias convencionales, especialmente en la métrica Fugl-Meyer y capacidad de marcha. \\ \hline
+    ReStore Soft Exoskeleton\citep{kora2024investigation}              & 2024         & Tobillo y pantorrilla      & Ensayo clínico sobre exotraje blando (soft exosuit) que demuestra eficacia en movilización temprana, marcha y coordinación en pacientes post-ACV.                                                                                                        \\ \hline
+    LiteStepper® (Exoesqueleto Unilateral)\citep{huo2024effectiveness} & 2024         & Cadera, rodilla, tobillo   & Sistema unilateral activo que recopila datos biomecánicos y de presión plantar del lado sano para aplicar asistencia personalizada y promover neuroplasticidad.                                                                                          \\ \hline
+    Mobile Ankle Exoskeleton\citep{chen2022design}                     & 2022         & Tobillo                    & Exoesqueleto móvil con configuraciones de actuación conmutables capaz de reducir el costo metabólico y asistir durante la marcha continua y la carrera fuera del laboratorio.                                                                            \\ \hline
+    Mechanical Compliance Exoskeleton\citep{li2022mechanical}          & 2022         & Ext. inferior global       & Exoesqueleto con compliancia mecánica y aislamiento de cargas dinámicas para proteger al paciente de fuerzas parásitas durante la locomoción.                                                                                                            \\ \hline
+\end{longtable}
+\endgroup
 
 %\begin{table}[htbp]
 %    \centering
@@ -462,38 +468,37 @@ En la Tabla \ref{tab:estado} se presenta un resumen de tecnologías recientes y 
 
 \subsubsection{Brecha identificada y aportación original}
 
-El análisis del estado del arte revela que los dispositivos de rehabilitación de extremidad inferior se dividen en dos tendencias predominantes: (1) sistemas con control robusto y garantías formales de estabilidad pero sin capacidad de adaptación al estado cualitativo del paciente (p. ej., fatiga, dolor involuntario), y (2) sistemas con supervisión basada en IA pero sin fundamento matemático formal que garantice estabilidad ante perturbaciones biomecánicas no estructuradas. Ningún trabajo identificado integra simultáneamente: (a) un observador de estados con garantías de convergencia probadas por Lyapunov, (b) un gobernador de referencia con restricciones biomecánicas explícitas, (c) una arquitectura de agentes IA orquestadores capaz de interpretar señales cuantitativas del dispositivo y cualitativas del usuario en conjunto, y (d) un gemelo digital como entorno de co-simulación para la validación segura previa a la interacción humana —todo ello implementado y validado en un único sistema integrado de rehabilitación pasiva de extremidad inferior.
+El análisis del estado del arte revela que los dispositivos de rehabilitación de extremidad inferior tienden a polarizarse en dos paradigmas: (1) sistemas soportados por esquemas de control robusto con garantías formales de estabilidad, pero intrínsecamente rígidos y carentes de compliancia ante el estado biomecánico variable del paciente (p. ej., fatiga muscular o respuestas espasmódicas); y (2) sistemas guiados por planificadores heurísticos que priorizan la personalización del movimiento, pero que carecen de rigor matemático para asegurar la estabilidad ante perturbaciones dinámicas no estructuradas. La literatura actual confirma que ningún trabajo integra de forma simultánea: (a) un observador de estados no lineal sustentado teóricamente, (b) un gobernador de trayectoria que administre restricciones fisiológicas explícitas, (c) un planificador terapéutico algorítmico que adapte referencias a partir de retroalimentación en tiempo real, y (d) un gemelo digital para co-simulación y validación previa a la interacción humana; todo ello instrumentado en un único dispositivo de rehabilitación pasiva.
 
-La aportación original de este trabajo al conocimiento consiste en el \textbf{diseño, implementación y validación pre-clínica de una arquitectura de control jerárquica que desacopla formalmente la seguridad dinámica de la inteligencia terapéutica} en un dispositivo robótico de rehabilitación. Esta arquitectura propone una solución al problema abierto de garantizar simultáneamente estabilidad matemática y adaptabilidad clínica en robots de rehabilitación pasiva, contribuyendo al campo de las Tecnologías Avanzadas con evidencia experimental replicable y métricas cuantificables de desempeño.
+La aportación original de este proyecto al estado del arte consiste en el \textbf{diseño, implementación algorítmica y validación pre-clínica de una arquitectura de control jerárquica que desacopla analíticamente la seguridad dinámica de los objetivos terapéuticos} en un sistema mecatrónico de rehabilitación. Dicha arquitectura da solución formal al problema abierto de reconciliar la estabilidad en lazo cerrado con la compliancia clínica, contribuyendo a la disciplina de Tecnologías Avanzadas mediante un prototipo (REHAP) soportado por evidencia experimental replicable y métricas de desempeño dinámico rigurosas.
 
 \newpage
-\subsubsection{Contribuciones y colaboraciones previas del autor}
+\section{Trabajo Previo y Productos Académicos Obtenidos}
 
-\paragraph{Artículos científicos}
+El desarrollo de este protocolo se fundamenta en el trabajo continuo del autor sobre el prototipo mecatrónico REHAP. A la fecha, este esfuerzo ha generado los siguientes productos de investigación y participaciones académicas, los cuales respaldan empíricamente la viabilidad teórica y metodológica de la presente propuesta doctoral:
+
+\subsection{Producción Científica}
 \begin{itemize}
-    \item \textbf{Primer autor en revista indexada por SECIHTI (Publicado)}.\\
-          “J. E. Cervantes Reyes, M. D. L. Ángeles Alamilla Daniel, Ángel R. Lícona Rodriguez, and E. H. Ramirez Dominguez, “Comparative Analysis of Nonlinear Control Strategies for a Lower Limb Rehabilitation System”, Int. Journal of COP and Infor., vol. 16, no. 3, pp. 36–45, Jul. 2025."
-    \item \textbf{Coautor en artículo JCR Q2 (Publicado)}. \\
-          “Identification and fuzzy control of the trajectory of a parallel robot: application to medical rehabilitation”, \emph{MDPI}, 2025. \\
-          Autores: Elihu H. Ramirez-Dominguez, J.G. Benítez-Morales, Jesus E. Cervantes-Reyes, M.A. Alamilla-Daniel, A.R. Licona-Rodríguez, Juan M. Xicotencatl-Pérez y Julio C. Ramos-Fernández.
-    \item \textbf{Coautor de poster (Publicado)}. \\
-          “Diseño de un sistema electromecánico para aplicaciones de rehabilitación de la extremidad superior”, Congreso CoNMiCyT, 2025. \\
-          Autores: Elihu Ramírez, Gerardo Benítez, Ángel Licona, Cesar Vilchis, Jesús Cervantes, Miguel Aguilera.
+    \item \textbf{Artículo Científico (Primer Autor)}. Publicado en revista indexada (SECIHTI). \\
+          J. E. Cervantes Reyes, M. D. L. Ángeles Alamilla Daniel, Ángel R. Lícona Rodriguez, and E. H. Ramirez Dominguez. \textit{Comparative Analysis of Nonlinear Control Strategies for a Lower Limb Rehabilitation System}. Int. Journal of COP and Infor., vol. 16, no. 3, pp. 36--45, Jul. 2025.
 
+    \item \textbf{Artículo Científico (Coautor)}. Publicado en revista JCR (Q2). \\
+          Elihu H. Ramirez-Dominguez, J.G. Benítez-Morales, Jesus E. Cervantes-Reyes, M.A. Alamilla-Daniel, A.R. Licona-Rodríguez, Juan M. Xicotencatl-Pérez y Julio C. Ramos-Fernández. \textit{Identification and fuzzy control of the trajectory of a parallel robot: application to medical rehabilitation}. MDPI, 2025.
 
-    \item \textbf{Coautor de cartel (Publicado)}. \\
-          “Implementación de sistemas mecatrónicos en la
-          rehabilitación física de extremidades”, Simposio Iberoamericano Multidisciplinario de Ciencias e Ingeniería, 2025. \\
-          Autores: Valdez García Yensy, Alamilla Daniel Ma. De Los Ángeles, Lícona Rodríguez Ángel Ricardo, Cortés Márquez Sandra Kristal y Cervantes Reyes Jesús Eduardo.
+    \item \textbf{Memoria de Congreso / Póster (Coautor)}. \\
+          Elihu Ramírez, Gerardo Benítez, Ángel Licona, Cesar Vilchis, Jesús Cervantes, Miguel Aguilera. \textit{Diseño de un sistema electromecánico para aplicaciones de rehabilitación de la extremidad superior}. Congreso CoNMiCyT, 2025.
+
+    \item \textbf{Memoria de Simposio / Cartel (Coautor)}. \\
+          Valdez García Yensy, Alamilla Daniel Ma. De Los Ángeles, Lícona Rodríguez Ángel Ricardo, Cortés Márquez Sandra Kristal y Cervantes Reyes Jesús Eduardo. \textit{Implementación de sistemas mecatrónicos en la rehabilitación física de extremidades}. Simposio Iberoamericano Multidisciplinario de Ciencias e Ingeniería, 2025.
 \end{itemize}
 
-\paragraph{Ponencias y actividades académicas}
+\subsection{Participación en Eventos Académicos}
 \begin{itemize}
+    \item \textbf{Ponente}. \textit{Sistemas mecatrónicos para rehabilitación física de extremidades}. Jornada Internacional de Energías, Mantenimiento y Mecatrónica. Universidad Tecnológica de Tula-Tepeji, 2025.
 
-    \item \textbf{Ponente}. “Sistemas mecatrónicos para rehabilitación física de extremidades”, \emph{Jornada Internacional de Energías, Mantenimiento y Mecatrónica}, Universidad Tecnológica de Tula-Tepeji, 2025.
+    \item \textbf{Ponente}. \textit{Exposición de resultados parciales de tesis}. Semana de la Mecatrónica. Universidad Politécnica de Pachuca, 2025.
 
-    \item \textbf{Ponente}. Exposición de resultados parciales de tesis, \emph{Semana de la Mecatrónica}, Universidad Politécnica de Pachuca, 2025.
-    \item \textbf{Evaluador de proyectos}. Proyectos integradores de estudiantes, \emph{EXPO SINERGÍA MANTRÓNICA}, Universidad Tecnológica de Tula-Tepeji, 2025.
+    \item \textbf{Evaluador de Proyectos}. Proyectos integradores de estudiantes. EXPO SINERGÍA MANTRÓNICA. Universidad Tecnológica de Tula-Tepeji, 2025.
 \end{itemize}
 
 
@@ -501,11 +506,11 @@ La aportación original de este trabajo al conocimiento consiste en el \textbf{d
 
 \section{Metodología}
 
-La metodología se estructura conforme a los subsistemas fundamentales que integran el dispositivo mecatrónico de rehabilitación: el área de control y supervisión, el área mecánica y el área electrónica. Este enfoque es consistente con metodologías de diseño concurrente y co-diseño en robótica, donde los distintos subsistemas se desarrollan en paralelo para asegurar coherencia funcional, reducir iteraciones y favorecer la pertinencia del dispositivo en el ámbito clínico \citep{chhabra_holistic_2009, park_concurrent_2001, cruz_methodology_2017}. Asimismo, se consideran principios de diseño basado en modelos, co-simulación y gemelos digitales aplicados al desarrollo de robots de rehabilitación \citep{gil_model-based_2025, mazumder_next_2023}.
+La metodología propuesta se articula en torno a los subsistemas fundamentales que conforman el dispositivo mecatrónico de rehabilitación: (1) arquitectura de control y estimación, (2) diseño mecánico, y (3) acondicionamiento electrónico. Este esquema se fundamenta en los principios de diseño concurrente y co-diseño mecatrónico, permitiendo que las etapas de desarrollo se ejecuten en paralelo para asegurar la compatibilidad funcional, minimizar iteraciones empíricas y maximizar la viabilidad de la plataforma en entornos clínicos \citep{chhabra_holistic_2009, park_concurrent_2001, cruz_methodology_2017}. Adicionalmente, el flujo de trabajo integra el enfoque de Diseño Basado en Modelos (MBD) y entornos de co-simulación, herramientas indispensables en la robótica de rehabilitación moderna para la sintonización analítica de los algoritmos antes de la validación física \citep{gil_model-based_2025, mazumder_next_2023}.
 
-\subsection{Área de Control y Supervisión}
+\subsection{Área de Control y Estimación Dinámica}
 
-El desarrollo en esta área tiene como propósito mejorar la precisión, estabilidad y robustez del sistema mediante estrategias avanzadas de control, estimación y supervisión inteligente.
+El objetivo central de este dominio metodológico es la síntesis de arquitecturas de control en lazo cerrado que garanticen matemáticamente la estabilidad, el seguimiento preciso de trayectorias y la robustez del dispositivo ante perturbaciones biomecánicas inciertas durante la interacción humano-robot.
 
 \subsubsection{Implementación del observador de estados}
 \label{sec:obs_hgo}
@@ -534,28 +539,28 @@ Expresando \eqref{eq:dinamica} en espacio de estados con $x=[q^{\top},\dot{q}^{\
 \end{equation}
 y $d(t)=\bigl[0_{2}^{\top},\;(M^{-1}(q)\,\tau_d)^{\top}\bigr]^{\top}\in\mathbb{R}^{4}$ concentra las perturbaciones sobre la dinámica de velocidad.
 
-Se diseñará un \textbf{observador de alta ganancia} para reconstruir $\dot{q}$ y estimar $\tau_d$ en tiempo real. El observador propuesto tiene la forma:
+Se diseñará un \textbf{observador de alta ganancia (HGO)} para reconstruir el vector de velocidades $\dot{q}$ y aislar el efecto de la perturbación $\tau_d$ en tiempo real. La estructura nominal del observador propuesto tiene la forma:
 
 \begin{equation}
-    \dot{\hat{x}} = f(\hat{x}) + g(\hat{x})\,u + L\bigl(y - \mathbf{H}\hat{x}\bigr),
+    \dot{\hat{x}} = f(\hat{x}) + g(\hat{x})\,u + L_{\epsilon}\bigl(y - \mathbf{H}\hat{x}\bigr),
     \label{eq:observador}
 \end{equation}
 
-\noindent donde $\hat{x}\in\mathbb{R}^{4}$ es el vector de estados estimados y $L\in\mathbb{R}^{4\times 2}$ es la ganancia del observador. A diferencia del caso lineal —donde se requiere que $(A-L\mathbf{H})$ sea Hurwitz— la estabilidad del error de observación $e = x - \hat{x}\in\mathbb{R}^{4}$ se analiza mediante la función candidata de Lyapunov $V(e)=e^{\top}Pe$, con $P=P^{\top}>0$. La dinámica del error resulta:
+\noindent donde $\hat{x}\in\mathbb{R}^{4}$ es el vector de estados estimados y $L_{\epsilon}\in\mathbb{R}^{4\times 2}$ es la matriz de ganancia parametrizada por un escalar $\epsilon > 0$. A diferencia del caso lineal, la estabilidad del error de observación $e = x - \hat{x}\in\mathbb{R}^{4}$ se analiza mediante una función candidata de Lyapunov $V(e)=e^{\top}Pe$, con $P=P^{\top}>0$. La dinámica del error resulta en:
 \begin{equation}
-    \dot{e} = \bigl[f(x)-f(\hat{x})\bigr] + \bigl[g(x)-g(\hat{x})\bigr]u - L\mathbf{H}\,e + d(t),
+    \dot{e} = \bigl[f(x)-f(\hat{x})\bigr] + \bigl[g(x)-g(\hat{x})\bigr]u - L_{\epsilon}\mathbf{H}\,e + d(t),
     \label{eq:error_obs}
 \end{equation}
-donde $[f(x)-f(\hat{x})]$ es Lipschitz en $e$ sobre una región compacta de operación. Se elige $L$ tal que $\dot{V}(e)=\dot{e}^{\top}Pe+e^{\top}P\dot{e}<0$ a lo largo de las trayectorias del error, asegurando convergencia exponencial $\|e(t)\|\leq\beta\,\|e(0)\|\,e^{-\lambda t}$ con $\beta,\lambda>0$. El análisis de observabilidad local del sistema alrededor de la trayectoria de operación será verificado previo a la implementación. Adicionalmente, se considerará la atenuación del \textit{peaking phenomenon} propio de los HGO mediante saturación de la ganancia $L$ durante el transitorio inicial.
+donde el término $\bigl[f(x)-f(\hat{x})\bigr]$ satisface la condición de Lipschitz sobre una región compacta de operación $\mathcal{D}$. El parámetro $\epsilon$ se sintoniza para que el término de corrección lineal domine a la constante de Lipschitz de las dinámicas no lineales. Dado que la perturbación $d(t)$ es desconocida pero acotada, el análisis garantiza que $\dot{V}(e)$ sea estrictamente negativa fuera de una región invariante, asegurando una convergencia práctica exponencial (Uniformly Ultimately Bounded) hacia una vecindad residual $\|e(t)\| \leq \mu(\epsilon)$ a medida que $t \to \infty$. Adicionalmente, para mitigar el \textit{peaking phenomenon} inherente a la alta ganancia, se implementarán funciones de saturación sobre las estimaciones durante el régimen transitorio inicial.
 
 La estimación se apoyará en la instrumentación disponible: encoders incrementales (posición articular), sensores de corriente (inferencia de esfuerzo en actuadores) y sensores inerciales (información cinemática complementaria). Esto permite reconstruir $\dot{q}$ y $\tau_d$ sin sensores adicionales que compliquen la operación clínica.
 
 \subsubsection{Integración del gobernador de trayectoria}
 
-El gobernador de referencia actúa como capa de seguridad entre la trayectoria prescrita $r(t)$ y la referencia efectivamente enviada al controlador $v(t)$. El sistema opera en tiempo discreto con período de muestreo $T_s$, y se define el vector de estado extendido $z(t)=\bigl(q(t),\dot{q}(t),\tau(t)\bigr)\in\mathbb{R}^{6}$, donde los índices $t+k$ corresponden a $k$ pasos de tiempo de tamaño $T_s$. En cada instante, el gobernador resuelve el siguiente problema de factibilidad escalar:
+El gobernador de referencia actúa como una capa de supervisión y segurida entre la trayectoria prescrita $r(t)$ y la referencia efectivamente enviada al controlador $v(t)$. El algoritmo opera en tiempo discreto con período de muestreo $T_s$. Se define el vector de variables restringidas $z(t)=\bigl[q(t)^{\top},\dot{q}(t)^{\top},\tau(t)^{\top}\bigr]^{\top}\in\mathbb{R}^{6}$. En cada instante de muestreo $t$, el gobernador resuelve el siguiente problema de optimización escalar:
 
 \begin{equation}
-    \kappa^{*}(t) = \max\bigl\{\kappa \in [0,1] \;\big|\; \text{para todo } k\in\{0,\ldots,N\}:\; z(t+k)\in\mathcal{Z}\bigr\},
+    \kappa^{*}(t) = \max\bigl\{\kappa \in [0,1] \;\big|\; \forall k\in\{0,\ldots,N\}:\; \hat{z}(t+k|t, \kappa)\in\mathcal{Z}\bigr\},
     \label{eq:governor}
 \end{equation}
 \begin{equation}
@@ -563,14 +568,14 @@ El gobernador de referencia actúa como capa de seguridad entre la trayectoria p
     \label{eq:governor2}
 \end{equation}
 
-\noindent donde $z(t)$ es la trayectoria predicha del sistema a lazo cerrado y $\mathcal{Z}$ es el conjunto de restricciones de seguridad biomecánica, definido como:
+\noindent donde $\hat{z}(t+k|t, \kappa)$ es la trayectoria predicha del sistema a lazo cerrado en el horizonte futuro $k$, condicionada al estado actual y a la aplicación de una referencia virtual ponderada por $\kappa$. El conjunto invariante $\mathcal{Z}$ agrupa las restricciones de seguridad biomecánica y electromecánica:
 
 \begin{equation}
     \mathcal{Z} = \bigl\{(q,\dot{q},\tau) \;\big|\; q_{\min}\leq q \leq q_{\max},\; |\dot{q}|\leq \dot{q}_{\max},\; |\tau|\leq \tau_{\max}\bigr\},
     \label{eq:Zset}
 \end{equation}
 
-\noindent con $q_{\min}$, $q_{\max}$ determinados por los rangos fisiológicos articulares seguros, $\tau_{\max}$ por la capacidad nominal de los actuadores, y $N$ el horizonte de predicción finito, seleccionado en función de la dinámica del sistema y el periodo de muestreo. Cuando $\kappa^{*}=1$ el gobernador es transparente; cuando $\kappa^{*}<1$ suaviza la referencia para mantener al sistema dentro de $\mathcal{Z}$, previniendo movimientos bruscos o sobrecargas \citep{garone2017reference}. La predicción de $z(t+k)$ se realizará utilizando el modelo del gemelo digital descrito en la sección siguiente.
+\noindent con $q_{\min}$ y $q_{\max}$ determinados por los rangos de movilidad articular (ROM) seguros del paciente, $\tau_{\max}$ definido por los límites de saturación de los actuadores y el umbral de dolor por torque, y $N$ el horizonte de predicción finito. Cuando $\kappa^{*}=1$, la referencia es fisiológicamente factible y el gobernador es transparente; cuando $\kappa^{*}<1$, la acción se suaviza para mantener al sistema estrictamente dentro de $\mathcal{Z}$, evitando sobrecargas o singularidades \citep{garone2017reference}. La propagación computacional de la predicción $\hat{z}(t+k|t, \kappa)$ se realizará en tiempo real evaluando la dinámica del gemelo digital descrito a continuación.
 
 \subsubsection{Construcción del gemelo digital}
 \label{sec:gemelo_digital}
@@ -600,7 +605,7 @@ La fidelidad del DT depende de la corrección continua entre su salida y la medi
 \noindent donde $y(t)=\mathbf{H}x(t)\in\mathbb{R}^{2}$ es la salida medida del sistema físico y $\rho_{\max}\in\mathbb{R}_{>0}$ es el umbral de sincronización, ajustado en función de la incertidumbre paramétrica aceptable del modelo. Cuando $\|\rho(t)\|>\rho_{\max}$, se activa una rutina de re-identificación paramétrica. Simultáneamente, el sistema analiza la evolución temporal de $\rho(t)$ para detectar anomalías mecánicas —desgaste, desalineación, espasmos del usuario— que no serían detectables únicamente mediante encoders.
 
 \paragraph{Predicción para el gobernador.}
-Ante cada solicitud de referencia $r(t)$, el gemelo simula $N$ pasos hacia adelante con el estado actual $\hat{x}_{DT}(t)$ y el torque propuesto, generando la secuencia $z(t+k)$, $k=0,\ldots,N$, requerida por la \cref{eq:governor}. Esto elimina la necesidad de resolver iterativamente el sistema físico real y reduce la latencia del ciclo de gobernanza.
+Ante cada solicitud de referencia $r(t)$, el gemelo propaga $N$ pasos hacia adelante partiendo del estado actual $\hat{x}_{DT}(t)$ bajo la referencia virtual propuesta, generando la secuencia predictiva $\hat{z}(t+k|t, \kappa)$, para $k=0,\ldots,N$, requerida por la \cref{eq:governor}. Esto elimina el riesgo de evaluar políticas directamente sobre el sistema físico real y garantiza latencias viables para el ciclo de gobernanza.
 
 La Figura~\ref{fig:dt} ilustra la arquitectura del gemelo digital integrada al sistema REHAP.
 
@@ -641,15 +646,15 @@ La Figura~\ref{fig:dt} ilustra la arquitectura del gemelo digital integrada al s
         \draw[->] (dtfork) -| (sum.south);
         %% ---- rho(t): sumador -> supervision ----
         \draw[->] (sum.east) -- node[above]{$\rho(t)$} (agt.west);
-        %% ---- z(t+k): gemelo -> gobernador ----
-        \draw[->] (dt.south) -- node[right, font=\scriptsize]{$z(t+k)$} (gov.north);
+        %% ---- \hat{z}(t+k|t, \kappa): gemelo -> gobernador ----
+        \draw[->] (dt.south) -- node[right, font=\scriptsize]{$\hat{z}(t+k|t, \kappa)$} (gov.north);
         %% ---- Sincronización bilateral ----
         \draw[<->, dashed, gray!60]
         (phy.west) -- ++(-0.9, 0) |-
         node[left, font=\scriptsize, pos=0.5]{sync}
         (dt.west);
     \end{tikzpicture}
-    \caption{Gemelo digital integrado al sistema REHAP: sincronización con el sistema físico, generación del residuo $\rho(t)$ para el agente IA y predicción de $z(t+k)$ para el gobernador.}
+    \caption{Gemelo digital integrado al sistema REHAP: sincronización con el sistema físico, generación del residuo $\rho(t)$ para el bloque de supervisión analítica y propagación de la predicción paramétrica $\hat{z}(t+k|t, \kappa)$ hacia el gobernador.}
     \label{fig:dt}
 \end{figure}
 
@@ -658,54 +663,57 @@ La implementación se realizará sobre una arquitectura de co-simulación donde 
 
 \subsubsection{Protocolos de seguridad y mecanismos de \textit{hard stop}}
 
-La operación del dispositivo incorporará un conjunto de mecanismos redundantes de seguridad destinados a prevenir movimientos no deseados y proteger al usuario en todo momento. El sistema contará con cuatro niveles de detención:
+La operación del dispositivo incorporará un conjunto de mecanismos redundantes de seguridad, diseñados para cumplir con los estándares de interacción humano-robot y prevenir cualquier riesgo biomecánico. El sistema contará con cuatro anillos de seguridad jerárquica:
 
 \begin{itemize}
-    \item \textbf{Corte físico de corriente}. Será el mecanismo prioritario. El terapeuta dispondrá de un interruptor dedicado para desenergizar inmediatamente el sistema ante cualquier situación crítica.
+    \item \textbf{Corte físico de potencia (E-Stop de hardware)}. Constituye la capa de máxima prioridad. El terapeuta dispondrá de un seccionador galvánico (botón tipo hongo) que interrumpe físicamente la alimentación eléctrica hacia los controladores de los actuadores, garantizando la inmovilización inmediata de la plataforma ante situaciones críticas.
 
-    \item \textbf{Paro de emergencia lógico}. Tanto el paciente como el terapeuta tendrán acceso a un botón de paro accesible en todo momento. Este mecanismo detendrá la rutina en ejecución y ordenará el retorno controlado a la posición inicial del sistema.
+    \item \textbf{Paro lógico comandado (Soft Stop)}. Botón de emergencia accesible tanto para el paciente como para el terapeuta. Al activarse, el microcontrolador inhibe el algoritmo de trayectoria y conmuta a un estado de alta compliancia mecánica (torque referenciado a cero), permitiendo la liberación manual y segura de la extremidad del usuario.
 
-    \item \textbf{Detención por parte del observador}. Cuando el observador identifique señales compatibles con inestabilidad, aceleraciones no previstas, incrementos súbitos de corriente o cualquier patrón asociado a una falla, ejecutará una parada segura y ordenará el retorno a casa.
+    \item \textbf{Detección y Aislamiento de Fallas (FDI) cinemático}. El observador de estados (HGO) monitoreará continuamente el comportamiento dinámico. Si el estimador identifica aceleraciones espurias, picos anómalos de corriente o violaciones a los límites de posición, el lazo interno ordenará un frenado activo para disipar la energía cinética del sistema de manera segura.
 
-    \item \textbf{Detención predictiva}. El módulo de supervisión analizará patrones temporales en la interacción y señales de desempeño. Si detecta desviaciones repetitivas, resistencia involuntaria o comportamiento atípico del actuador, activará un protocolo seguro deteniendo el movimiento y regresando al estado inicial.
+    \item \textbf{Supervisión analítica mediante Gemelo Digital}. El módulo de supervisión evaluará el residuo de sincronización $\rho(t)$ en tiempo real. Ante umbrales prolongados de error causados por resistencia involuntaria, fatiga o espasticidad, el Gobernador de Referencia forzará progresivamente el parámetro $\kappa^{*} \to 0$, ejecutando una desaceleración algorítmica suave sin generar tirones articulares.
 \end{itemize}
 
-Estos mecanismos permiten cubrir fallas físicas, lógicas, dinámicas y predictivas, ofreciendo un marco de seguridad adecuado para futuras evaluaciones con usuarios.
-
+Estos cuatro anillos de redundancia operativa mitigan de manera determinista los riesgos de hardware, software y dinámica de interacción, estableciendo un marco de seguridad clínica indispensable para la validación con usuarios humanos.
 
 
 \subsection{Validación experimental y pre-clínica}
 
-\subsubsection{Evaluación integral del sistema}
-Una vez integradas las mejoras en control, mecánica y electrónica, se realizará una evaluación completa midiendo métricas de seguimiento de trayectoria, estabilidad del control, robustez ante perturbaciones y seguridad operativa.
+\subsubsection{Evaluación en banco de pruebas (Benchmarking)}
+Previo a cualquier interacción humana, se ejecutará una validación algorítmica y electromecánica exhaustiva en banco de pruebas. El prototipo REHAP se someterá a trayectorias de marcha estandarizadas para cuantificar el error cuadrático medio (RMSE) de seguimiento, el ancho de banda del lazo de control, la atenuación espectral de las perturbaciones inyectadas y la robustez del observador de estados (HGO) ante fricción no lineal y variaciones paramétricas.
 
-\subsubsection{Pruebas con pacientes sanos}
-Se realizarán pruebas controladas con sujetos sanos bajo supervisión clínica, con el objetivo de ajustar parámetros, evaluar comodidad y verificar la operación segura del dispositivo, siguiendo metodologías establecidas en robótica de rehabilitación \citep{cruz_methodology_2017}. El protocolo experimental contemplará los siguientes elementos:
+\subsubsection{Pruebas pre-clínicas con sujetos sanos}
+Superada la validación técnica, se realizarán pruebas controladas con voluntarios sanos bajo estricta supervisión. El objetivo de esta fase metodológica es verificar empíricamente la efectividad del gobernador de referencia, caracterizar la compliancia del sistema y comprobar la operación de los protocolos FDI \citep{cruz_methodology_2017}. El diseño experimental contemplará:
 
 \begin{itemize}
-    \item \textbf{Tamaño de muestra}: $n \geq 10$ participantes sanos (estimación inicial por potencia estadística, sujeta a ajuste tras análisis formal).
-    \item \textbf{Criterios de inclusión}: adultos de 18 a 45 años, sin lesiones musculoesqueléticas activas en extremidad inferior, sin contraindicaciones neurológicas, con consentimiento informado firmado.
-    \item \textbf{Criterios de exclusión}: embarazo, implantes metálicos en el miembro inferior, trastornos de coagulación, hipertensión no controlada o cualquier condición que contraindique ejercicio pasivo asistido.
-    \item \textbf{Métricas de evaluación}: RMSE y error máximo de seguimiento de trayectoria articular (°), suavidad del movimiento (jerk normalizado), tiempos de reacción de los mecanismos de detención de emergencia, y escala subjetiva de comodidad (EVA 0–10).
-    \item \textbf{Ética}: el protocolo será sometido al Comité de Bioética Institucional de la Universidad Politécnica de Pachuca previo al inicio de las pruebas con usuarios. No se realizará ninguna sesión con sujetos humanos sin contar con la aprobación formal correspondiente.
+    \item \textbf{Tamaño de muestra}: $n \geq 10$ voluntarios sanos (estimación inicial sujeta a análisis prospectivo de potencia estadística).
+    \item \textbf{Criterios de inclusión}: Adultos de 18 a 45 años, sin historial de lesiones musculoesqueléticas severas en extremidad inferior, sin patologías neurológicas y que emitan firma de consentimiento informado.
+    \item \textbf{Criterios de exclusión}: Embarazo, implantes ortopédicos o metálicos en el miembro inferior, osteoporosis severa o cualquier condición que contraindique el ejercicio pasivo asistido.
+    \item \textbf{Métricas de evaluación}: Error máximo de seguimiento articular (°), suavidad de la trayectoria (métricas SPARC o Jerk normalizado), tiempos de latencia del anillo FDI ante umbrales de sobrecarga, y escala subjetiva de confort humano (EVA).
+    \item \textbf{Aprobación ética}: El protocolo detallado de experimentación será sometido al Comité de Ética en Investigación de la Universidad Politécnica de Pachuca. No se realizará ninguna prueba con sujetos humanos sin el dictamen aprobatorio oficial.
 \end{itemize}
 
 \newpage
-
 
 \subsection{Cronograma de actividades}
 \begin{table}[H]
     \centering
     \includegraphics[width=1\linewidth]{imagenes/cronograma.pdf}
-    \caption{Cronograma de actividades.}
+    \caption{Cronograma de actividades correspondientes al desarrollo del protocolo de tesis.}
     \label{tab:cronograma}
 \end{table}
 
-\subsection{Productos esperados}
+\subsection{Productos académicos esperados}
+Como resultado del desarrollo del presente proyecto de investigación doctoral, se espera generar los siguientes productos comprobables:
 \begin{itemize}
-    \item Artículo JCR en relación con la implementación de la arquitectura de control en el sistema REHAP.
-    \item Artículo JCR en relación con la validación del sistema REHAP en sujetos sanos.
+    \item \textbf{Artículo científico en revista de alto impacto (JCR Q1/Q2):} Publicación o aceptación de un artículo orientado a la síntesis matemática, el análisis de estabilidad teórica y la evaluación algorítmica de la arquitectura de control propuesta para el sistema REHAP.
+    \item \textbf{Artículo científico en revista indexada:} Publicación o aceptación de un artículo enfocado en los resultados de la validación experimental, el análisis de seguridad interactiva y la evaluación preclínica del prototipo con sujetos sanos.
+    \item \textbf{Difusión en foros especializados:} Participación como ponente en congresos nacionales e internacionales para la presentación de avances, así como la realización de estancias de investigación para el intercambio de conocimientos.
+    \item \textbf{Propiedad Industrial:} Solicitud de registro de patente correspondiente al diseño, integración y funcionamiento del sistema REHAP.
+    \item \textbf{Derechos de Autor:} Registro del software desarrollado para la arquitectura de control, estimación de estados y gobernanza de trayectoria.
 \end{itemize}
+
 
 \newpage
 \begin{thebibliography}{99}
