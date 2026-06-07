@@ -230,13 +230,13 @@ En el contexto de este proyecto, el sistema REHAP implementa un controlador \tex
 
 
 
-Si bien el controlador \textit{Backstepping} proporciona una base algorítmica sólida, los movimientos en un entorno de rehabilitación exigen ser inherentemente suaves, cíclicos y rigurosamente consistentes con los patrones fisiológicos naturales. La precisión en el seguimiento de trayectoria no solo es un parámetro de desempeño de ingeniería, sino un requisito clínico estricto para evitar micro-lesiones o tensiones articulares inducidas. En consecuencia, el esquema de control en lazo cerrado debe tener la capacidad intrínseca de compensar dinámicas no modeladas, variaciones estocásticas en la rigidez articular y esfuerzos introducidos inadvertidamente por el paciente o el entorno clínico.
+Si bien el controlador \textit{Backstepping} proporciona una base algorítmica sólida, los movimientos en un entorno de rehabilitación exigen ser inherentemente suaves, cíclicos y rigurosamente consistentes con los patrones fisiológicos naturales. La precisión en el seguimiento de trayectoria no solo es un parámetro de desempeño de ingeniería, sino un requisito clínico estricto para evitar micro-lesiones o tensiones articulares inducidas. \citep{zhang2025sliding} En consecuencia, el esquema de control en lazo cerrado debe tener la capacidad intrínseca de compensar dinámicas no modeladas, variaciones estocásticas en la rigidez articular y esfuerzos introducidos inadvertidamente por el paciente o el entorno clínico.
 
 Para satisfacer estos estrictos requisitos operativos y de seguridad, la ley de control primaria debe complementarse con herramientas estructurales avanzadas, en específico, \textit{observadores de estado} y \textit{gobernadores de trayectoria}. Estas extensiones arquitectónicas amplían la capacidad del sistema, permitiendo estimar variables no medidas de la interacción y, de manera concurrente, ajustar en tiempo real las referencias de movimiento ante condiciones críticas, adaptándose a cambios súbitos en la carga, alteraciones no deseadas en la velocidad de ejecución y respuestas biomecánicas involuntarias del paciente.
 
 \subsubsection{Observadores de estado para sistemas de rehabilitación}
 
-En la práctica clínica, la instrumentación de dispositivos de rehabilitación con múltiples sensores físicos adicionales (como celdas de torque o tacómetros) se encuentra severamente limitada por restricciones ergonómicas, incremento de masa inercial, altos costos de hardware y protocolos de seguridad del paciente. Asimismo, depender exclusivamente de hardware sensorial físico puede introducir ruido estocástico que degrada el esquema de control. Como solución analítica frente a estas limitaciones, los observadores de estado surgen como herramientas de software profundo: a partir de mediciones primarias de fácil obtención (como la posición articular), estos algoritmos permiten estimar con alta fidelidad las velocidades, los torques de interacción e incluso perturbaciones externas no estructuradas \citep{slotine1991applied}. La Figura~\ref{fig:obs} ilustra el principio clásico del observador de Luenberger —válido para sistemas lineales— donde la señal de corrección $L(y-\hat{y})$ cierra el lazo sobre el estimado $\hat{x}$. Para abordar la dinámica del sistema no lineal REHAP, este principio fundamental se generaliza mediante un \textbf{observador de alta ganancia} (HGO), cuya formulación matemática y diseño se detalla en la Sección~\ref{sec:obs_hgo}.
+En la práctica clínica, la instrumentación de dispositivos de rehabilitación con múltiples sensores físicos adicionales (como celdas de torque o tacómetros) se encuentra severamente limitada por restricciones ergonómicas, incremento de masa inercial, altos costos de hardware y protocolos de seguridad del paciente. Asimismo, depender exclusivamente de hardware sensorial físico puede introducir ruido estocástico que degrada el esquema de control \citep{Brahmi2026}. Como solución analítica frente a estas limitaciones, los observadores de estado surgen como herramientas de software profundo: a partir de mediciones primarias de fácil obtención (como la posición articular), estos algoritmos permiten estimar con alta fidelidad las velocidades, los torques de interacción e incluso perturbaciones externas no estructuradas \citep{slotine1991applied}. La Figura~\ref{fig:obs} ilustra el principio clásico del observador de Luenberger —válido para sistemas lineales— donde la señal de corrección $L(y-\hat{y})$ cierra el lazo sobre el estimado $\hat{x}$. Para abordar la dinámica del sistema no lineal REHAP, este principio fundamental se generaliza mediante un \textbf{observador de alta ganancia} (HGO), cuya formulación matemática y diseño se detalla en la Sección~\ref{sec:obs_hgo}.
 
 \begin{figure}[H]
     \centering
@@ -311,9 +311,9 @@ Entre los observadores más utilizados se encuentran:
 
 \subsubsection{Gobernadores de trayectoria}
 
-Los gobernadores de trayectoria funcionan como una capa adicional de seguridad dentro del sistema de control. Su tarea principal es ajustar dinámicamente la referencia de movimiento en función de las condiciones presentes. Esto permite limitar aceleraciones, velocidades o amplitudes cuando el sistema detecta que se aproxima a una condición potencialmente riesgosa para el usuario.
+Los gobernadores de referencia (RG, por sus siglas en inglés) operan como un filtro dinámico no lineal interpuesto entre el generador de trayectorias y el lazo de control primario. Su núcleo algorítmico consiste en modular la señal de referencia original $r(t)$ para sintetizar un comando modificado $v(t)$. Este comando garantiza que el controlador interno opere invariablemente dentro de un conjunto estricto de restricciones $Y$, el cual delimita las capacidades físicas y cinemáticas seguras del paciente \citep{garone2017reference}.
 
-Los gobernadores han sido estudiados como herramientas para garantizar que los sistemas respeten restricciones físicas, cinemáticas o de seguridad \citep{garone2017reference}. Su aplicación en robots de rehabilitación contribuye a prevenir movimientos bruscos, sobrecargas o alcances articulares no deseados, haciendo más segura la interacción humano–robot. En la Figura \ref{fig:gbt} se muestra el esquema general de un gobernador de trayectoria en lazo cerrado.
+A diferencia de los métodos de saturación clásica o los paros de emergencia abruptos —que reaccionan al error de forma tardía—, el gobernador emplea un modelo predictivo del sistema para atenuar las referencias de manera preventiva. En el ámbito de la rehabilitación robótica, esta gestión explícita de restricciones es imperativa: previene aceleraciones desmedidas, picos de torque y la vulneración del rango fisiológico articular, preservando rigurosamente la integridad física del usuario. La Figura \ref{fig:gbt} ilustra la topología estándar de este esquema de protección algorítmica.
 
 \begin{figure}[H]
     \centering
@@ -321,13 +321,13 @@ Los gobernadores han sido estudiados como herramientas para garantizar que los s
         \node (r) at (0,0) {$r(t)$};
         \node[draw, fill=green!25, rectangle,
             minimum height=3em, minimum width=5.5em, align=center]
-        (gov) at (2.9,0) {Reference\\governor};
+        (gov) at (2.9,0) {Governador\\referencia};
         \node[draw, fill=blue!15, rectangle,
             minimum height=3em, minimum width=4.5em, align=center]
-        (ctrl) at (6.5,0) {Controller};
+        (ctrl) at (6.5,0) {Controlador};
         \node[draw, fill=blue!15, rectangle,
             minimum height=3em, minimum width=4em, align=center]
-        (plant) at (10.0,0) {Plant};
+        (plant) at (10.0,0) {Planta};
         \node (z) at (12.3,0) {$z(t)$};
         \node (w) at (10.0,2.0) {$w(t)$};
         \coordinate (spl) at (11.3,0);
@@ -351,7 +351,7 @@ Los gobernadores han sido estudiados como herramientas para garantizar que los s
 
 \subsubsection{Arquitectura de control en cascada}
 
-La integración de los componentes descritos se organiza en una arquitectura de control en cascada: múltiples lazos anidados operan en distintas escalas de tiempo, donde los lazos rápidos garantizan seguimiento de trayectoria y los lazos lentos aseguran seguridad clínica y adaptación terapéutica \citep{khalil2002nonlinear}. El principio de estabilidad en cascada establece que si cada subsistema es globalmente asintóticamente estable (GAS) de forma independiente y las soluciones son acotadas, el sistema completo es GAS \citep{khalil2002nonlinear}. Esto permite diseñar y validar cada nivel semiindependientemente, reduciendo la complejidad del análisis global.
+La integración del controlador \textit{Backstepping}, los observadores de estado y el gobernador de referencia cristaliza en una arquitectura jerárquica en cascada. Esta topología distribuye el esfuerzo de control en múltiples lazos anidados que operan en distintas escalas de tiempo: los lazos internos rápidos (observador y controlador) aseguran el seguimiento estricto de trayectoria y el rechazo de perturbaciones mecánicas, mientras que el lazo externo más lento (gobernador) gestiona la adaptación terapéutica y garantiza el cumplimiento inquebrantable de las restricciones de seguridad \citep{khalil2002nonlinear}. Matemáticamente, el teorema de estabilidad para sistemas en cascada establece que si cada subsistema es global y asintóticamente estable (GAS) de forma aislada, y las variables de interconexión son acotadas, entonces el origen del sistema completo interconectado también es GAS \citep{khalil2002nonlinear}. Este principio metodológico es fundamental, ya que permite sintetizar, sintonizar y validar la seguridad clínica de cada submódulo de manera independiente antes de acoplarlos en la plataforma de rehabilitación global.
 
 En robótica de rehabilitación, las arquitecturas jerárquicas han demostrado ser eficaces para combinar objetivos de alto nivel (terapéuticos) con restricciones de bajo nivel (físicas y de seguridad), permitiendo que dispositivos como exoesqueletos adapten su comportamiento según el estado del paciente sin comprometer la estabilidad del lazo de control interno \citep{slotine1991applied}.
 
@@ -821,6 +821,19 @@ Se realizarán pruebas controladas con sujetos sanos bajo supervisión clínica,
     \newblock Robotics in Physical Rehabilitation: Systematic Review.
     \newblock \emph{Healthcare (Basel, Switzerland)}, 12(17), 1720.
     \newblock \url{https://doi.org/10.3390/healthcare12171720}
+
+    \bibitem[Zhang et al.(2025)]{zhang2025sliding}
+    Zhang, F., Wang, T., Zhang, L., Shi, E., Wang, C., Li, N., Lu, Y., \& Zhang, B. (2025).
+    \newblock Sliding-mode control based on prescribed performance function and its application to a SEA-Based lower limb exoskeleton.
+    \newblock \emph{Frontiers in Robotics and AI}, 12, 1534040.
+    \newblock \url{https://doi.org/10.3389/frobt.2025.1534040}
+
+    \bibitem[Brahmi(2026)]{Brahmi2026}
+    Brahmi, B. (2026).
+    \newblock Sensorless collaborative impedance control of rehabilitation robots via LQR and model-based sliding manifold.
+    \newblock \emph{IEEE Access}, 14, 10760--10781.
+    \newblock doi: 10.1109/ACCESS.2026.3655024
+
 \end{thebibliography}
 
 \end{document}
