@@ -321,7 +321,7 @@ A diferencia de los métodos de saturación clásica o los paros de emergencia a
         \node (r) at (0,0) {$r(t)$};
         \node[draw, fill=green!25, rectangle,
             minimum height=3em, minimum width=5.5em, align=center]
-        (gov) at (2.9,0) {Governador\\referencia};
+        (gov) at (2.9,0) {Governador\\de referencia};
         \node[draw, fill=blue!15, rectangle,
             minimum height=3em, minimum width=4.5em, align=center]
         (ctrl) at (6.5,0) {Controlador};
@@ -353,7 +353,7 @@ A diferencia de los métodos de saturación clásica o los paros de emergencia a
 
 La integración del controlador \textit{Backstepping}, los observadores de estado y el gobernador de referencia cristaliza en una arquitectura jerárquica en cascada. Esta topología distribuye el esfuerzo de control en múltiples lazos anidados que operan en distintas escalas de tiempo: los lazos internos rápidos (observador y controlador) aseguran el seguimiento estricto de trayectoria y el rechazo de perturbaciones mecánicas, mientras que el lazo externo más lento (gobernador) gestiona la adaptación terapéutica y garantiza el cumplimiento inquebrantable de las restricciones de seguridad \citep{khalil2002nonlinear}. Matemáticamente, el teorema de estabilidad para sistemas en cascada establece que si cada subsistema es global y asintóticamente estable (GAS) de forma aislada, y las variables de interconexión son acotadas, entonces el origen del sistema completo interconectado también es GAS \citep{khalil2002nonlinear}. Este principio metodológico es fundamental, ya que permite sintetizar, sintonizar y validar la seguridad clínica de cada submódulo de manera independiente antes de acoplarlos en la plataforma de rehabilitación global.
 
-En robótica de rehabilitación, las arquitecturas jerárquicas han demostrado ser eficaces para combinar objetivos de alto nivel (terapéuticos) con restricciones de bajo nivel (físicas y de seguridad), permitiendo que dispositivos como exoesqueletos adapten su comportamiento según el estado del paciente sin comprometer la estabilidad del lazo de control interno \citep{slotine1991applied}.
+En el campo de la robótica de rehabilitación, la estructuración jerárquica es el mecanismo más robusto para desacoplar las exigencias de alto nivel (el cumplimiento de rutinas terapéuticas cíclicas) de las restricciones críticas de bajo nivel (como las limitantes cinemáticas articulares). Esta partición permite que el dispositivo module su comportamiento biomecánico frente al esfuerzo o resistencia del paciente, sin comprometer jamás la estabilidad matemática del lazo de control primario.
 
 La Figura~\ref{fig:arch} presenta la arquitectura propuesta para REHAP con cinco capas funcionales:
 
@@ -363,7 +363,7 @@ La Figura~\ref{fig:arch} presenta la arquitectura propuesta para REHAP con cinco
         \tikzset{lvl/.style={draw, rectangle, minimum height=2.6em,
                     minimum width=8.5em, align=center}}
         %% Bloques en cascada (eje central)
-        \node[lvl, fill=purple!15] (agt) at (0, 7.5) {Agente\\Inteligente};
+        \node[lvl, fill=purple!15] (agt) at (0, 7.5) {Planificador\\Terapéutico};
         \node[lvl, fill=green!20]  (gov) at (0, 5.5) {Gobernador\\de Referencia};
         \node[lvl, fill=blue!18]   (ctr) at (0, 3.5) {Control\\Backstepping};
         \node[lvl, fill=orange!15] (plt) at (0, 1.5) {Planta REHAP};
@@ -392,14 +392,14 @@ La Figura~\ref{fig:arch} presenta la arquitectura propuesta para REHAP con cinco
 \end{figure}
 
 \begin{itemize}
-    \item \textbf{Objetivos terapéuticos}: definen la referencia de movimiento $r(t)$ a seguir por el dispositivo.
-    \item \textbf{Gobernador de Referencia}: filtra $r(t)$ para producir la referencia segura $v(t)$, garantizando que el sistema respete el conjunto de restricciones $\mathcal{Z}$ \citep{garone2017reference}.
-    \item \textbf{Control Backstepping}: ejecuta el seguimiento de $v(t)$ generando el torque $\tau(t)$, con garantías de estabilidad vía función de Lyapunov \citep{slotine1991applied}.
-    \item \textbf{Planta REHAP}: sistema físico que recibe $\tau(t)$ y produce la salida medible $y(t)$, sujeta a perturbaciones $d(t)$ propias de la interacción humano-robot.
-    \item \textbf{Observador de Alta Ganancia (HGO)}: reconstruye el vector de estados $\hat{x}(t)$ —incluyendo velocidades articulares y perturbaciones— a partir de $y(t)$, retroalimentando al controlador y al gobernador con garantías de convergencia exponencial.
+    \item \textbf{Planificador Terapéutico}: Entidad de alto nivel que traduce los objetivos clínicos de la sesión de rehabilitación (p. ej., rutinas de movimiento continuo) en una trayectoria cinemática nominal $r(t)$.
+    \item \textbf{Gobernador de Referencia (RG)}: Modula dinámicamente $r(t)$ para producir una referencia segura $v(t)$, garantizando matemáticamente que el sistema opere sin violar el conjunto de restricciones fisiológicas y mecánicas $\mathcal{Z}$ \citep{garone2017reference}.
+    \item \textbf{Control \textit{Backstepping}}: Constituye el lazo rápido de ejecución. Sintetiza la acción de control para el seguimiento estricto de $v(t)$, calculando la ley de torque articular $\tau(t)$ con garantías analíticas de estabilidad dictadas por la teoría de Lyapunov \citep{slotine1991applied}.
+    \item \textbf{Planta REHAP}: Representa la dinámica no lineal acoplada humano-máquina. Recibe los esfuerzos de control $\tau(t)$ y emite las salidas medibles $y(t)$ (posición), encontrándose permanentemente sujeta a perturbaciones no estructuradas $d(t)$ derivadas de la biomecánica incierta del paciente.
+    \item \textbf{Observador de Alta Ganancia (HGO)}: Filtro de estado que reconstruye el vector dinámico completo $\hat{x}(t)$ —incluyendo velocidades articulares y perturbaciones exógenas— a partir de $y(t)$. Su convergencia exponencial provee la retroalimentación requerida tanto por el controlador interno como por el gobernador externo.
 \end{itemize}
 
-En conjunto, el modelado dinámico, el control backstepping, el observador de estados y el gobernador de referencia ---integrados bajo la arquitectura en cascada--- constituyen los pilares del sistema propuesto, permitiendo un dispositivo de rehabilitación clínicamente seguro, robusto y adaptativamente eficiente.
+En conjunto, la formulación matemática de esta topología en cascada articula armónicamente la robustez del control \textit{Backstepping}, la seguridad intrínseca del gobernador de referencia y la fidelidad de estimación del observador de estados. Esta integración establece los cimientos teóricos para transformar una plataforma mecatrónica convencional en un dispositivo de rehabilitación clínicamente seguro y terapéuticamente adaptable.
 
 
 \subsection{Estado del Arte de Dispositivos Robóticos para Rehabilitación}
@@ -407,35 +407,58 @@ En conjunto, el modelado dinámico, el control backstepping, el observador de es
 En la Tabla \ref{tab:estado} se presenta una clasificación de los distintos dispositivos y propuestas de robots de rehabilitación encontrados en la literatura, organizados según la articulación que abordan (rodilla, tobillo, combinado o general). Esta sistematización permite identificar con claridad las áreas de mayor investigación y aquellas que presentan vacíos o limitaciones. La relevancia de esta clasificación para nuestro estudio radica en que nos brinda un panorama comparativo, mostrando cómo la mayoría de los dispositivos se concentran en soluciones generales o en enfoques parciales (tobillo o rodilla), mientras que pocos trabajos integran de manera completa aspectos de control avanzado, facilidad de uso y posibilidad de personalización clínica.
 \newpage
 
-\begin{table}[htbp]
+
+
+\begin{table}[h!]
     \centering
-    \scriptsize
-    \setlength{\tabcolsep}{3pt}
-    \renewcommand{\arraystretch}{1.1}
-    \begin{tabular}{p{.38\linewidth} p{.08\linewidth} p{.22\linewidth} p{.32\linewidth}}
-        \hline
-        \textbf{Trabajo}                                                                                                                      & \textbf{Año} & \textbf{Articulación} & \textbf{Principales características}                                                                                        \\
-        \hline
-        Prototipo para rehabilitación de miembros inferiores en lactantes hipotónicos \citep{garcia2022}                                      & 2022         & Combinado             & Robot paralelo; flexión–extensión cadera/rodilla/tobillo; enfocado en lactantes; proponen HMI y materiales más resistentes. \\
-        Modelo y simulación de un robot terapéutico para la rehabilitación de miembros inferiores \citep{revistaEIA}                          & 2013         & General               & 3 GDL; par calculado con polinomio de Hurwitz; simulación en MATLAB; seguimiento de trayectorias.                           \\
-        TobiBot \citep{tobiBot2014}                                                                                                           & 2014         & Tobillo               & 1 GDL; dorsiflexión/plantarflexión; interfaz tipo videojuego; seguridad básica.                                             \\
-        Prototipo robotizado para la rehabilitación de lesiones de rodilla enfocado al fortalecimiento muscular \citep{unipamplona}           & 2022         & Rodilla               & Prototipo con IA/IoT; fortalecimiento; modelado CAD; supervisión web.                                                       \\
-        A Novel Hybrid Rehabilitation Robot for Upper and Lower Limbs Rehabilitation Training \citep{elsevierHybrid}                          & 2014         & General               & Alcance en miembros superior e inferior; DC+DSP; realidad virtual; compacto/bajo costo.                                     \\
-        Adaptive Patient-Cooperative Compliant Control of Lower Limb Rehabilitation Robot\citep{elsevierAdaptive}                             & 2024         & General               & Pasivo; control adaptativo cooperativo; impedancia/admitancia; sensores de fuerza.                                          \\
-        LegUp \citep{elsevierLegUp}                                                                                                           & 2024         & General               & Robot paralelo para rehabilitación en cama; espacio de trabajo predefinido.                                                 \\
-        Admittance Controller complemented with real-time singularity avoidance for rehabilitation parallel robots \citep{elsevierAdmittance} & 2023         & General               & Paralelo 4 GDL; seguimiento 3D (OptiTrack); evitación de singularidades.                                                    \\
-        A Novel Design of the Lower Limb Rehabilitation Robot \citep{ICMEAS2020}                                                              & 2020         & Combinado             & Para adultos mayores; actuadores lineales y motores; modelado en SOLIDWORKS; verificación de torques.                       \\
-        Lower Limb Robotic Rehabilitation: Literature Review and Challenges \citep{journalRobotics}                                           & 2011         & No aplica             & Revisión: exoesqueletos y end-effector; control de posición/fuerza/señales biológicas; barreras de costo/evidencia.         \\
-        Systematic Design of a Parallel Robotic System for Lower Limb Rehabilitation \citep{systematicDesign}                                 & 2020         & General               & Paralelogramo; flex–ext y abd–add; evita singularidades; sensores biomédicos.                                               \\
-        Physiotherabot \citep{physiotherabot}                                                                                                 & 2011         & Rodilla (con cadera)  & Flex–ext de cadera/rodilla y abd–add de cadera; control de impedancia + PID; interfaz clínica.                              \\
-        Model Analysis and Experimental Study of Lower Limb Rehabilitation Training Device Based on Gravity Balance \citep{MDPI2022}          & 2022         & Rodilla (con cadera)  & Balance de gravedad con resortes; reducción de esfuerzo 87\% (rodilla) y 81\% (cadera).                                     \\
-        Lower Limb Rehabilitation Robotics: Current Understanding and Technology. \citep{advancesRobotics}                                    & 2021         & No aplica             & Revisión: avances recientes; AR/IA; personalización; accesibilidad económica.                                               \\
-        \hline
-    \end{tabular}
-    \caption{Clasificación por articulación (Rodilla, Tobillo, Combinado); se incluyen trabajos generales y revisiones.}
+    \caption{Resumen de Tecnologías y Estudios de Rehabilitación Robótica}
+    \label{tab:rehabilitacion_robotica}
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|l|c|p{3cm}|p{6cm}|}
+            \hline
+            \textbf{Nombre del trabajo}                                        & \textbf{Año} & \textbf{Articulación}      & \textbf{Principales características}                                                                                                                                                                                                                     \\ \hline
+            TWIN (Exoesqueleto)\citep{squartecchia2026}                        & 2026         & Cadera, rodilla            & Exoesqueleto rígido ambulatorio que destaca por su altísima estabilidad de interacción; minimiza los desplazamientos relativos en la piel (menores a 4.6 mm) y logra una cinemática articular casi perfecta.                                             \\ \hline
+            LegUp (Efector Final)\citep{tucan2025}                             & 2025         & Cadera, rodilla, tobillo   & Sistema paralelo de movilización temprana en cama. Utiliza cinemática de cables Bowden y un diseño optimizado por lógica difusa para garantizar comodidad y anular cizallamientos parásitos en etapas agudas.                                            \\ \hline
+            Revisión Metaanalítica de Robots\citep{wang2025}                   & 2025         & Extremidad inferior global & Metaanálisis de ensayos controlados aleatorizados (651 pacientes) que confirma estadísticamente la superioridad de los efectores finales y exoesqueletos frente a terapias convencionales, especialmente en la métrica Fugl-Meyer y capacidad de marcha. \\ \hline
+            Mobile Ankle Exoskeleton\citep{chen2022design}                     & 2022         & Tobillo                    & Exoesqueleto móvil con configuraciones de actuación conmutables capaz de reducir el costo metabólico y asistir durante la marcha continua y la carrera fuera del laboratorio.                                                                            \\ \hline
+            ReStore Soft Exoskeleton\citep{kora2024investigation}              & 2024         & Tobillo y pantorrilla      & Ensayo clínico sobre exotraje blando (soft exosuit) que demuestra eficacia en movilización temprana, marcha y coordinación en pacientes post-ACV.                                                                                                        \\ \hline
+            Mechanical Compliance Exoskeleton\citep{li2022mechanical}          & 2022         & Ext. inferior global       & Exoesqueleto con compliancia mecánica y aislamiento de cargas dinámicas para proteger al paciente de fuerzas parásitas durante la locomoción.                                                                                                            \\ \hline
+            Revisión Metaanalítica de Efectores \citep{lou2026effect}          & 2026         & Ext. inferior global       & Metaanálisis (16 ensayos, 789 pacientes) que confirma la mejora en función motora y equilibrio (escalas FAC, FMA-L y BBS) post-ACV.                                                                                                                      \\ \hline
+            LiteStepper® (Exoesqueleto Unilateral)\citep{huo2024effectiveness} & 2024         & Cadera, rodilla, tobillo   & Sistema unilateral activo que recopila datos biomecánicos y de presión plantar del lado sano para aplicar asistencia personalizada y promover neuroplasticidad.                                                                                          \\ \hline
+        \end{tabular}%
+    }
     \label{tab:estado}
 \end{table}
 
+%\begin{table}[htbp]
+%    \centering
+%    \scriptsize
+%    \setlength{\tabcolsep}{3pt}
+%    \renewcommand{\arraystretch}{1.1}
+%    \begin{tabular}{p{.38\linewidth} p{.08\linewidth} p{.22\linewidth} p{.32\linewidth}}
+%        \hline
+%        \textbf{Trabajo}                                                                                                                      & \textbf{Año} & \textbf{Articulación} & \textbf{Principales características}                                                                                        \\
+%        \hline
+%        Prototipo para rehabilitación de miembros inferiores en lactantes hipotónicos \citep{garcia2022}                                      & 2022         & Combinado             & Robot paralelo; flexión–extensión cadera/rodilla/tobillo; enfocado en lactantes; proponen HMI y materiales más resistentes. \\
+%        Modelo y simulación de un robot terapéutico para la rehabilitación de miembros inferiores \citep{revistaEIA}                          & 2013         & General               & 3 GDL; par calculado con polinomio de Hurwitz; simulación en MATLAB; seguimiento de trayectorias.                           \\
+%        TobiBot \citep{tobiBot2014}                                                                                                           & 2014         & Tobillo               & 1 GDL; dorsiflexión/plantarflexión; interfaz tipo videojuego; seguridad básica.                                             \\
+%        Prototipo robotizado para la rehabilitación de lesiones de rodilla enfocado al fortalecimiento muscular \citep{unipamplona}           & 2022         & Rodilla               & Prototipo con IA/IoT; fortalecimiento; modelado CAD; supervisión web.                                                       \\
+%        A Novel Hybrid Rehabilitation Robot for Upper and Lower Limbs Rehabilitation Training \citep{elsevierHybrid}                          & 2014         & General               & Alcance en miembros superior e inferior; DC+DSP; realidad virtual; compacto/bajo costo.                                     \\
+%        Adaptive Patient-Cooperative Compliant Control of Lower Limb Rehabilitation Robot\citep{elsevierAdaptive}                             & 2024         & General               & Pasivo; control adaptativo cooperativo; impedancia/admitancia; sensores de fuerza.                                          \\
+%        LegUp \citep{elsevierLegUp}                                                                                                           & 2024         & General               & Robot paralelo para rehabilitación en cama; espacio de trabajo predefinido.                                                 \\
+%        Admittance Controller complemented with real-time singularity avoidance for rehabilitation parallel robots \citep{elsevierAdmittance} & 2023         & General               & Paralelo 4 GDL; seguimiento 3D (OptiTrack); evitación de singularidades.                                                    \\
+%        A Novel Design of the Lower Limb Rehabilitation Robot \citep{ICMEAS2020}                                                              & 2020         & Combinado             & Para adultos mayores; actuadores lineales y motores; modelado en SOLIDWORKS; verificación de torques.                       \\
+%        Lower Limb Robotic Rehabilitation: Literature Review and Challenges \citep{journalRobotics}                                           & 2011         & No aplica             & Revisión: exoesqueletos y end-effector; control de posición/fuerza/señales biológicas; barreras de costo/evidencia.         \\
+%        Systematic Design of a Parallel Robotic System for Lower Limb Rehabilitation \citep{systematicDesign}                                 & 2020         & General               & Paralelogramo; flex–ext y abd–add; evita singularidades; sensores biomédicos.                                               \\
+%        Physiotherabot \citep{physiotherabot}                                                                                                 & 2011         & Rodilla (con cadera)  & Flex–ext de cadera/rodilla y abd–add de cadera; control de impedancia + PID; interfaz clínica.                              \\
+%        Model Analysis and Experimental Study of Lower Limb Rehabilitation Training Device Based on Gravity Balance \citep{MDPI2022}          & 2022         & Rodilla (con cadera)  & Balance de gravedad con resortes; reducción de esfuerzo 87\% (rodilla) y 81\% (cadera).                                     \\
+%        Lower Limb Rehabilitation Robotics: Current Understanding and Technology. \citep{advancesRobotics}                                    & 2021         & No aplica             & Revisión: avances recientes; AR/IA; personalización; accesibilidad económica.                                               \\
+%        \hline
+%    \end{tabular}
+%    \caption{Clasificación por articulación (Rodilla, Tobillo, Combinado); se incluyen trabajos generales y revisiones.}
+%    \label{tab:estado}
+%\end{table}
+%
 
 \subsubsection{Brecha identificada y aportación original}
 
@@ -834,6 +857,47 @@ Se realizarán pruebas controladas con sujetos sanos bajo supervisión clínica,
     \newblock \emph{IEEE Access}, 14, 10760--10781.
     \newblock doi: 10.1109/ACCESS.2026.3655024
 
+
+    \bibitem[Tucan et al.(2025)]{tucan2025}
+    Tucan, P., Vanta, O. M., Horsia, A., Zima, I., Lupu, D. M., Vaida, C., Jucan, D., Machado, J., \& Pisla, D. (2025).
+    \newblock Towards clinical trial readiness: Optimization of a parallel robot for lower limb rehabilitation.
+    \newblock \emph{Bioengineering}, 13(1), 26.
+
+    \bibitem[Squartecchia et al.(2026)]{squartecchia2026}
+    Squartecchia, S., et al. (2026).
+    \newblock Mechanical stability of the interaction between a lower-limb rehabilitation exoskeleton and the user's body during functional tasks.
+    \newblock \emph{Frontiers in Bioengineering and Biotechnology}.
+
+    \bibitem[Wang et al.(2025)]{wang2025}
+    Wang, H., et al. (2025).
+    \newblock Effect of robot-assisted training for lower limb rehabilitation on lower limb function in stroke patients: a systematic review and meta-analysis.
+    \newblock \emph{Frontiers in Human Neuroscience}, 19.
+
+
+    \bibitem[Chen et al.(2022)]{chen2022design}
+    Chen, J., Han, J., \& Zhang, J. (2022).
+    \newblock Design and evaluation of a mobile ankle exoskeleton with switchable actuation configurations.
+    \newblock \emph{IEEE/ASME Transactions on Mechatronics}, 27, 1846--1853.
+
+    \bibitem[K{\'o}ra et al.(2024)]{kora2024investigation}
+    K{\'o}ra, S., et al. (2024).
+    \newblock Investigation of the effectiveness of the robotic restore soft exoskeleton in the development of early mobilization, walking, and coordination of stroke patients: A randomized clinical trial.
+    \newblock \emph{Robotics}, 13(3).
+
+    \bibitem[Li et al.(2022)]{li2022mechanical}
+    Li, H., Sui, D., Ju, H., An, Y., Zhao, J., \& Zhu, Y. (2022).
+    \newblock Mechanical compliance and dynamic load isolation design of lower limb exoskeleton for locomotion assistance.
+    \newblock \emph{IEEE/ASME Transactions on Mechatronics}, 27, 5392--5402.
+
+    \bibitem[Lou et al.(2026)]{lou2026effect}
+    Lou, Z., et al. (2026).
+    \newblock Effect of end-effector robot training on lower limb motor function and balance in stroke patients: A systematic review and meta-analysis.
+    \newblock \emph{Frontiers in Neurology}, 17.
+
+    \bibitem[Huo et al.(2024)]{huo2024effectiveness}
+    Huo, W., et al. (2024).
+    \newblock Effectiveness of unilateral lower-limb exoskeleton robot on balance and gait recovery and neuroplasticity in patients with subacute stroke: A randomized controlled trial.
+    \newblock \emph{Journal of NeuroEngineering and Rehabilitation}, 21(1), 213.
 \end{thebibliography}
 
 \end{document}
