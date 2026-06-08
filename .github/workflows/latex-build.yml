@@ -29,3 +29,13 @@ jobs:
         with:
           name: Protocolo_Doctorado_PDF
           path: main.pdf
+
+      - name: Create Release and Upload PDF
+        uses: softprops/action-gh-release@v2
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        with:
+          tag_name: Release
+          name: "Última Versión del Protocolo"
+          files: main.pdf
+          body: "Versión más reciente compilada del protocolo de tesis doctoral."
+          make_latest: true
