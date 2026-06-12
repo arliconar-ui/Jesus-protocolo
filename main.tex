@@ -23,6 +23,7 @@
 
 % ===== Figuras en posición fija [H] =====
 \usepackage{float}
+\usepackage{pdfpages}
 
 % ===== Tipografía (expansion=false evita error con fuentes no escalables) =====
 \usepackage[final,expansion=false]{microtype}
@@ -45,19 +46,19 @@
 % =================== PORTADA ===================
 \begin{titlepage}
     \centering
-    \vspace*{1cm}
+    \vspace*{0.2cm}
 
     % --- Logo institucional ---
-    \includegraphics[width=3cm]{logoupp.png}\par\vspace{0.8cm}
+    \includegraphics[width=2.5cm]{logoupp.png}\par\vspace{0.4cm}
 
-    {\scshape\LARGE Universidad Politécnica de Pachuca \par}
-    \vspace{0.6cm}
-    {\scshape\Large Doctorado en Ciencias y Tecnologías Avanzadas\par}
+    {\scshape\Large Universidad Politécnica de Pachuca \par}
+    \vspace{0.2cm}
+    {\scshape\large Doctorado en Ciencias y Tecnologías Avanzadas\par}
 
-    \vspace{0.6cm}
+    \vspace{0.4cm}
 
-    {\huge\bfseries Arquitectura de control jerárquico con gobernanza de referencia y estimación no lineal de estados para el sistema de rehabilitación REHAP\par}%Optimización y validación pre-clínica de un dispositivo para rehabilitación pasiva de extremidad inferior\par}
-    \vspace{.5cm}
+    {\LARGE\bfseries Arquitectura de control jerárquico con gobernanza de referencia y estimación no lineal de estados para el sistema de rehabilitación REHAP\par}%Optimización y validación pre-clínica de un dispositivo para rehabilitación pasiva de extremidad inferior\par}
+    \vspace{.3cm}
 
     \begin{center}
         \normalsize
@@ -72,12 +73,12 @@
         Directora\\[1pt]
         \textbf{Dra. Ma. de los Ángeles Alamilla Daniel}\\
         \rule{6cm}{0.4pt}
-        \vspace{0.6cm}
+        \vspace{0.2cm}
 
         Codirector\\[1pt]
         \textbf{Dr. Ángel Ricardo Licona Rodríguez}\\
         \rule{6cm}{0.4pt}
-        \vspace{0.6cm}
+        \vspace{0.2cm}
 
         Sinodal\\[1pt]
         \textbf{Dr. Omar Arturo Domínguez Ramírez}\\
@@ -85,10 +86,10 @@
         \rule{6cm}{0.4pt}
     \end{center}
 
-    \vspace{1.5cm}
+    \vspace{0.2cm}
 
-    {\normalsize Carr. Cdad. Sahagún-Pachuca Km. 20, Ex-Hacienda de Santa Bárbara, 43830 Zempoala, Hgo. \par}
-    {\normalsize \today \par}
+    {\small Carr. Cdad. Sahagún-Pachuca Km. 20, Ex-Hacienda de Santa Bárbara, 43830 Zempoala, Hgo. \par}
+    {\small \today \par}
 
 \end{titlepage}
 % =================== FIN PORTADA ===================
@@ -102,7 +103,7 @@
 
 
 
-La rehabilitación física de la extremidad inferior constituye un componente clínico esencial para la recuperación motriz de pacientes afectados por accidentes cerebrovasculares (EVC), lesiones medulares o traumatismos severos \citep{who2024neurological}, condiciones que representan una de las principales causas de discapacidad a nivel global y generan una alta carga sobre los sistemas de salud. La calidad de este proceso terapéutico depende de la repetición controlada de movimientos, de la evaluación objetiva del progreso y de la aplicación de cargas mecánicas adecuadas a las capacidades del paciente. Sin embargo, la terapia convencional enfrenta una saturación operativa y mantiene limitaciones intrínsecas: la ejecución depende de la subjetividad del terapeuta, la repetibilidad no es constante, los resultados son difícilmente cuantificables y la fatiga del personal clínico reduce la intensidad de las sesiones. Estas limitaciones generan brechas en la eficiencia del tratamiento y retrasan la recuperación funcional.
+La rehabilitación física de la extremidad inferior constituye un componente clínico esencial para la recuperación motriz de pacientes afectados por accidentes cerebrovasculares (ACV), lesiones medulares o traumatismos severos \citep{who2024neurological}, condiciones que representan una de las principales causas de discapacidad a nivel global y generan una alta carga sobre los sistemas de salud. La calidad de este proceso terapéutico depende de la repetición controlada de movimientos, de la evaluación objetiva del progreso y de la aplicación de cargas mecánicas adecuadas a las capacidades del paciente. Sin embargo, la terapia convencional enfrenta una saturación operativa y mantiene limitaciones intrínsecas: la ejecución depende de la subjetividad del terapeuta, la repetibilidad no es constante, los resultados son difícilmente cuantificables y la fatiga del personal clínico reduce la intensidad de las sesiones. Estas limitaciones generan brechas en la eficiencia del tratamiento y retrasan la recuperación funcional.
 
 El uso de dispositivos robóticos para rehabilitación surge como una alternativa para aumentar la precisión, repetibilidad y cuantificación del movimiento terapéutico. Los robots son capaces de ejecutar trayectorias definidas, mantener perfiles suaves de velocidad y registrar información biomecánica relevante. A pesar de estas ventajas, la literatura científica actual señala que muchos dispositivos operan bajo estructuras de control rígidas diseñadas para tareas de manipulación puramente industriales, las cuales presentan severas limitaciones al interactuar con la incertidumbre dinámica inherente a los tejidos biológicos \citep{banyai2024robotics}. Estas arquitecturas convencionales no consideran la variabilidad biomecánica del paciente, como cambios de rigidez articular, fatiga, espasticidad o respuestas involuntarias. Cuando el control no contempla estas variaciones, los espasmos pueden ser interpretados como perturbaciones a rechazar, generando el riesgo de aplicar fuerzas excesivas o perder estabilidad, lo que limita severamente la transición de estos dispositivos hacia la práctica clínica real.
 
@@ -124,7 +125,7 @@ La integración holística de estas herramientas constituye el pilar para transf
 
 A pesar de que la robótica de rehabilitación garantiza repetibilidad e intensidad frente a la terapia física convencional, la mayoría de los dispositivos actuales operan bajo esquemas de control rígidos que asumen entornos dinámicos estructurados. Esta suposición matemática fracasa al interactuar con tejidos biológicos, los cuales presentan variaciones biomecánicas inciertas y no estructuradas, como cambios súbitos de rigidez articular, espasticidad o resistencia involuntaria. Los controladores clásicos, diseñados para seguir estrictamente una trayectoria, interpretan cualquier esfuerzo del paciente (voluntario o espasmódico) como una perturbación a rechazar, aplicando fuerzas excesivas que comprometen la seguridad física. Más grave aún es que estas arquitecturas carecen de razonamiento semántico: solo evalúan el error numérico de posición o fuerza, sin capacidad para inferir contextualmente si el paciente experimenta dolor, fatiga excesiva o si la sesión debe detenerse por motivos clínicos.
 
-Bajo esta premisa, el prototipo REHAP (desarrollado previamente) validó la viabilidad mecánica de una plataforma de rehabilitación. No obstante, carece de una arquitectura de control capaz de gestionar activamente esta incertidumbre no estructurada y esta falta de contexto semántico. El problema central reside en la ausencia de una estrategia integral que resuelva el compromiso (trade-off) entre el seguimiento de trayectorias nominales y la complianza ante las respuestas mecánicas del usuario, y que además incorpore una capa de decisión heurística de alto nivel. Sin esta evolución dual (adaptación matemática y supervisión semántica), el dispositivo permanece como una herramienta puramente cinemática, imposibilitada para la validación clínica.
+Bajo esta premisa, el prototipo REHAP (desarrollado previamente) validó la viabilidad mecánica de una plataforma de rehabilitación. No obstante, carece de una arquitectura de control capaz de gestionar activamente esta incertidumbre no estructurada y esta falta de contexto semántico. El problema central reside en la ausencia de una estrategia integral que resuelva el compromiso (trade-off) entre el seguimiento de trayectorias nominales y la compliancia ante las respuestas mecánicas del usuario, y que además incorpore una capa de decisión heurística de alto nivel. Sin esta evolución dual (adaptación matemática y supervisión semántica), el dispositivo permanece como una herramienta puramente cinemática, imposibilitada para la validación clínica.
 
 De lo anterior se desprende la siguiente pregunta de investigación: \textit{¿Es posible diseñar e implementar una arquitectura de control jerárquica —que integre una reimplementación especializada del control Backstepping, estimación no lineal de estados, gobernanza de referencia, y un Agente de Inteligencia Artificial (LLM) como supervisor semántico— capaz de garantizar la seguridad operativa y la adaptabilidad ante incertidumbres biomecánicas del prototipo REHAP en escenarios pre-clínicos?}
 
@@ -162,7 +163,7 @@ Diseñar y validar experimentalmente una arquitectura de control jerárquica par
 
     \item Construir un entorno de Gemelo Digital validado experimentalmente del sistema acoplado humano-robot, que permita la co-simulación para predecir comportamientos críticos y proveer datos estructurados al supervisor LLM de forma segura antes y durante la experimentación física.
 
-    \item Evaluar experimentalmente el desempeño de la arquitectura propuesta mediante protocolos pre-clínicos con sujetos sanos, cuantificando métricas de error de seguimiento, suavidad de movimiento, complianza activa y efectividad del supervisor heurístico, para establecer la viabilidad clínica del prototipo.
+    \item Evaluar experimentalmente el desempeño de la arquitectura propuesta mediante protocolos pre-clínicos con sujetos sanos, cuantificando métricas de error de seguimiento, suavidad de movimiento, compliancia activa y efectividad del supervisor heurístico, para establecer la viabilidad clínica del prototipo.
 
 \end{itemize}
 
@@ -172,7 +173,7 @@ Diseñar y validar experimentalmente una arquitectura de control jerárquica par
 
 
 \section{Hipótesis}
-Si se integra un observador de estados de alta ganancia a una ley de control \textit{Backstepping} especializada para el sistema REHAP, y se complementa con un gobernador de referencia subordinado a la supervisión heurística de un Agente de Inteligencia Artificial (LLM), entonces el error cuadrático medio (RMSE) de seguimiento de trayectoria se reducirá al menos un 30\% en condiciones nominales respecto al desempeño del controlador base reportado en \citep{reyes2025comparative}. Asimismo, el sistema mantendrá la estabilidad asintótica ante perturbaciones externas de hasta $5\,\mathrm{N{\cdot}m}$ en los actuadores y operará de manera estricta y compliante dentro de límites articulares seguros dinámicos dictados por el contexto clínico. Esta mejora dual será posible porque la modulación analítica (gobernador) y semántica (LLM) de la referencia resuelve holísticamente el conflicto entre el seguimiento estricto de trayectoria y la seguridad integral del paciente, superando la rigidez inherente de los esquemas convencionales frente a incertidumbres biomecánicas.
+Si se integra un observador de estados de alta ganancia a una ley de control \textit{Backstepping} especializada para el sistema REHAP, y se complementa con un gobernador de referencia subordinado a la supervisión heurística de un Agente de Inteligencia Artificial (LLM), entonces el error cuadrático medio (RMSE) de seguimiento de trayectoria se reducirá al menos un 30\% en condiciones nominales respecto al desempeño del controlador base reportado por \citet{reyes2025comparative}. Asimismo, el sistema mantendrá la estabilidad práctica (acotamiento final uniforme del error de seguimiento, UUB) ante perturbaciones externas acotadas de hasta $5\,\mathrm{N{\cdot}m}$ en los actuadores y operará con compliancia dentro de límites articulares seguros y dinámicos dictados por el contexto clínico. Esta mejora dual será posible porque la modulación analítica (gobernador) y semántica (LLM) de la referencia resuelve holísticamente el conflicto entre el seguimiento estricto de trayectoria y la seguridad integral del paciente, superando la rigidez inherente de los esquemas convencionales frente a incertidumbres biomecánicas.
 
 \newpage
 
@@ -182,7 +183,7 @@ Si se integra un observador de estados de alta ganancia a una ley de control \te
 
 El diseño y operación de sistemas robóticos destinados a la rehabilitación de extremidades inferiores demandan estrategias de control avanzadas capaces de garantizar movimientos precisos, suaves y, fundamentalmente, seguros. Estos robots interactúan físicamente con el usuario, lo que introduce variaciones dinámicas complejas originadas por la incertidumbre en los parámetros inerciales del paciente (masa, longitud, posición del centro de masa) y por la inyección de esfuerzos activos o pasivos involuntarios. Estas perturbaciones externas y variaciones paramétricas deben integrarse de manera rigurosa en el diseño de la arquitectura de control.
 
-El punto de partida para el diseño de estas arquitecturas es el modelado dinámico del robot. Las ecuaciones de movimiento se obtienen comúnmente mediante formulaciones no lineales basadas en Euler-Lagrange o Newton-Euler, las cuales describen las relaciones entre variables cinemáticas, fuerzas y torques \citep{spong2006robot, siciliano2010robotics}. Estos modelos incluyen efectos no lineales inherentes como fricción, fuerzas gravitacionales y acoplamientos de Coriolis y centrípetos. En el caso específico de los robots de rehabilitación, el modelo dinámico se debe expandir para incluir explícitamente el torque de interacción humano-robot ($\tau_{int}$), el cual acopla la dinámica de la máquina con la variabilidad biomecánica del paciente.
+El punto de partida para el diseño de estas arquitecturas es el modelado dinámico del robot. Las ecuaciones de movimiento se obtienen comúnmente mediante formulaciones no lineales basadas en Euler-Lagrange o Newton-Euler, las cuales describen las relaciones entre variables cinemáticas, fuerzas y torques \citep{spong2006robot, siciliano2010robotics}. Estos modelos incluyen efectos no lineales inherentes como fricción, fuerzas gravitacionales y acoplamientos de Coriolis y centrípetos. En el caso específico de los robots de rehabilitación, el modelo dinámico se debe expandir para incluir explícitamente el torque de interacción humano-robot ($\tau_{d}$, según la notación adoptada en la \cref{eq:dinamica}), el cual acopla la dinámica de la máquina con la variabilidad biomecánica del paciente.
 
 Un modelado riguroso del sistema acoplado permite emplear técnicas de control no lineal diseñadas para garantizar la estabilidad de Lyapunov y el desempeño bajo incertidumbre. Estratégicamente, métodos como el \textit{Backstepping}, el control por modo deslizante (SMC), el control adaptativo y los enfoques basados en pasividad han demostrado ser altamente efectivos en aplicaciones biomecánicas, gracias a su capacidad matemática para tolerar variaciones paramétricas y rechazar o acomodar perturbaciones externas \citep{khalil2002nonlinear}.
 
@@ -238,13 +239,13 @@ En el contexto de este proyecto, el sistema REHAP implementa un controlador \tex
 
 
 
-Si bien el controlador \textit{Backstepping} proporciona una base algorítmica sólida, los movimientos en un entorno de rehabilitación exigen ser inherentemente suaves, cíclicos y rigurosamente consistentes con los patrones fisiológicos naturales. La precisión en el seguimiento de trayectoria no solo es un parámetro de desempeño de ingeniería, sino un requisito clínico estricto para evitar micro-lesiones o tensiones articulares inducidas. \citep{zhang2025sliding} En consecuencia, el esquema de control en lazo cerrado debe tener la capacidad intrínseca de compensar dinámicas no modeladas, variaciones estocásticas en la rigidez articular y esfuerzos introducidos inadvertidamente por el paciente o el entorno clínico.
+Si bien el controlador \textit{Backstepping} proporciona una base algorítmica sólida, los movimientos en un entorno de rehabilitación exigen ser inherentemente suaves, cíclicos y rigurosamente consistentes con los patrones fisiológicos naturales. La precisión en el seguimiento de trayectoria no solo es un parámetro de desempeño de ingeniería, sino un requisito clínico estricto para evitar micro-lesiones o tensiones articulares inducidas \citep{zhang2025sliding}. En consecuencia, el esquema de control en lazo cerrado debe tener la capacidad intrínseca de compensar dinámicas no modeladas, variaciones estocásticas en la rigidez articular y esfuerzos introducidos inadvertidamente por el paciente o el entorno clínico.
 
 Para satisfacer estos estrictos requisitos operativos y de seguridad, la ley de control primaria debe complementarse con herramientas estructurales avanzadas, en específico, \textit{observadores de estado} y \textit{gobernadores de trayectoria}. Estas extensiones arquitectónicas amplían la capacidad del sistema, permitiendo estimar variables no medidas de la interacción y, de manera concurrente, ajustar en tiempo real las referencias de movimiento ante condiciones críticas, adaptándose a cambios súbitos en la carga, alteraciones no deseadas en la velocidad de ejecución y respuestas biomecánicas involuntarias del paciente.
 
 \subsubsection{Observadores de estado para sistemas de rehabilitación}
 
-En la práctica clínica, la instrumentación de dispositivos de rehabilitación con múltiples sensores físicos adicionales (como celdas de torque o tacómetros) se encuentra severamente limitada por restricciones ergonómicas, incremento de masa inercial, altos costos de hardware y protocolos de seguridad del paciente. Asimismo, depender exclusivamente de hardware sensorial físico puede introducir ruido estocástico que degrada el esquema de control \citep{Brahmi2026}. Como solución analítica frente a estas limitaciones, los observadores de estado surgen como herramientas de software profundo: a partir de mediciones primarias de fácil obtención (como la posición articular), estos algoritmos permiten estimar con alta fidelidad las velocidades, los torques de interacción e incluso perturbaciones externas no estructuradas \citep{slotine1991applied}. La Figura~\ref{fig:obs} ilustra el principio clásico del observador de Luenberger —válido para sistemas lineales— donde la señal de corrección $L(y-\hat{y})$ cierra el lazo sobre el estimado $\hat{x}$. Para abordar la dinámica del sistema no lineal REHAP, este principio fundamental se generaliza mediante un \textbf{observador de alta ganancia} (HGO), cuya formulación matemática y diseño se detalla en la Sección~\ref{sec:obs_hgo}.
+En la práctica clínica, la instrumentación de dispositivos de rehabilitación con múltiples sensores físicos adicionales (como celdas de torque o tacómetros) se encuentra severamente limitada por restricciones ergonómicas, incremento de masa inercial, altos costos de hardware y protocolos de seguridad del paciente. Asimismo, depender exclusivamente de hardware sensorial físico puede introducir ruido estocástico que degrada el esquema de control \citep{Brahmi2026}. Como solución analítica frente a estas limitaciones, los observadores de estado surgen como sensores virtuales implementados por software: a partir de mediciones primarias de fácil obtención (como la posición articular), estos algoritmos permiten estimar con alta fidelidad las velocidades, los torques de interacción e incluso perturbaciones externas no estructuradas \citep{slotine1991applied}. La Figura~\ref{fig:obs} ilustra el principio clásico del observador de Luenberger —válido para sistemas lineales— donde la señal de corrección $L(y-\hat{y})$ cierra el lazo sobre el estimado $\hat{x}$. Para abordar la dinámica del sistema no lineal REHAP, este principio fundamental se generaliza mediante un \textbf{observador de alta ganancia} (HGO), cuya formulación matemática y diseño se detalla en la Sección~\ref{sec:obs_hgo}.
 
 \begin{figure}[H]
     \centering
@@ -254,35 +255,35 @@ En la práctica clínica, la instrumentación de dispositivos de rehabilitación
             sm/.style  ={draw, circle, minimum size=1.8em, inner sep=0pt}
         }
 
-        \draw[dashed] (0.4,1.55) rectangle (7.8,3.3);
-        \node[font=\scriptsize] at (1.5,3.1) {Sistema};
-        \draw[dashed] (0.4,-1.9) rectangle (7.8,0.65);
-        \node[font=\scriptsize] at (2.5,-1.7) {Observador de Luenberger};
-        %% --- Sistema (y=2.5) ---
-        \node      (u1) at (0,  2.5) {$u$};
-        \node[blk] (B1) at (1.5,2.5) {$B$};
-        \node[sm]  (s1) at (3.1,2.5) {};
-        \node[blk] (i1) at (4.7,2.5) {$\int$};
-        \node[blk] (C1) at (6.3,2.5) {$C$};
-        \node[blk] (A1) at (3.9,1.9) {$A$};
-        \coordinate (x1)    at (5.5,2.5);
-        \coordinate (yfork) at (8.3,2.5);
-        \node (yl) at (9.0,2.5) {$y$};
+        \draw[dashed] (0.4,2.65) rectangle (7.8,4.55);
+        \node[font=\scriptsize] at (1.5,4.35) {Sistema};
+        \draw[dashed] (0.4,-2.1) rectangle (7.8,0.7);
+        \node[font=\scriptsize] at (2.5,-1.9) {Observador de Luenberger};
+        %% --- Sistema (y=4.0) ---
+        \node      (u1) at (0,  4.0) {$u$};
+        \node[blk] (B1) at (1.5,4.0) {$B$};
+        \node[sm]  (s1) at (3.1,4.0) {};
+        \node[blk] (i1) at (4.7,4.0) {$\int$};
+        \node[blk] (C1) at (6.3,4.0) {$C$};
+        \node[blk] (A1) at (3.9,3.2) {$A$};
+        \coordinate (x1)    at (5.5,4.0);
+        \coordinate (yfork) at (8.3,4.0);
+        \node (yl) at (9.0,4.0) {$y$};
         \draw[->] (u1)--(B1);
         \draw[->] (B1)--(s1);
         \draw[->] (s1)-- node[above]{$\dot{x}$} (i1);
         \draw[->] (i1)-- node[above]{$x$} (x1) -- (C1);
         \draw[->] (C1)--(yfork)--(yl);
-        \draw[->] (x1)--++(0,-0.6) -| (A1.east);
-        \draw[->] (A1.west)--(3.1,1.9)--(s1.south);
+        \draw[->] (x1)--++(0,-0.8) -| (A1.east);
+        \draw[->] (A1.west)--(3.1,3.2)--(s1.south);
         %% --- Observador (y=0) ---
         \node      (u2) at (0,  0) {$u$};
         \node[blk] (B2) at (1.5,0) {$B$};
         \node[sm]  (s2) at (3.1,0) {};
         \node[blk] (i2) at (4.7,0) {$\int$};
         \node[blk] (C2) at (6.3,0) {$C$};
-        \node[blk] (A2) at (3.9,-1.3) {$A$};
-        \node[blk] (L)  at (3.1,1.25) {$L$};
+        \node[blk] (A2) at (3.9,-1.5) {$A$};
+        \node[blk] (L)  at (3.1,2.0) {$L$};
         \coordinate (xh)       at (5.5,0);
         \coordinate (yhatfork) at (8.3,0);
         \draw[->] (u2)--(B2);
@@ -291,13 +292,13 @@ En la práctica clínica, la instrumentación de dispositivos de rehabilitación
         \draw[->] (i2)-- node[above]{$\hat{x}$} (xh) -- (C2);
         \draw[->] (C2)--(yhatfork);
         \node[font=\scriptsize,above] at (yhatfork) {$\hat{y}$};
-        \draw[->] (xh)--++(0,-0.7) -| (A2.east);
-        \draw[->] (A2.west)--(3.1,-1.3)--(s2.south);
+        \draw[->] (xh)--++(0,-0.8) -| (A2.east);
+        \draw[->] (A2.west)--(3.1,-1.5)--(s2.south);
         \draw[->] (L.south)--(s2.north);
         %% --- Unión de error e = y - ŷ ---
-        \node[sm]  (se) at (8.3,1.25) {};
-        \node[font=\tiny] at (8.55,1.55) {$+$};
-        \node[font=\tiny] at (8.55,0.95) {$-$};
+        \node[sm]  (se) at (8.3,2.0) {};
+        \node[font=\tiny] at (8.55,2.3) {$+$};
+        \node[font=\tiny] at (8.55,1.7) {$-$};
         \draw[->] (yfork)--(se.north);
         \draw[->] (yhatfork)--(se.south);
         \draw[->] (se.west)-- node[above]{$e$} (L.east);
@@ -329,7 +330,7 @@ A diferencia de los métodos de saturación clásica o los paros de emergencia a
         \node (r) at (0,0) {$r(t)$};
         \node[draw, fill=green!25, rectangle,
             minimum height=3em, minimum width=5.5em, align=center]
-        (gov) at (2.9,0) {Governador\\de referencia};
+        (gov) at (2.9,0) {Gobernador\\de referencia};
         \node[draw, fill=blue!15, rectangle,
             minimum height=3em, minimum width=4.5em, align=center]
         (ctrl) at (6.5,0) {Controlador};
@@ -359,11 +360,11 @@ A diferencia de los métodos de saturación clásica o los paros de emergencia a
 
 \subsubsection{Arquitectura de control en cascada}
 
-La integración del controlador \textit{Backstepping}, los observadores de estado y el gobernador de referencia cristaliza en una arquitectura jerárquica en cascada. Esta topología distribuye el esfuerzo de control en múltiples lazos anidados que operan en distintas escalas de tiempo: los lazos internos rápidos (observador y controlador) aseguran el seguimiento estricto de trayectoria y el rechazo de perturbaciones mecánicas, mientras que el lazo externo más lento (gobernador) gestiona la adaptación terapéutica y garantiza el cumplimiento inquebrantable de las restricciones de seguridad \citep{khalil2002nonlinear}. Matemáticamente, el teorema de estabilidad para sistemas en cascada establece que si cada subsistema es global y asintóticamente estable (GAS) de forma aislada, y las variables de interconexión son acotadas, entonces el origen del sistema completo interconectado también es GAS \citep{khalil2002nonlinear}. Este principio metodológico es fundamental, ya que permite sintetizar, sintonizar y validar la seguridad clínica de cada submódulo de manera independiente antes de acoplarlos en la plataforma de rehabilitación global.
+La integración del controlador \textit{Backstepping}, los observadores de estado y el gobernador de referencia se integra en una arquitectura jerárquica en cascada. Esta topología distribuye el esfuerzo de control en múltiples lazos anidados que operan en distintas escalas de tiempo: los lazos internos rápidos (observador y controlador) aseguran el seguimiento estricto de trayectoria y el rechazo de perturbaciones mecánicas, mientras que el lazo externo más lento (gobernador) gestiona la adaptación terapéutica y garantiza el cumplimiento de las restricciones de seguridad \citep{khalil2002nonlinear}. Matemáticamente, los resultados de estabilidad para sistemas en cascada establecen que si el subsistema conductor es global y asintóticamente estable (GAS) y el subsistema conducido es estable entrada--estado (ISS) respecto a la señal de interconexión, entonces el origen del sistema completo interconectado es GAS \citep{khalil2002nonlinear}. Este principio metodológico es fundamental, ya que permite sintetizar, sintonizar y validar la seguridad clínica de cada submódulo de manera independiente antes de acoplarlos en la plataforma de rehabilitación global.
 
-En el campo de la robótica de rehabilitación, la estructuración jerárquica es el mecanismo más robusto para desacoplar las exigencias de alto nivel (el cumplimiento de rutinas terapéuticas cíclicas) de las restricciones críticas de bajo nivel (como las limitantes cinemáticas articulares). Esta partición permite que el dispositivo module su comportamiento biomecánico frente al esfuerzo o resistencia del paciente, sin comprometer jamás la estabilidad matemática del lazo de control primario.
+En el campo de la robótica de rehabilitación, la estructuración jerárquica es el mecanismo más robusto para desacoplar las exigencias de alto nivel (el cumplimiento de rutinas terapéuticas cíclicas) de las restricciones críticas de bajo nivel (como las limitantes cinemáticas articulares). Esta partición permite que el dispositivo module su comportamiento biomecánico frente al esfuerzo o resistencia del paciente, sin comprometer la estabilidad matemática del lazo de control primario.
 
-La Figura~\ref{fig:arch} presenta la arquitectura propuesta para REHAP con cinco capas funcionales:
+La Figura~\ref{fig:arch} presenta la arquitectura propuesta para REHAP con seis capas funcionales:
 
 \begin{figure}[H]
     \centering
@@ -371,11 +372,18 @@ La Figura~\ref{fig:arch} presenta la arquitectura propuesta para REHAP con cinco
         \tikzset{lvl/.style={draw, rectangle, minimum height=2.6em,
                     minimum width=8.5em, align=center}}
         %% Bloques en cascada (eje central)
+        \node[lvl, fill=red!12]    (llm) at (0, 9.5) {Agente LLM\\(Supervisor Semántico)};
         \node[lvl, fill=purple!15] (agt) at (0, 7.5) {Planificador\\Terapéutico};
         \node[lvl, fill=green!20]  (gov) at (0, 5.5) {Gobernador\\de Referencia};
         \node[lvl, fill=blue!18]   (ctr) at (0, 3.5) {Control\\Backstepping};
         \node[lvl, fill=orange!15] (plt) at (0, 1.5) {Planta REHAP};
         \node[lvl, fill=yellow!25] (obs) at (0,-0.5) {Observador\\de Estado (HGO)};
+        %% Supervisión semántica (comandos restrictivos, dashed)
+        \draw[->, dashed] (llm) -- node[right, font=\scriptsize]{detención / restricciones} (agt);
+        \draw[->, dashed] (llm.west) -- ++(-3.4,0) |- node[left, font=\scriptsize, pos=0.25]{límites} (gov.165);
+        %% Telemetría del gemelo digital hacia el LLM
+        \node[align=center, font=\scriptsize] (tel) at (4.3, 9.5) {Telemetría del\\gemelo digital};
+        \draw[->] (tel) -- (llm.east);
         %% Cadena directa
         \draw[->] (agt) -- node[right]{$r(t)$}    (gov);
         \draw[->] (gov) -- node[right]{$v(t)$}    (ctr);
@@ -408,14 +416,16 @@ La Figura~\ref{fig:arch} presenta la arquitectura propuesta para REHAP con cinco
     \item \textbf{Observador de Alta Ganancia (HGO)}: Filtro de estado que reconstruye el vector dinámico completo $\hat{x}(t)$ —incluyendo velocidades articulares y perturbaciones exógenas— a partir de $y(t)$. Su convergencia exponencial provee la retroalimentación requerida tanto por el controlador interno como por el gobernador externo.
 \end{itemize}
 
-En conjunto, la formulación matemática de esta topología en cascada articula armónicamente la robustez del control \textit{Backstepping}, la seguridad intrínseca del gobernador de referencia, la fidelidad de estimación del observador de estados y el criterio heurístico del supervisor LLM. Esta integración establece los cimientos teóricos para transformar una plataforma mecatrónica convencional en un dispositivo de rehabilitación clínicamente seguro, inteligentemente supervisado y terapéuticamente adaptable.
+En conjunto, la formulación matemática de esta topología en cascada articula la robustez del control \textit{Backstepping}, la seguridad intrínseca del gobernador de referencia, la fidelidad de estimación del observador de estados y el criterio heurístico del supervisor LLM. Esta integración establece los cimientos teóricos para transformar una plataforma mecatrónica convencional en un dispositivo de rehabilitación clínicamente seguro, inteligentemente supervisado y terapéuticamente adaptable.
 
 \subsubsection{Supervisión Semántica basada en Modelos de Lenguaje Grande (LLM)}
-La reciente evolución de la Inteligencia Artificial generativa ha posibilitado la integración de Modelos de Lenguaje Grande (LLMs) en aplicaciones mecatrónicas y biomédicas. A diferencia de los controladores numéricos tradicionales, un LLM actúa como un agente heurístico capaz de inferir relaciones semánticas entre conjuntos de datos multidimensionales. En el contexto de la rehabilitación robótica, el LLM puede procesar registros del gemelo digital (errores de posición sostenidos, esfuerzos excesivos prolongados, signos de fatiga) y razonar sobre el estado general de la terapia basándose en conocimiento clínico pre-entrenado. Esto permite dotar al sistema de "autonomía supervisada", delegando al LLM decisiones de seguridad de alto nivel (como establecer límites operativos o abortar una sesión) sin que la IA intervenga jamás directamente en las señales físicas de los actuadores, preservando la inviolabilidad analítica de la arquitectura de control subyacente \citep{rifai2024upper}.
+La reciente evolución de la Inteligencia Artificial generativa ha posibilitado la integración de Modelos de Lenguaje Grande (LLMs) en aplicaciones mecatrónicas y biomédicas. A diferencia de los controladores numéricos tradicionales, un LLM actúa como un agente heurístico capaz de inferir relaciones semánticas entre conjuntos de datos multidimensionales. En el contexto de la rehabilitación robótica, el LLM puede procesar registros del gemelo digital (errores de posición sostenidos, esfuerzos excesivos prolongados, signos de fatiga) y razonar sobre el estado general de la terapia basándose en conocimiento clínico pre-entrenado. Esto permite dotar al sistema de ``autonomía supervisada'', delegando al LLM decisiones de seguridad de alto nivel (como establecer límites operativos o abortar una sesión) sin que la IA intervenga directamente en las señales físicas de los actuadores, preservando la integridad analítica de la arquitectura de control subyacente \citep{rifai2024upper}.
 
+\newpage
 
+\section{Estado de la Técnica}
 
-\subsection{Estado del Arte de Dispositivos Robóticos para Rehabilitación}
+\subsection{Dispositivos robóticos para rehabilitación de extremidad inferior}
 
 En la Tabla \ref{tab:estado} se presenta un resumen de tecnologías recientes y estudios representativos en el ámbito de la rehabilitación robótica, detallando la articulación que abordan (cadera, rodilla, tobillo o extremidad inferior global) y sus principales características. Esta revisión permite identificar enfoques predominantes, que van desde exoesqueletos rígidos y efectores finales para movilización temprana, hasta exotrajes blandos y sistemas con compliancia mecánica, además de metaanálisis recientes que confirman la eficacia clínica de estas intervenciones. La relevancia de este panorama comparativo para nuestro estudio radica en evidenciar que, si bien existen arquitecturas mecánicas funcionales, prevalece la necesidad de integrar estrategias de control robusto y adaptativo (como la gobernanza de referencia y estimación de estados) para manejar la incertidumbre biomecánica y garantizar una interacción segura con el paciente en entornos clínicos reales.
 
@@ -478,11 +488,47 @@ En la Tabla \ref{tab:estado} se presenta un resumen de tecnologías recientes y 
 %\end{table}
 %
 
-\subsubsection{Brecha identificada y aportación original}
+\subsection{Control no lineal Backstepping: avances recientes en rehabilitación}
 
-El análisis del estado del arte revela que los dispositivos de rehabilitación de extremidad inferior tienden a polarizarse en dos paradigmas: (1) sistemas soportados por esquemas de control robusto con garantías formales de estabilidad, pero intrínsecamente rígidos y carentes de compliancia ante el estado biomecánico variable del paciente (p. ej., fatiga muscular o respuestas espasmódicas); y (2) sistemas guiados por planificadores heurísticos que priorizan la personalización del movimiento, pero que carecen de rigor matemático para asegurar la estabilidad ante perturbaciones dinámicas no estructuradas. La literatura actual confirma que ningún trabajo integra de forma simultánea: (a) un observador de estados no lineal sustentado teóricamente, (b) un gobernador de trayectoria que administre restricciones fisiológicas explícitas, (c) un planificador terapéutico algorítmico que adapte referencias a partir de retroalimentación en tiempo real, y (d) un gemelo digital para co-simulación y validación previa a la interacción humana; todo ello instrumentado en un único dispositivo de rehabilitación pasiva.
+El método \textit{Backstepping}, sistematizado por \citet{krstic1995nonlinear} como herramienta de diseño recursivo basado en funciones candidatas de Lyapunov, ha emergido como técnica de referencia para el control de sistemas robóticos no lineales con estructura jerárquica en cascada. Su adopción en robótica de rehabilitación ha crecido significativamente en la última década, motivada por la necesidad de garantías formales de estabilidad bajo la interacción con entornos biológicos inciertos y parámetros variables. Sin embargo, el Backstepping clásico presenta el fenómeno de explosión de complejidad diferencial al aumentar el orden del sistema, lo que ha motivado extensiones basadas en filtrado de comandos y técnicas adaptativas.
 
-La aportación original de este proyecto al estado del arte consiste en el \textbf{diseño, implementación algorítmica y validación pre-clínica de una arquitectura de control jerárquica que desacopla analíticamente la seguridad dinámica de los objetivos terapéuticos} en un sistema mecatrónico de rehabilitación. Dicha arquitectura da solución formal al problema abierto de reconciliar la estabilidad en lazo cerrado con la compliancia clínica, contribuyendo a la disciplina de Tecnologías Avanzadas mediante un prototipo (REHAP) soportado por evidencia experimental replicable y métricas de desempeño dinámico rigurosas.
+\citet{narayan2024adaptive} presentan un controlador Backstepping adaptativo de dos niveles ---admitancia de alto nivel y seguimiento de bajo nivel--- para un exoesqueleto pediátrico de marcha, logrando seguimiento cooperativo ante variaciones paramétricas del modelo paciente-robot y perturbaciones externas. \citet{ren2025command} proponen un esquema de Backstepping filtrado por comandos integrado con un observador de perturbaciones no lineal para un robot de rehabilitación de extremidad inferior multi-postura, reportando reducción de la complejidad computacional y mejora en el rechazo de perturbaciones durante entrenamiento activo-pasivo. \citet{zhang2025sliding} implementan control por modo deslizante con función de desempeño prescrito para exoesqueletos con actuadores de elasticidad en serie, reportando convergencia garantizada en tiempo finito bajo restricciones de estado variables en tiempo real. La convergencia de estos trabajos evidencia que la frontera de investigación activa en control no lineal para rehabilitación es la integración del Backstepping con estimación de estados y gestión explícita de restricciones fisiológicas, elementos centrales de la arquitectura REHAP propuesta.
+
+\subsection{Observadores de estado no lineales en robótica de rehabilitación}
+
+La estimación de variables dinámicas no medibles ---velocidades articulares, torques de interacción humano-robot--- mediante observadores algorítmicos de software constituye una solución analítica esencial en dispositivos de rehabilitación donde la incorporación de sensores físicos adicionales está severamente limitada por restricciones ergonómicas, incremento de masa inercial y protocolos de seguridad clínica \citep{Brahmi2026}. El observador de alta ganancia (HGO), cuya teoría matemática fue consolidada y sistematizada por \citet{khalil2002nonlinear, khalil2017hgo}, provee convergencia exponencial práctica garantizada bajo condiciones de Lipschitz sobre regiones compactas de operación, con una formulación directamente compatible con los marcos de estabilidad de Lyapunov empleados en el diseño Backstepping.
+
+En aplicaciones de rehabilitación, \citet{boubaker2025flatness} proponen un esquema de control por planitud diferencial con observadores en cascada ---un HGO filtrado para estimar velocidades articulares y un observador de perturbaciones no lineal para reconstruir torques externos--- validado experimentalmente en un exoesqueleto de miembro inferior, reportando mejora en la precisión de seguimiento y robustez ante perturbaciones abruptas de interacción. \citet{Brahmi2026} implementa control de impedancia colaborativo sin sensores físicos de fuerza, empleando un observador de baja carga computacional para inferir el torque de interacción humano-robot desde mediciones de corriente del actuador. En contraste con el control de rechazo activo de perturbaciones (ADRC), que emplea observadores de estado extendido (ESO) de diseño más heurístico, el HGO provee garantías formales de convergencia que facilitan el análisis de estabilidad cascada requerido en la arquitectura de control propuesta para REHAP, siendo esta la razón determinante para su selección.
+
+\subsection{Gobernadores de referencia y gestión formal de restricciones}
+
+La gestión explícita y predictiva de restricciones cinemáticas y dinámicas en robots de rehabilitación es un requisito de seguridad que trasciende los esquemas de saturación estáticos, los cuales reaccionan tardíamente ante violaciones y pueden generar transitorios abruptos perjudiciales para el usuario. Los gobernadores de referencia y de comando, sistematizados por \citet{garone2017reference} como esquemas \textit{add-on} basados en conjuntos de salida máximos admisibles (\textit{maximal output admissible sets}), ofrecen el marco formal para la gestión preventiva de restricciones: interpuesto entre el generador de trayectorias y el controlador, el gobernador modula predictivamente la referencia $r(t)$ para producir un comando $v(t)$ que garantiza la invariancia del sistema en lazo cerrado dentro del conjunto de restricciones $\mathcal{Z}$ definido por límites fisiológicos y electromecánicos.
+
+A diferencia de los métodos de función de barrera de control (CBF), que modifican la ley de control mismo, el gobernador de referencia preserva la estructura del controlador subyacente, actuando exclusivamente sobre la referencia. Esta propiedad lo hace especialmente adecuado para arquitecturas jerárquicas donde el controlador de bajo nivel (Backstepping) debe operar invariablemente con sus garantías analíticas intactas. En el contexto de la rehabilitación, el marco del gobernador ha sido aplicado para adaptar en línea las trayectorias de asistencia robótica ante resistencias voluntarias o espasmos del paciente, permitiendo que el sistema respete simultáneamente los límites cinemáticos seguros y la intención motora del usuario. La formulación del gobernador propuesta para REHAP extiende este marco al emplear predicciones del gemelo digital como modelo interno de propagación del horizonte, eliminando la necesidad de evaluar el horizonte predictivo directamente sobre el hardware físico y reduciendo el riesgo durante la fase de ajuste del sistema.
+
+\subsection{Gemelos digitales en robótica y rehabilitación}
+
+El gemelo digital (DT) ha evolucionado de herramienta de visualización industrial hacia una entidad ciber-física dinámica capaz de sincronizarse en tiempo real con su contraparte física y retroalimentar activamente las decisiones de control. \citet{fuller2020digital} identifican en una revisión fundacional las tecnologías habilitadoras esenciales: sensores IoT para adquisición continua de datos físicos, modelos paramétricos de alta fidelidad actualizados en línea, plataformas de co-simulación en tiempo real e integración de algoritmos de inteligencia artificial para el cierre del lazo virtual. Los autores clasifican los DT por su grado de acoplamiento bidireccional con el sistema físico, desde réplicas pasivas de monitoreo hasta entidades ciber-físicas que participan activamente en la generación de señales de control.
+
+En robótica, \citet{mazumder_next_2023} proponen un marco de DT de siguiente generación que incluye sincronización bidireccional de parámetros, actualización en línea del modelo dinámico y co-simulación en tiempo real como entorno seguro de validación previa de estrategias de control. \citet{gil_model-based_2025} desarrollan un enfoque basado en modelos para DT en robótica que integra la actualización paramétrica como ciclo continuo de identificación en línea. En el contexto de la rehabilitación, la aplicación del DT como componente activo del lazo de control ---en lugar de herramienta pasiva de monitoreo o análisis post-sesión--- es aún incipiente; la mayoría de los trabajos reportados emplean el DT para visualización o registro de sesiones terapéuticas. Este trabajo aborda esta brecha al integrar el gemelo digital de REHAP como predictor activo para el gobernador de referencia, proveedor de datos estructurados al supervisor LLM y detector de anomalías mediante análisis de residuos de sincronización en tiempo real.
+
+\subsection{Inteligencia Artificial y LLM en robótica médica}
+
+La integración de inteligencia artificial en robots de rehabilitación ha progresado desde clasificadores de señales biológicas para estimación de intención de movimiento, hacia modelos de lenguaje capaces de interpretar contexto clínico multimodal de forma semántica. Los modelos de lenguaje grande (LLM) representan la frontera más reciente de esta evolución: su capacidad para razonar sobre conjuntos heterogéneos de datos textuales y numéricos, derivada del preentrenamiento sobre corpus médicos y de ingeniería a gran escala, los posiciona como supervisores heurísticos en entornos donde la toma de decisiones clínicas requiere inferencia contextual más allá del umbral numérico determinista.
+
+\citet{rifai2024upper} demostraron la viabilidad de emplear un LLM para el control de un robot de rehabilitación de extremidad superior, donde el modelo lingüístico interpreta comandos verbales del terapeuta y los traduce en parámetros de movimiento, estableciendo el primer precedente documentado de integración LLM-robot de rehabilitación en lazo cerrado. Investigaciones paralelas en robótica general reportan que los LLM operan eficazmente como planificadores de tareas abstractas de alto nivel, capaces de generar secuencias coherentes de acciones desde instrucciones en lenguaje natural y estados del sistema. Sin embargo, la naturaleza estocástica de sus salidas y la latencia inherente de la inferencia mediante API los inhabilitan para el control dinámico directo de actuadores físicos en tiempo real. Esta limitación fundamental fundamenta el rol restrictivo del LLM en la arquitectura REHAP: su autoridad se limita a comandos booleanos de seguridad (abortar sesión) o escalares de restricción paramétrica (reducción porcentual de rangos y velocidades) que se inyectan exclusivamente en el gobernador de referencia, preservando la integridad analítica del lazo de control determinista subyacente.
+
+\subsection{Arquitecturas jerárquicas de control en exoesqueletos de rehabilitación}
+
+Las arquitecturas de control jerárquicas han emergido como el paradigma estructural dominante en exoesqueletos de rehabilitación avanzados, dado que desacoplan los objetivos terapéuticos de alto nivel de las exigencias de seguimiento de baja latencia, permitiendo la optimización independiente de cada capa y la verificación modular de sus garantías de estabilidad. La literatura reciente organiza estas arquitecturas en al menos dos capas funcionales: un nivel alto de supervisión y adaptación terapéutica, y un nivel bajo de seguimiento de trayectoria y rechazo de perturbaciones mecánicas.
+
+\citet{narayan2023hierarchical} presentan una clasificación sistemática de las estrategias cooperativas sujeto-robot para exoesqueletos de miembro inferior en rehabilitación de marcha, identificando que las arquitecturas existentes se polarizan entre control de bajo nivel robusto con escasa compliancia y control de alto nivel adaptativo con garantías de estabilidad insuficientes. \citet{su2023review} revisan los avances en control adaptativo para exoesqueletos de rehabilitación post-ACV desde la perspectiva del reconocimiento de intención de movimiento, concluyendo que la combinación de estimación de intención con arquitecturas jerárquicas de dos capas mejora la compliancia activa y reduce los esfuerzos de interacción no deseados. \citet{narayan2024adaptive} implementan una arquitectura de tres capas ---planificador terapéutico, controlador de admitancia de alto nivel, controlador Backstepping de bajo nivel--- logrando seguimiento cooperativo en un exoesqueleto pediátrico con garantías analíticas de estabilidad. El análisis comparativo de estos trabajos confirma la brecha identificada: ninguna arquitectura revisada integra simultáneamente gobernador de referencia con predicción basada en gemelo digital, observador de alta ganancia y supervisor semántico LLM en un único dispositivo de rehabilitación, constituyendo la aportación arquitectónica original de REHAP.
+
+\subsection{Brecha identificada y aportación original}
+
+El análisis del estado de la técnica revela que los dispositivos de rehabilitación de extremidad inferior tienden a polarizarse en dos paradigmas: (1) sistemas soportados por esquemas de control robusto con garantías formales de estabilidad, pero intrínsecamente rígidos y carentes de compliancia ante el estado biomecánico variable del paciente (p. ej., fatiga muscular o respuestas espasmódicas); y (2) sistemas guiados por planificadores heurísticos que priorizan la personalización del movimiento, pero que carecen de rigor matemático para asegurar la estabilidad ante perturbaciones dinámicas no estructuradas. La literatura actual confirma que ningún trabajo integra de forma simultánea: (a) un observador de estados no lineal sustentado teóricamente, (b) un gobernador de trayectoria que administre restricciones fisiológicas explícitas, (c) un planificador terapéutico algorítmico que adapte referencias a partir de retroalimentación en tiempo real, y (d) un gemelo digital para co-simulación y validación previa a la interacción humana; todo ello instrumentado en un único dispositivo de rehabilitación pasiva.
+
+La aportación original de este proyecto al estado de la técnica consiste en el \textbf{diseño, implementación algorítmica y validación pre-clínica de una arquitectura de control jerárquica que desacopla analíticamente la seguridad dinámica de los objetivos terapéuticos} en un sistema mecatrónico de rehabilitación. Dicha arquitectura da solución formal al problema abierto de reconciliar la estabilidad en lazo cerrado con la compliancia clínica, contribuyendo a la disciplina de Tecnologías Avanzadas mediante un prototipo (REHAP) soportado por evidencia experimental replicable y métricas de desempeño dinámico rigurosas.
 
 \newpage
 \section{Trabajo Previo y Productos Académicos Obtenidos}
@@ -492,7 +538,7 @@ El desarrollo de este protocolo se fundamenta en el trabajo continuo del autor s
 \subsection{Producción Científica}
 \begin{itemize}
     \item \textbf{Artículo Científico (Primer Autor)}. Publicado en revista indexada (SECIHTI). \\
-          J. E. Cervantes Reyes, M. D. L. Ángeles Alamilla Daniel, Ángel R. Lícona Rodriguez, and E. H. Ramirez Dominguez. \textit{Comparative Analysis of Nonlinear Control Strategies for a Lower Limb Rehabilitation System}. Int. Journal of COP and Infor., vol. 16, no. 3, pp. 36--45, Jul. 2025.
+          J. E. Cervantes Reyes, M. D. L. Ángeles Alamilla Daniel, Ángel R. Licona Rodríguez, and E. H. Ramirez Dominguez. \textit{Comparative Analysis of Nonlinear Control Strategies for a Lower Limb Rehabilitation System}. International Journal of Combinatorial Optimization Problems and Informatics, vol. 16, no. 3, pp. 36--45, Jul. 2025.
 
     \item \textbf{Artículo Científico (Coautor)}. Publicado en revista JCR (Q2). \\
           Elihu H. Ramirez-Dominguez, J.G. Benítez-Morales, Jesus E. Cervantes-Reyes, M.A. Alamilla-Daniel, A.R. Licona-Rodríguez, Juan M. Xicotencatl-Pérez y Julio C. Ramos-Fernández. \textit{Identification and fuzzy control of the trajectory of a parallel robot: application to medical rehabilitation}. MDPI, 2025.
@@ -501,7 +547,7 @@ El desarrollo de este protocolo se fundamenta en el trabajo continuo del autor s
           Elihu Ramírez, Gerardo Benítez, Ángel Licona, Cesar Vilchis, Jesús Cervantes, Miguel Aguilera. \textit{Diseño de un sistema electromecánico para aplicaciones de rehabilitación de la extremidad superior}. Congreso CoNMiCyT, 2025.
 
     \item \textbf{Memoria de Simposio / Cartel (Coautor)}. \\
-          Valdez García Yensy, Alamilla Daniel Ma. De Los Ángeles, Lícona Rodríguez Ángel Ricardo, Cortés Márquez Sandra Kristal y Cervantes Reyes Jesús Eduardo. \textit{Implementación de sistemas mecatrónicos en la rehabilitación física de extremidades}. Simposio Iberoamericano Multidisciplinario de Ciencias e Ingeniería, 2025.
+          Valdez García Yensy, Alamilla Daniel Ma. De Los Ángeles, Licona Rodríguez Ángel Ricardo, Cortés Márquez Sandra Kristal y Cervantes Reyes Jesús Eduardo. \textit{Implementación de sistemas mecatrónicos en la rehabilitación física de extremidades}. Simposio Iberoamericano Multidisciplinario de Ciencias e Ingeniería, 2025.
 \end{itemize}
 
 \subsection{Participación en Eventos Académicos}
@@ -558,7 +604,12 @@ Se diseñará un \textbf{observador de alta ganancia (HGO)} para reconstruir el 
     \label{eq:observador}
 \end{equation}
 
-\noindent donde $\hat{x}\in\mathbb{R}^{4}$ es el vector de estados estimados y $L_{\epsilon}\in\mathbb{R}^{4\times 2}$ es la matriz de ganancia parametrizada por un escalar $\epsilon > 0$. A diferencia del caso lineal, la estabilidad del error de observación $e = x - \hat{x}\in\mathbb{R}^{4}$ se analiza mediante una función candidata de Lyapunov $V(e)=e^{\top}Pe$, con $P=P^{\top}>0$. La dinámica del error resulta en:
+\noindent donde $\hat{x}\in\mathbb{R}^{4}$ es el vector de estados estimados y $L_{\epsilon}\in\mathbb{R}^{4\times 2}$ es la matriz de ganancia parametrizada por un escalar $\epsilon > 0$, con la estructura de alta ganancia característica:
+\begin{equation}
+    L_{\epsilon} = \begin{bmatrix} \dfrac{\alpha_{1}}{\epsilon}\,I_{2} \\[6pt] \dfrac{\alpha_{2}}{\epsilon^{2}}\,I_{2} \end{bmatrix},
+    \label{eq:hgo_gain}
+\end{equation}
+\noindent donde las constantes $\alpha_{1},\alpha_{2}>0$ se eligen de modo que el polinomio $s^{2}+\alpha_{1}s+\alpha_{2}$ sea Hurwitz \citep{khalil2017hgo}. A diferencia del caso lineal, la estabilidad del error de observación $e = x - \hat{x}\in\mathbb{R}^{4}$ se analiza mediante una función candidata de Lyapunov $V(e)=e^{\top}Pe$, con $P=P^{\top}>0$. La dinámica del error resulta en:
 \begin{equation}
     \dot{e} = \bigl[f(x)-f(\hat{x})\bigr] + \bigl[g(x)-g(\hat{x})\bigr]u - L_{\epsilon}\mathbf{H}\,e + d(t),
     \label{eq:error_obs}
@@ -569,7 +620,7 @@ La estimación se apoyará en la instrumentación disponible: encoders increment
 
 \subsubsection{Integración del gobernador de trayectoria}
 
-El gobernador de referencia actúa como una capa de supervisión y segurida entre la trayectoria prescrita $r(t)$ y la referencia efectivamente enviada al controlador $v(t)$. El algoritmo opera en tiempo discreto con período de muestreo $T_s$. Se define el vector de variables restringidas $z(t)=\bigl[q(t)^{\top},\dot{q}(t)^{\top},\tau(t)^{\top}\bigr]^{\top}\in\mathbb{R}^{6}$. En cada instante de muestreo $t$, el gobernador resuelve el siguiente problema de optimización escalar:
+El gobernador de referencia actúa como una capa de supervisión y seguridad entre la trayectoria prescrita $r(t)$ y la referencia efectivamente enviada al controlador $v(t)$. El algoritmo opera en tiempo discreto con período de muestreo $T_s$. Se define el vector de variables restringidas $z(t)=\bigl[q(t)^{\top},\dot{q}(t)^{\top},\tau(t)^{\top}\bigr]^{\top}\in\mathbb{R}^{6}$. En cada instante de muestreo $t$, el gobernador resuelve el siguiente problema de optimización escalar:
 
 \begin{equation}
     \kappa^{*}(t) = \max\bigl\{\kappa \in [0,1] \;\big|\; \forall k\in\{0,\ldots,N\}:\; \hat{z}(t+k|t, \kappa)\in\mathcal{Z}\bigr\},
@@ -604,7 +655,7 @@ El gemelo resuelve en tiempo real la misma ecuación de Euler–Lagrange del sis
     \label{eq:dt_dinamica}
 \end{equation}
 
-\noindent donde $\hat{q}_{DT}\in\mathbb{R}^{2}$ son las coordenadas generalizadas del gemelo, $\dot{\hat{q}}_{DT},\ddot{\hat{q}}_{DT}\in\mathbb{R}^{2}$ sus derivadas primera y segunda, y $\tau_{DT}=\tau(t)\in\mathbb{R}^{2}$ es el torque de control aplicado simultáneamente al sistema físico y al gemelo. El vector de estado del gemelo se define como $\hat{x}_{DT}=[\hat{q}_{DT}^{\top},\dot{\hat{q}}_{DT}^{\top}]^{\top}\in\mathbb{R}^{4}$, con salida virtual $\hat{y}_{DT}(t)=\mathbf{H}\hat{x}_{DT}(t)\in\mathbb{R}^{2}$. Los parámetros dinámicos $M$, $C(q,\dot{q})$, $G$, $F$ son identificados experimentalmente y actualizados mediante estimación paramétrica en línea para mantener fidelidad con el sistema real.
+\noindent donde $\hat{q}_{DT}\in\mathbb{R}^{2}$ son las coordenadas generalizadas del gemelo, $\dot{\hat{q}}_{DT},\ddot{\hat{q}}_{DT}\in\mathbb{R}^{2}$ sus derivadas primera y segunda, y $\tau_{DT}=\tau(t)\in\mathbb{R}^{2}$ es el torque de control aplicado simultáneamente al sistema físico y al gemelo. El vector de estado del gemelo se define como $\hat{x}_{DT}=[\hat{q}_{DT}^{\top},\dot{\hat{q}}_{DT}^{\top}]^{\top}\in\mathbb{R}^{4}$, con salida virtual $\hat{y}_{DT}(t)=\mathbf{H}\hat{x}_{DT}(t)\in\mathbb{R}^{2}$. Los parámetros dinámicos $M$, $C(q,\dot{q})$, $G$, $F$ son identificados experimentalmente y actualizados mediante estimación paramétrica en línea ---mínimos cuadrados recursivos sobre la parametrización lineal en parámetros del modelo \eqref{eq:dinamica}--- para mantener fidelidad con el sistema real.
 
 \paragraph{Sincronización y detección de anomalías.}
 La fidelidad del DT depende de la corrección continua entre su salida y la medición real. Se define el \textit{residuo de sincronización}:
@@ -614,7 +665,7 @@ La fidelidad del DT depende de la corrección continua entre su salida y la medi
     \label{eq:residuo}
 \end{equation}
 
-\noindent donde $y(t)=\mathbf{H}x(t)\in\mathbb{R}^{2}$ es la salida medida del sistema físico y $\rho_{\max}\in\mathbb{R}_{>0}$ es el umbral de sincronización, ajustado en función de la incertidumbre paramétrica aceptable del modelo. Cuando $\|\rho(t)\|>\rho_{\max}$, se activa una rutina de re-identificación paramétrica. Simultáneamente, el sistema analiza la evolución temporal de $\rho(t)$ para detectar anomalías mecánicas —desgaste, desalineación, espasmos del usuario— que no serían detectables únicamente mediante encoders.
+\noindent donde $y(t)=\mathbf{H}x(t)\in\mathbb{R}^{2}$ es la salida medida del sistema físico. Se define el umbral de sincronización $\rho_{\max}\in\mathbb{R}_{>0}$, ajustado en función de la incertidumbre paramétrica aceptable del modelo, de modo que cuando $\|\rho(t)\|>\rho_{\max}$ se activa una rutina de re-identificación paramétrica. Simultáneamente, el sistema analiza la evolución temporal de $\rho(t)$ para detectar anomalías mecánicas —desgaste, desalineación, espasmos del usuario— que no serían detectables únicamente mediante encoders.
 
 \paragraph{Predicción para el gobernador.}
 Ante cada solicitud de referencia $r(t)$, el gemelo propaga $N$ pasos hacia adelante partiendo del estado actual $\hat{x}_{DT}(t)$ bajo la referencia virtual propuesta, generando la secuencia predictiva $\hat{z}(t+k|t, \kappa)$, para $k=0,\ldots,N$, requerida por la \cref{eq:governor}. Esto elimina el riesgo de evaluar políticas directamente sobre el sistema físico real y garantiza latencias viables para el ciclo de gobernanza.
@@ -708,19 +759,15 @@ Superada la validación técnica, se realizarán pruebas controladas con volunta
     \item \textbf{Diseño y tamaño de muestra}: $n = 12$ voluntarios sanos. Dado que esta fase pre-clínica corresponde a un estudio piloto enfocado en la calibración algorítmica de la arquitectura de control y la viabilidad biomecánica, se emplea la regla heurística para estudios piloto. Dicha regla establece que una cohorte de 10 a 12 participantes es el mínimo viable recomendado para garantizar la precisión de las varianzas en los datos y amortiguar el ruido de medición en el entorno robótico \citep{julious2005sample}.
     \item \textbf{Criterios de inclusión}: Adultos de 18 a 45 años, sin historial de lesiones musculoesqueléticas severas en extremidad inferior, sin patologías neurológicas y que emitan firma de consentimiento informado.
     \item \textbf{Criterios de exclusión}: Embarazo, implantes ortopédicos o metálicos en el miembro inferior, osteoporosis severa o cualquier condición que contraindique el ejercicio pasivo asistido.
-    \item \textbf{Métricas de evaluación}: Error máximo de seguimiento articular (°), suavidad de la trayectoria (métricas SPARC o Jerk normalizado), tiempos de latencia del anillo FDI ante umbrales de sobrecarga, y escala subjetiva de confort humano (EVA).
+    \item \textbf{Métricas de evaluación}: Error máximo de seguimiento articular (°), suavidad de la trayectoria (métricas SPARC o Jerk normalizado), tiempos de latencia del anillo FDI ante umbrales de sobrecarga, efectividad del supervisor LLM (tasa de detección y tasa de falsos positivos ante eventos de seguridad inducidos de forma controlada, y latencia de respuesta del lazo de supervisión), y escala subjetiva de confort humano (EVA).
+    \item \textbf{Análisis estadístico}: La reducción del RMSE planteada en la hipótesis ($\geq 30\%$ respecto al controlador base) se verificará mediante comparación pareada por sujeto entre ambas arquitecturas de control, empleando prueba $t$ pareada o, en caso de no normalidad (verificada con Shapiro--Wilk), la prueba de rangos con signo de Wilcoxon, con nivel de significancia $\alpha = 0.05$ y reporte del tamaño del efecto.
     \item \textbf{Aprobación ética}: El protocolo detallado de experimentación será sometido al Comité de Ética en Investigación de la Universidad Politécnica de Pachuca. No se realizará ninguna prueba con sujetos humanos sin el dictamen aprobatorio oficial.
 \end{itemize}
 
 \newpage
 
 \subsection{Cronograma de actividades}
-\begin{table}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{imagenes/cronograma.pdf}
-    \caption{Cronograma de actividades correspondientes al desarrollo del protocolo de tesis.}
-    \label{tab:cronograma}
-\end{table}
+\includepdf[pages=-, pagecommand={}]{cronograma.pdf}
 
 \subsection{Productos académicos esperados}
 Como resultado del desarrollo del presente proyecto de investigación doctoral, se espera generar los siguientes productos comprobables:
@@ -745,15 +792,21 @@ Con el objetivo de garantizar la solidez científica, la validación metodológi
 
     \bibitem[Banyai y Bri\c{s}an(2024)]{banyai2024robotics}
     Banyai, A. D., \& Bri\c{s}an, C. (2024).
-    \newblock Robotics in Physical Rehabilitation: Systematic Review.
-    \newblock \emph{Healthcare (Basel, Switzerland)}, 12(17), 1720.
+    \newblock Robotics in physical rehabilitation: Systematic review.
+    \newblock \emph{Healthcare}, 12(17), 1720.
     \newblock \url{https://doi.org/10.3390/healthcare12171720}
+
+    \bibitem[Boubaker et al.(2025)]{boubaker2025flatness}
+    Boubaker, S., Said, S. H., Kamel, S., \& Dimassi, H. (2025).
+    \newblock Flatness control with cascaded filtered high-gain and disturbance observers for rehabilitation exoskeletons.
+    \newblock \emph{Computers, Materials \& Continua}, 85(3), 5703--5721.
+    \newblock \url{https://doi.org/10.32604/cmc.2025.069047}
 
     \bibitem[Brahmi(2026)]{Brahmi2026}
     Brahmi, B. (2026).
     \newblock Sensorless collaborative impedance control of rehabilitation robots via LQR and model-based sliding manifold.
     \newblock \emph{IEEE Access}, 14, 10760--10781.
-    \newblock doi: 10.1109/ACCESS.2026.3655024
+    \newblock \url{https://doi.org/10.1109/ACCESS.2026.3655024}
 
     \bibitem[Chen et al.(2022)]{chen2022design}
     Chen, J., Han, J., \& Zhang, J. (2022).
@@ -761,29 +814,60 @@ Con el objetivo de garantizar la solidez científica, la validación metodológi
     \newblock \emph{IEEE/ASME Transactions on Mechatronics}, 27, 1846--1853.
 
     \bibitem[Chhabra \& Emami(2009)]{chhabra_holistic_2009}
-    Chhabra, R., \& Emami, M. (2009). \textit{A holistic approach to concurrent engineering and its application to robotics}. Journal of Robotics.
+    Chhabra, R., \& Emami, M. (2009).
+    \newblock A holistic approach to concurrent engineering and its application to robotics.
+    \newblock \emph{Journal of Robotics}, 2009.
 
     \bibitem[Cruz-Martínez et al.(2017)]{cruz_methodology_2017}
-    Cruz-Martínez, E., et al. (2017). \textit{Methodology for the design of rehabilitation robots: Application in an upper limb exoskeleton}. Revista Iberoamericana de Automática e Informática Industrial.
+    Cruz-Martínez, E., et al. (2017).
+    \newblock Methodology for the design of rehabilitation robots: Application in an upper limb exoskeleton.
+    \newblock \emph{Revista Iberoamericana de Automática e Informática Industrial}.
+
+    \bibitem[Fuller et al.(2020)]{fuller2020digital}
+    Fuller, A., Fan, Z., Day, C., \& Barlow, C. (2020).
+    \newblock Digital twin: Enabling technologies, challenges and open research.
+    \newblock \emph{IEEE Access}, 8, 108952--108971.
+    \newblock \url{https://doi.org/10.1109/ACCESS.2020.2998358}
 
     \bibitem[Garone et al.(2017)]{garone2017reference}
-    Garone, E., Di Cairano, S., \& Kolmanovsky, I. (2017). Reference and command governors for systems with constraints: A survey on theory and applications. \textit{Automatica}, 75, 306--328.
+    Garone, E., Di Cairano, S., \& Kolmanovsky, I. (2017).
+    \newblock Reference and command governors for systems with constraints: A survey on theory and applications.
+    \newblock \emph{Automatica}, 75, 306--328.
 
     \bibitem[Gil et al.(2025)]{gil_model-based_2025}
-    Gil, A., et al. (2025). \textit{A model-based approach for co-simulation-driven digital twins in robotics}. Robotics and Autonomous Systems.
+    Gil, A., et al. (2025).
+    \newblock A model-based approach for co-simulation-driven digital twins in robotics.
+    \newblock \emph{Robotics and Autonomous Systems}.
 
     \bibitem[Huo et al.(2024)]{huo2024effectiveness}
     Huo, W., et al. (2024).
     \newblock Effectiveness of unilateral lower-limb exoskeleton robot on balance and gait recovery and neuroplasticity in patients with subacute stroke: A randomized controlled trial.
     \newblock \emph{Journal of NeuroEngineering and Rehabilitation}, 21(1), 213.
 
+    \bibitem[Julious(2005)]{julious2005sample}
+    Julious, S. A. (2005).
+    \newblock Sample size of 12 per group rule of thumb for a pilot study.
+    \newblock \emph{Pharmaceutical Statistics}, 4(4), 287--291.
+
     \bibitem[Khalil(2002)]{khalil2002nonlinear}
-    Khalil, H. K. (2002). \textit{Nonlinear Systems} (3rd ed.). Prentice Hall.
+    Khalil, H. K. (2002).
+    \newblock \emph{Nonlinear Systems} (3rd ed.).
+    \newblock Prentice Hall.
+
+    \bibitem[Khalil(2017)]{khalil2017hgo}
+    Khalil, H. K. (2017).
+    \newblock \emph{High-Gain Observers in Nonlinear Feedback Control}.
+    \newblock Society for Industrial and Applied Mathematics (SIAM).
 
     \bibitem[K{\'o}ra et al.(2024)]{kora2024investigation}
     K{\'o}ra, S., et al. (2024).
     \newblock Investigation of the effectiveness of the robotic restore soft exoskeleton in the development of early mobilization, walking, and coordination of stroke patients: A randomized clinical trial.
     \newblock \emph{Robotics}, 13(3).
+
+    \bibitem[Krstic et al.(1995)]{krstic1995nonlinear}
+    Krstic, M., Kanellakopoulos, I., \& Kokotovic, P. V. (1995).
+    \newblock \emph{Nonlinear and Adaptive Control Design}.
+    \newblock John Wiley \& Sons. ISBN: 978-0471127321.
 
     \bibitem[Li et al.(2022)]{li2022mechanical}
     Li, H., Sui, D., Ju, H., An, Y., Zhao, J., \& Zhu, Y. (2022).
@@ -796,27 +880,69 @@ Con el objetivo de garantizar la solidez científica, la validación metodológi
     \newblock \emph{Frontiers in Neurology}, 17.
 
     \bibitem[Mazumder et al.(2023)]{mazumder_next_2023}
-    Mazumder, O., et al. (2023). \textit{Towards next generation digital twin in robotics}. Heliyon.
+    Mazumder, O., et al. (2023).
+    \newblock Towards next generation digital twin in robotics.
+    \newblock \emph{Heliyon}.
+
+    \bibitem[Narayan et al.(2023)]{narayan2023hierarchical}
+    Narayan, J., Auepanwiriyakul, C., Jhunjhunwala, S., Abbas, M., \& Dwivedy, S. K. (2023).
+    \newblock Hierarchical classification of subject-cooperative control strategies for lower limb exoskeletons in gait rehabilitation: A systematic review.
+    \newblock \emph{Machines}, 11(7), 764.
+    \newblock \url{https://doi.org/10.3390/machines11070764}
+
+    \bibitem[Narayan et al.(2024)]{narayan2024adaptive}
+    Narayan, J., Kalita, B., \& Dwivedy, S. K. (2024).
+    \newblock Adaptive backstepping human-cooperative control of a pediatric gait exoskeleton system with high- and low-level admittance.
+    \newblock \emph{Proceedings of the Institution of Mechanical Engineers, Part I: Journal of Systems and Control Engineering}.
+    \newblock \url{https://doi.org/10.1177/09596518231191390}
 
     \bibitem[Park(2001)]{park_concurrent_2001}
-    Park, J. H. (2001). \textit{Concurrent-design optimization of mechanical structure and control}. In ASME Design Engineering Technical Conferences.
+    Park, J. H. (2001).
+    \newblock Concurrent-design optimization of mechanical structure and control.
+    \newblock In \emph{ASME Design Engineering Technical Conferences}.
+
+    \bibitem[Ren et al.(2025)]{ren2025command}
+    Ren, S., Feng, Y., Wang, H., Zhu, X., Sang, C., \& Hu, Q. (2025).
+    \newblock Command filtered backstepping control with nonlinear disturbance observer for multi-posture lower limb rehabilitation robot.
+    \newblock \emph{Journal of Vibration and Control}.
+    \newblock \url{https://doi.org/10.1177/10775463251386492}
 
     \bibitem[Reyes et al.(2025)]{reyes2025comparative}
-    Reyes, J. E., Alamilla, M., Rodríguez, Á., \& Domínguez, E. (2025). Comparative analysis of nonlinear control strategies for a lower limb rehabilitation system. \textit{International Journal of Combinatorial Optimization Problems and Informatics}, 16(3), 36--45. https://doi.org/10.61467/2007.1558.2025.v16i3.1129
+    Reyes, J. E., Alamilla, M., Rodríguez, Á., \& Domínguez, E. (2025).
+    \newblock Comparative analysis of nonlinear control strategies for a lower limb rehabilitation system.
+    \newblock \emph{International Journal of Combinatorial Optimization Problems and Informatics}, 16(3), 36--45.
+    \newblock \url{https://doi.org/10.61467/2007.1558.2025.v16i3.1129}
+
+    \bibitem[Rifai et al.(2024)]{rifai2024upper}
+    Rifai, Y., Bejo, A., Ataka, A., \& Badriawan, Y. K. (2024).
+    \newblock Upper limb rehabilitation robot control based on large language model.
+    \newblock \emph{2024 International Conference on Computer, Control, Informatics and its Applications (IC3INA)}, 1--6.
 
     \bibitem[Siciliano et al.(2010)]{siciliano2010robotics}
-    Siciliano, B., Sciavicco, L., Villani, L., \& Oriolo, G. (2010). \textit{Robotics: Modelling, Planning and Control}. Springer.
+    Siciliano, B., Sciavicco, L., Villani, L., \& Oriolo, G. (2010).
+    \newblock \emph{Robotics: Modelling, Planning and Control}.
+    \newblock Springer.
 
     \bibitem[Slotine \& Li(1991)]{slotine1991applied}
-    Slotine, J. J. E., \& Li, W. (1991). \textit{Applied Nonlinear Control}. Prentice Hall.
+    Slotine, J. J. E., \& Li, W. (1991).
+    \newblock \emph{Applied Nonlinear Control}.
+    \newblock Prentice Hall.
 
     \bibitem[Spong et al.(2006)]{spong2006robot}
-    Spong, M. W., Hutchinson, S., \& Vidyasagar, M. (2006). \textit{Robot Modeling and Control}. Wiley.
+    Spong, M. W., Hutchinson, S., \& Vidyasagar, M. (2006).
+    \newblock \emph{Robot Modeling and Control}.
+    \newblock Wiley.
 
     \bibitem[Squartecchia et al.(2026)]{squartecchia2026}
     Squartecchia, S., et al. (2026).
     \newblock Mechanical stability of the interaction between a lower-limb rehabilitation exoskeleton and the user's body during functional tasks.
     \newblock \emph{Frontiers in Bioengineering and Biotechnology}.
+
+    \bibitem[Su et al.(2023)]{su2023review}
+    Su, D., Hu, Z., Wu, J., Shang, P., \& Luo, Z. (2023).
+    \newblock Review of adaptive control for stroke lower limb exoskeleton rehabilitation robot based on motion intention recognition.
+    \newblock \emph{Frontiers in Neurorobotics}, 17, 1186175.
+    \newblock \url{https://doi.org/10.3389/fnbot.2023.1186175}
 
     \bibitem[Tucan et al.(2025)]{tucan2025}
     Tucan, P., Vanta, O. M., Horsia, A., Zima, I., Lupu, D. M., Vaida, C., Jucan, D., Machado, J., \& Pisla, D. (2025).
@@ -825,7 +951,7 @@ Con el objetivo de garantizar la solidez científica, la validación metodológi
 
     \bibitem[Wang et al.(2025)]{wang2025}
     Wang, H., et al. (2025).
-    \newblock Effect of robot-assisted training for lower limb rehabilitation on lower limb function in stroke patients: a systematic review and meta-analysis.
+    \newblock Effect of robot-assisted training for lower limb rehabilitation on lower limb function in stroke patients: A systematic review and meta-analysis.
     \newblock \emph{Frontiers in Human Neuroscience}, 19.
 
     \bibitem[WHO(2024)]{who2024neurological}
@@ -836,18 +962,9 @@ Con el objetivo de garantizar la solidez científica, la validación metodológi
 
     \bibitem[Zhang et al.(2025)]{zhang2025sliding}
     Zhang, F., Wang, T., Zhang, L., Shi, E., Wang, C., Li, N., Lu, Y., \& Zhang, B. (2025).
-    \newblock Sliding-mode control based on prescribed performance function and its application to a SEA-Based lower limb exoskeleton.
+    \newblock Sliding-mode control based on prescribed performance function and its application to a SEA-based lower limb exoskeleton.
     \newblock \emph{Frontiers in Robotics and AI}, 12, 1534040.
     \newblock \url{https://doi.org/10.3389/frobt.2025.1534040}
-
-    \bibitem[Rifai et al.(2024)]{rifai2024upper}
-    Rifai, Y., Bejo, A., Ataka, A., \& Badriawan, Y. K. (2024).
-    \newblock Upper Limb Rehabilitation Robot Control based on Large Language Model.
-    \newblock \emph{2024 International Conference on Computer, Control, Informatics and its Applications (IC3INA)}, 1--6.
-
-    \bibitem[Julious(2005)]{julious2005sample}
-    Julious, S. A. (2005). \textit{Sample size of 12 per group rule of thumb for a pilot study}. Pharmaceutical Statistics, 4(4), 287--291.
-
 
 \end{thebibliography}
 
